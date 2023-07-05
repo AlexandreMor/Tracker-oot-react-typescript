@@ -16,7 +16,7 @@ export default function AsideLeft() {
   const tokenClassName = `${imgBaseClassName} + hover:bg-blue-200 place-self-end`;
   
   return (
-    <aside id="aside-left">
+    <aside id="aside-left" className="w-22 ms-2">
       <div id="tracker">
         <ElementGroup
           elements={items.filter((item) => item.id < 30)}

@@ -18,7 +18,7 @@ export default function Dungeon({ dungeon, className }) {
         id={dungeon.id}
         category="dungeons"
       />
-      <span className="text-sm text-black font-bold tracking-tight -mt-1" onClick={()=>changeDungeonNameOnClick(dungeon.id)} onContextMenu={()=>changeDungeonNameOnContextMenu(dungeon.id)}>
+      <span className="text-sm text-black font-bold tracking-tight -mt-1 text-center" onClick={()=>changeDungeonNameOnClick(dungeon.id)} onContextMenu={()=>changeDungeonNameOnContextMenu(dungeon.id)}>
         {dungeon.dungeonNames[dungeon.clickCount]}
       </span>
     </div>

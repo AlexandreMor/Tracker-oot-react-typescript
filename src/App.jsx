@@ -1,4 +1,3 @@
-import "./App.css";
 import AsideLeft from "./components/AsideLeft";
 import Footer from "./components/Footer";
 import MainContent from "./components/CentralContent";
@@ -24,7 +23,7 @@ function App() {
         className="flex flex-col"
       >
         <Navbar />
-        <main className="flex justify-between">
+        <main className="flex justify-between mt-2">
           <AsideLeft />
           <MainContent />
           <AsideRight />
