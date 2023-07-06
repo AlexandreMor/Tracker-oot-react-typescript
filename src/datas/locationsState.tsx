@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { produce } from "immer";
 
 type Check = {
   id: number;
@@ -24,6 +25,22 @@ type Location = {
 type Locations = {
   overworld: Array<Location>;
   dungeons: Array<Location>;
+  handleItemBox: (
+    idArea: number,
+    idCheck: number,
+    category: "overworld" | "dungeons"
+  ) => void;
+  closeItemsBox: (
+    idArea: number,
+    idCheck: number,
+    category: "overworld" | "dungeons"
+  ) => void;
+  handleItemCheck: (
+    idArea: number,
+    idCheck: number,
+    category: "overworld" | "dungeons",
+    item: string
+  ) => void;
 };
 
 export const useLocationsStore = create<Locations>((set) => ({
@@ -619,7 +636,7 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 5,
       name: "Market",
-      short: "mar",
+      short: "ma",
       visibility: true,
       checks: [
         {
@@ -906,8 +923,8 @@ export const useLocationsStore = create<Locations>((set) => ({
     },
     {
       id: 8,
-      name: "Outside G's C",
-      short: "out",
+      name: "Outside Gs C",
+      short: "ou",
       visibility: true,
       checks: [
         {
@@ -927,7 +944,7 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 9,
       name: "Kakariko",
-      short: "kak",
+      short: "ka",
       visibility: true,
       checks: [
         {
@@ -1715,7 +1732,7 @@ export const useLocationsStore = create<Locations>((set) => ({
     },
     {
       id: 14,
-      name: "Zora's river",
+      name: "Zoras river",
       short: "zr",
       visibility: true,
       checks: [
@@ -1808,7 +1825,7 @@ export const useLocationsStore = create<Locations>((set) => ({
     },
     {
       id: 15,
-      name: "Zora's domain",
+      name: "Zoras domain",
       short: "zd",
       visibility: true,
       checks: [
@@ -1904,7 +1921,7 @@ export const useLocationsStore = create<Locations>((set) => ({
     },
     {
       id: 16,
-      name: "Zora's fountain",
+      name: "Zoras fountain",
       short: "zf",
       visibility: true,
       checks: [
@@ -2064,7 +2081,7 @@ export const useLocationsStore = create<Locations>((set) => ({
     },
     {
       id: 18,
-      name: "Gerudo's Valley",
+      name: "Gerudos Valley",
       short: "gv",
       visibility: true,
       checks: [
@@ -2144,7 +2161,7 @@ export const useLocationsStore = create<Locations>((set) => ({
     },
     {
       id: 19,
-      name: "Gerudo's Fort.",
+      name: "Gerudos Fort.",
       short: "gf",
       visibility: true,
       checks: [
@@ -2189,7 +2206,7 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 20,
       name: "Wasteland",
-      short: "was",
+      short: "wa",
       visibility: true,
       checks: [
         {
@@ -2220,8 +2237,8 @@ export const useLocationsStore = create<Locations>((set) => ({
     },
     {
       id: 21,
-      name: "Desert Colossus",
-      short: "col",
+      name: "Desert Col.",
+      short: "co",
       visibility: true,
       checks: [
         {
@@ -4907,4 +4924,50 @@ export const useLocationsStore = create<Locations>((set) => ({
       ],
     },
   ],
+  handleItemBox: (idArea, idCheck, category) =>
+    set((state) =>
+      produce(state, (draft) => {
+        let area = draft[category].find((el) => el.id === idArea);
+        if (area) {
+          let check = area.checks.find((el) => el.id === idCheck);
+          if (check) {
+            if (!check.box) {
+              check.box = true;
+            } else {
+              check.box = false;
+            }
+          }
+        }
+      })
+    ),
+  closeItemsBox: (idArea, idCheck, category) =>
+    set((state) =>
+      produce(state, (draft) => {
+        let area = draft[category].find((el) => el.id === idArea);
+        if (area) {
+          let check = area.checks.find((el) => el.id === idCheck);
+          if (check) {
+            check.box = false;
+          }
+        }
+      })
+    ),
+  handleItemCheck: (idArea, idCheck, category, item) =>
+    set((state) =>
+      produce(state, (draft) => {
+        let area = draft[category].find((el) => el.id === idArea);
+        if (area) {
+          let check = area.checks.find((el) => el.id === idCheck);
+          if (check) {
+            if (!item.includes("cross")) {
+              check.item = item;
+              check.box = false;
+            } else {
+              check.item = "";
+              check.box = false;
+            }
+          }
+        }
+      })
+    ),
 }));

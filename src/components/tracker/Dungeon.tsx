@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "./Image";
-import { Element, useTrackerStore } from "../../datas/trackerState";
+import { useTrackerStore } from "../../datas/trackerState";
 
 export default function Dungeon({ dungeon, className }) {
   const incrementElement = useTrackerStore((set) => set.increment);

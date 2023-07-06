@@ -2,12 +2,12 @@ import React from "react";
 import Area from "./Area";
 import { useLocationsStore } from "../../datas/locationsState";
 
-function Dungeons() {
+function Dungeons({ areasClass }) {
   const dungeons = useLocationsStore((set) => set.dungeons);
   return (
-    <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12">
+    <div className={areasClass}>
       {dungeons.map((dungeon) => {
-        return <Area area={dungeon} key={dungeon.name} />;
+        return <Area area={dungeon} key={dungeon.name} category="dungeons" />;
       })}
     </div>
   );

@@ -2,12 +2,12 @@ import React from "react";
 import Area from "./Area";
 import { useLocationsStore } from "../../datas/locationsState";
 
-function Overworld() {
+function Overworld({areasClass}) {
   const areas = useLocationsStore((set) => set.overworld);
   return (
-    <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12">
+    <div className={areasClass}>
       {areas.map((area) => {
-        return <Area area={area} key={area.name} />;
+        return <Area area={area} key={area.name} category="overworld" />;
       })}
     </div>
   );
