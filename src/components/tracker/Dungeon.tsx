@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "./Image";
-import { Element, useTrackerStore } from "../../datas/trackerState";
+import { useTrackerStore } from "../../datas/trackerState";
 
 export default function Dungeon({ dungeon, className }) {
   const incrementElement = useTrackerStore((set) => set.increment);
@@ -18,7 +18,7 @@ export default function Dungeon({ dungeon, className }) {
         id={dungeon.id}
         category="dungeons"
       />
-      <span className="text-sm text-black font-bold tracking-tight -mt-1" onClick={()=>changeDungeonNameOnClick(dungeon.id)} onContextMenu={()=>changeDungeonNameOnContextMenu(dungeon.id)}>
+      <span className="text-sm text-black font-bold tracking-tight -mt-1 text-center" onClick={()=>changeDungeonNameOnClick(dungeon.id)} onContextMenu={()=>changeDungeonNameOnContextMenu(dungeon.id)}>
         {dungeon.dungeonNames[dungeon.clickCount]}
       </span>
     </div>
