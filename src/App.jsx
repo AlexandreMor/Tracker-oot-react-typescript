@@ -1,8 +1,7 @@
-import { AsideLeft } from "./components/AsideLeft";
+
 import { Footer } from "./components/Footer";
-import { CentralContent } from "./components/CentralContent";
 import { Navbar } from "./components/Navbar";
-import { AsideRight } from "./components/AsideRight";
+import { lazyLoad } from "./lazyLoad";
 
 export const App = () => {
   const bodyEl = (el) => {
@@ -11,6 +10,10 @@ export const App = () => {
         e.preventDefault();
       });
   };
+
+  const AsideLeft = lazyLoad("./components/AsideLeft", "AsideLeft")
+  const AsideRight = lazyLoad("./components/AsideRight", "AsideRight")
+  const CentralContent = lazyLoad("./components/CentralContent", "CentralContent")
 
   return (
     <>

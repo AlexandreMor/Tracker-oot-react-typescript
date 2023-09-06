@@ -1,5 +1,5 @@
 import React from "react";
-import {Area} from "./Area";
+import { Area } from "./Area";
 import { useLocationsStore } from "../../stores/locationsState";
 
 export const Dungeons = ({ areasClass }) => {
@@ -11,4 +11,4 @@ export const Dungeons = ({ areasClass }) => {
       })}
     </div>
   );
-}
+};

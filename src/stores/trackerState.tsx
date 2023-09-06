@@ -515,7 +515,7 @@ export const useTrackerStore = create<TrackerState>((set) => ({
         }
       })
     ),
-    changeDungeonNameOnContextMenu: (id) =>
+  changeDungeonNameOnContextMenu: (id) =>
     set((state) =>
       produce(state, (draft) => {
         let element = draft["dungeons"].find((el) => el.id === id);

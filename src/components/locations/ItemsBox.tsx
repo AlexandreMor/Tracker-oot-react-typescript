@@ -8,7 +8,7 @@ export const ItemsBox = ({ handleItemsBox, check, area, category }) => {
   const handleItemCheck = useLocationsStore((set) => set.handleItemCheck);
 
   useEffect(() => {
-    const handleClickOutside = (event: { target : any }) => {
+    const handleClickOutside = (event: { target: any }) => {
       if (boxRef.current && !boxRef.current.contains(event.target)) {
         handleItemsBox(area.id, check.id, category);
       }
@@ -38,4 +38,4 @@ export const ItemsBox = ({ handleItemsBox, check, area, category }) => {
       ))}
     </div>
   );
-}
+};

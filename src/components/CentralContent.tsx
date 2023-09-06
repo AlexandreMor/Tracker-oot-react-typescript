@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import {Overworld} from "./locations/Overworld";
-import {Tabulation} from "./locations/Tabulation";
-import {Dungeons} from "./locations/Dungeons";
+import { Overworld } from "./locations/Overworld";
+import { Tabulation } from "./locations/Tabulation";
+import { Dungeons } from "./locations/Dungeons";
 
 export const CentralContent = () => {
   const [selectedTab, setSelectedTab] = useState("Overworld");

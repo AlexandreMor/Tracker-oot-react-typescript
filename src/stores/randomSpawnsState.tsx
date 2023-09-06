@@ -6,7 +6,7 @@ type randomSpawn = {
 
 type randomSpawns = randomSpawn[];
 
-export const randomSpawnsState : randomSpawns = [
+export const randomSpawnsState: randomSpawns = [
   { id: 0, name: "Child spawn", location: "" },
   { id: 1, name: "Adult spawn", location: "" },
 ];
@@ -19,7 +19,7 @@ type Spawns = {
 
 type SpawnsList = Spawns[];
 
-export const spawnsList : SpawnsList = [
+export const spawnsList: SpawnsList = [
   { id: 0, name: "DMC upper", ab: "cu" },
   { id: 1, name: "DMC lower", ab: "cl" },
   { id: 2, name: "DMC fairy", ab: "cf" },
