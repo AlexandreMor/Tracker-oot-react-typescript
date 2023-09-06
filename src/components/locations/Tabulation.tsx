@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 
-function Tabulation({selectedTab, setSelectedTab}) {
-  
+export const Tabulation = ({ selectedTab, setSelectedTab }) => {
   return (
     <nav>
       <button
-        className={`py-2 px-4 ${
+        className={`py-2 px-3 ${
           selectedTab === "Overworld"
             ? "text-blue-500 border-b-2 border-blue-500 font-medium"
             : ""
@@ -15,7 +14,7 @@ function Tabulation({selectedTab, setSelectedTab}) {
         Overworld
       </button>
       <button
-        className={`py-2 px-4 ${
+        className={`py-2 px-3 ${
           selectedTab === "Dungeons"
             ? "text-blue-500 border-b-2 border-blue-500 font-medium"
             : ""
@@ -26,6 +25,4 @@ function Tabulation({selectedTab, setSelectedTab}) {
       </button>
     </nav>
   );
-}
-
-export default Tabulation;
+};

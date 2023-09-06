@@ -1,8 +1,8 @@
 import React from "react";
-import { useLocationsStore } from "../../datas/locationsState";
-import ItemsBox from "./ItemsBox";
+import { useLocationsStore } from "../../stores/locationsState";
+import {ItemsBox} from "./ItemsBox";
 
-function Check({ check, area, category }) {
+export const Check = ({ check, area, category }) => {
   const handleItemsBox = useLocationsStore((set) => set.handleItemBox);
   return (
     <li
@@ -15,5 +15,3 @@ function Check({ check, area, category }) {
     </li>
   );
 }
-
-export default Check;

@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "./Image";
-import { Element, useTrackerStore } from "../../datas/trackerState";
+import { Element, useTrackerStore } from "../../stores/trackerState";
 
 export default function ElementGroup({ elements, className, category }) {
   const incrementElement = useTrackerStore((set) => set.increment);

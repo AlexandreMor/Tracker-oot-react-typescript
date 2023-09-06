@@ -1,8 +1,8 @@
 import React from "react";
-import Area from "./Area";
-import { useLocationsStore } from "../../datas/locationsState";
+import {Area} from "./Area";
+import { useLocationsStore } from "../../stores/locationsState";
 
-function Overworld({areasClass}) {
+export const Overworld = ({areasClass}) => {
   const areas = useLocationsStore((set) => set.overworld);
   return (
     <div className={areasClass}>
@@ -12,5 +12,3 @@ function Overworld({areasClass}) {
     </div>
   );
 }
-
-export default Overworld;

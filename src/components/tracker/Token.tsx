@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "./Image";
-import { useTrackerStore } from "../../datas/trackerState";
+import { useTrackerStore } from "../../stores/trackerState";
 
 function Token({ className, items }) {
   const incrementElement = useTrackerStore((set) => set.increment);

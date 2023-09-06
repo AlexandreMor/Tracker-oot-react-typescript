@@ -1,10 +1,10 @@
-import AsideLeft from "./components/AsideLeft";
-import Footer from "./components/Footer";
-import MainContent from "./components/CentralContent";
-import Navbar from "./components/Navbar";
-import AsideRight from "./components/AsideRight";
+import { AsideLeft } from "./components/AsideLeft";
+import { Footer } from "./components/Footer";
+import { CentralContent } from "./components/CentralContent";
+import { Navbar } from "./components/Navbar";
+import { AsideRight } from "./components/AsideRight";
 
-function App() {
+export const App = () => {
   const bodyEl = (el) => {
     el &&
       el.addEventListener("selectstart", (e) => {
@@ -25,13 +25,11 @@ function App() {
         <Navbar />
         <main className="flex justify-between mt-2">
           <AsideLeft />
-          <MainContent />
+          <CentralContent />
           <AsideRight />
         </main>
         <Footer />
       </div>
     </>
   );
-}
-
-export default App;
+};

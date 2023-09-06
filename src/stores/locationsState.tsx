@@ -1,12 +1,13 @@
 import { create } from "zustand";
 import { produce } from "immer";
 
-type Check = {
+export type Check = {
   id: number;
   name: string;
-  reachable: boolean;
+  reachable: string;
   checked: boolean;
   player: string;
+  hinted?: boolean;
   setting: string;
   visibility: boolean;
   song: boolean;
@@ -14,15 +15,16 @@ type Check = {
   item: string;
 };
 
-type Location = {
+export type Location = {
   id: number;
   name: string;
   short: string;
   visibility: boolean;
+  hint: string;
   checks: Array<Check>;
 };
 
-type Locations = {
+export type Locations = {
   overworld: Array<Location>;
   dungeons: Array<Location>;
   handleItemBox: (
@@ -50,11 +52,12 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Kokiri Forest",
       short: "kf",
       visibility: true,
+      hint: "none",
       checks: [
         {
           id: 0,
           name: "Mido 1",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           setting: "none",
@@ -66,7 +69,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Mido 2",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           setting: "none",
@@ -78,7 +81,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Mido 3",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           setting: "none",
@@ -90,7 +93,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Mido 4",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           setting: "none",
@@ -102,7 +105,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "K.Sword",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           setting: "none",
@@ -114,7 +117,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "SoS gr.",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -126,9 +129,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "Link's Cow",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "cowsanity",
           visibility: false,
           song: false,
@@ -138,7 +142,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 7,
           name: "Shop 1",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           rupee: "",
@@ -151,7 +155,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 8,
           name: "Shop 2",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           rupee: "",
@@ -164,7 +168,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 9,
           name: "Shop 3",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           rupee: "",
@@ -177,7 +181,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 10,
           name: "Shop 4",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           rupee: "",
@@ -194,13 +198,15 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Lost Woods",
       short: "lw",
       visibility: true,
+      hint: "none",
       checks: [
         {
           id: 0,
           name: "Skll Kid",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -210,7 +216,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Fr. Scrub",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           setting: "none",
@@ -222,9 +228,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Target",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -234,7 +241,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Oca. game",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -246,7 +253,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Grotto",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -258,7 +265,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Skll Mask",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           setting: "none",
@@ -271,7 +278,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "L.Scrub theater",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -284,7 +291,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 7,
           name: "R.Scrub theater",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -297,7 +304,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 8,
           name: "L.Scrub gr.",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -309,7 +316,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 9,
           name: "R.Scrub gr.",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -321,7 +328,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 10,
           name: "Ocarina",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "shuffle ocarina",
@@ -337,14 +344,16 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "SFM",
       short: "sf",
       visibility: true,
+      hint: "none",
       checks: [
         {
           id: 0,
           name: "Saria",
-          reachable: false,
+          reachable : "no",
           song: true,
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           box: false,
@@ -353,10 +362,11 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Minuet",
-          reachable: false,
+          reachable : "no",
           song: true,
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           box: false,
@@ -365,7 +375,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Wolfos gr.",
-          reachable: false,
+          reachable : "no",
           song: false,
           checked: false,
           player: "",
@@ -377,7 +387,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Scrub sos 1",
-          reachable: false,
+          reachable : "no",
           song: false,
           checked: false,
           player: "",
@@ -389,7 +399,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Scrub sos 2",
-          reachable: false,
+          reachable : "no",
           song: false,
           checked: false,
           player: "",
@@ -405,11 +415,12 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Hyrule Field",
       short: "hf",
       visibility: true,
+      hint: "none",
       checks: [
         {
           id: 0,
           name: "SoT",
-          reachable: false,
+          reachable : "no",
           song: true,
           checked: false,
           player: "",
@@ -422,7 +433,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Open gr.",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -434,7 +445,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Remote",
-          reachable: false,
+          reachable : "no",
           song: false,
           checked: false,
           player: "",
@@ -446,7 +457,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Scrub",
-          reachable: false,
+          reachable : "no",
           song: false,
           checked: false,
           player: "",
@@ -458,7 +469,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Boulda",
-          reachable: false,
+          reachable : "no",
           song: false,
           checked: false,
           player: "",
@@ -470,7 +481,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Tektile",
-          reachable: false,
+          reachable : "no",
           song: false,
           checked: false,
           player: "",
@@ -482,10 +493,11 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "Cow",
-          reachable: false,
+          reachable : "no",
           song: false,
           checked: false,
           player: "",
+          hinted: false,
           setting: "cowsanity",
           visibility: false,
           box: false,
@@ -494,10 +506,11 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 7,
           name: "OoT",
-          reachable: false,
+          reachable : "no",
           song: false,
           checked: false,
           player: "",
+          hinted: false,
           setting: "shuffle ocarina",
           visibility: false,
           box: false,
@@ -510,11 +523,12 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Ranch",
       short: "ra",
       visibility: true,
+      hint: "none",
       checks: [
         {
           id: 0,
           name: "Epona",
-          reachable: false,
+          reachable : "no",
           song: true,
           checked: false,
           player: "",
@@ -526,7 +540,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Cow 1",
-          reachable: false,
+          reachable : "no",
           song: false,
           checked: false,
           player: "",
@@ -538,7 +552,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Cow 2",
-          reachable: false,
+          reachable : "no",
           song: false,
           checked: false,
           player: "",
@@ -550,7 +564,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Talon",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -562,7 +576,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Freest.",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -574,7 +588,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Cow 4",
-          reachable: false,
+          reachable : "no",
           song: false,
           checked: false,
           player: "",
@@ -586,7 +600,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "Cow 5",
-          reachable: false,
+          reachable : "no",
           song: false,
           checked: false,
           player: "",
@@ -598,7 +612,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 7,
           name: "Scrub 1",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -610,7 +624,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 8,
           name: "Scrub 2",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -622,7 +636,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 9,
           name: "Scrub 3",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -638,11 +652,12 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Market",
       short: "ma",
       visibility: true,
+      hint: "none",
       checks: [
         {
           id: 0,
           name: "Sling MG",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           setting: "none",
@@ -654,7 +669,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Kiki",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           setting: "none",
@@ -666,9 +681,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Bowling 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -678,9 +694,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Bowling 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -690,9 +707,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "CMG",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -702,9 +720,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Big poe",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -714,7 +733,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "Bazaar 1",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           rupee: "",
@@ -727,7 +746,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 7,
           name: "Bazaar 2",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           rupee: "",
@@ -740,7 +759,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 8,
           name: "Bazaar 3",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           rupee: "",
@@ -753,7 +772,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 9,
           name: "Bazaar 4",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           rupee: "",
@@ -766,7 +785,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 10,
           name: "Potion 1",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           rupee: "",
@@ -779,7 +798,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 11,
           name: "Potion 2",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           rupee: "",
@@ -792,7 +811,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 12,
           name: "Potion 3",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           rupee: "",
@@ -805,7 +824,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 13,
           name: "Potion 4",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           rupee: "",
@@ -818,7 +837,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 14,
           name: "Chu shop 1",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           rupee: "",
@@ -831,7 +850,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 15,
           name: "Chu shop 2",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           rupee: "",
@@ -844,7 +863,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 16,
           name: "Chu shop 3",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           rupee: "",
@@ -857,7 +876,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 17,
           name: "Chu shop 4",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           rupee: "",
@@ -874,13 +893,15 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Temple of Time",
       short: "tot",
       visibility: true,
+      hint: "none",
       checks: [
         {
           id: 0,
           name: "Prelude",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           box: false,
@@ -890,7 +911,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Light arr.",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -906,13 +927,15 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Hyrule Castle",
       short: "hc",
       visibility: true,
+      hint: "none",
       checks: [
         {
           id: 0,
           name: "Dins Fairy",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -926,13 +949,15 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Outside Gs C",
       short: "ou",
       visibility: true,
+      hint: "none",
       checks: [
         {
           id: 0,
           name: "DD Fairy",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -946,11 +971,12 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Kakariko",
       short: "ka",
       visibility: true,
+      hint: "none",
       checks: [
         {
           id: 0,
           name: "SoS",
-          reachable: false,
+          reachable : "no",
           song: true,
           checked: false,
           player: "",
@@ -962,7 +988,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Nocturne",
-          reachable: false,
+          reachable : "no",
           song: true,
           checked: false,
           player: "",
@@ -974,10 +1000,11 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Cuccos",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           box: false,
@@ -986,7 +1013,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Lazy dude",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -998,7 +1025,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Free gr.",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -1010,7 +1037,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Windmill",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -1022,7 +1049,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "Archrie",
-          reachable: false,
+          reachable : "no",
           song: false,
           checked: false,
           player: "",
@@ -1034,7 +1061,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 7,
           name: "Anju",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -1046,7 +1073,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 8,
           name: "Cow PoH",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -1058,7 +1085,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 9,
           name: "Cow",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -1070,7 +1097,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 10,
           name: "Redead gr.",
-          reachable: false,
+          reachable : "no",
           song: false,
           checked: false,
           player: "",
@@ -1082,7 +1109,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 11,
           name: "10s",
-          reachable: false,
+          reachable : "no",
           song: false,
           checked: false,
           player: "",
@@ -1094,7 +1121,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 12,
           name: "20s",
-          reachable: false,
+          reachable : "no",
           song: false,
           checked: false,
           player: "",
@@ -1106,7 +1133,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 13,
           name: "30s",
-          reachable: false,
+          reachable : "no",
           song: false,
           checked: false,
           player: "",
@@ -1119,7 +1146,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 14,
           name: "40s",
-          reachable: false,
+          reachable : "no",
           song: false,
           checked: false,
           player: "",
@@ -1132,7 +1159,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 15,
           name: "50s",
-          reachable: false,
+          reachable : "no",
           song: false,
           checked: false,
           player: "",
@@ -1145,7 +1172,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 16,
           name: "Bazaar 1",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -1158,7 +1185,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 17,
           name: "Bazaar 2",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -1171,7 +1198,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 18,
           name: "Bazaar 3",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -1184,7 +1211,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 19,
           name: "Bazaar 4",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -1197,7 +1224,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 20,
           name: "Potion 1",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -1210,7 +1237,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 21,
           name: "Potion 2",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -1223,7 +1250,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 22,
           name: "Potion 3",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -1236,7 +1263,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 23,
           name: "Potion 4",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -1253,14 +1280,16 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Graveyard",
       short: "gy",
       visibility: true,
+      hint: "none",
       checks: [
         {
           id: 0,
           name: "Sun song",
-          reachable: false,
+          reachable : "no",
           song: true,
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           box: false,
@@ -1269,7 +1298,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Free tomb",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -1281,7 +1310,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Dampe tour",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -1293,7 +1322,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Item box",
-          reachable: false,
+          reachable : "no",
           song: false,
           checked: false,
           player: "",
@@ -1305,7 +1334,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Race 1",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -1317,7 +1346,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Race 2",
-          reachable: true,
+          reachable : "yes",
           song: false,
           checked: false,
           player: "",
@@ -1329,10 +1358,11 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "Play. Sun",
-          reachable: false,
+          reachable : "no",
           song: false,
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           box: false,
@@ -1341,10 +1371,11 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 7,
           name: "Royal torch.",
-          reachable: false,
+          reachable : "no",
           song: false,
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           box: false,
@@ -1357,11 +1388,12 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "DMT",
       short: "dmt",
       visibility: true,
+      hint: "none",
       checks: [
         {
           id: 0,
           name: "Free HP",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           setting: "none",
@@ -1373,7 +1405,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Wall",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -1385,7 +1417,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Sos gr.",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -1397,7 +1429,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Fairy",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -1409,7 +1441,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Biggoron",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -1422,7 +1454,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Cow",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "cowsanity",
@@ -1439,11 +1471,12 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Goron city",
       short: "gc",
       visibility: true,
+      hint: "none",
       checks: [
         {
           id: 0,
           name: "Big roll.",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -1455,9 +1488,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Darunia",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -1467,9 +1501,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Pot",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -1479,7 +1514,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Link",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -1491,7 +1526,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "R. Maze 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -1503,7 +1538,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "R. Maze 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -1515,9 +1550,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "L. Maze",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -1527,7 +1563,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 7,
           name: "Scrub 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -1539,7 +1575,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 8,
           name: "Scrub 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -1551,7 +1587,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 9,
           name: "Scrub 3",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -1563,7 +1599,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 10,
           name: "Shop 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           rupee: "",
@@ -1576,7 +1612,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 11,
           name: "Shop 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           rupee: "",
@@ -1589,7 +1625,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 12,
           name: "Shop 3",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           rupee: "",
@@ -1602,7 +1638,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 13,
           name: "Shop 4",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           rupee: "",
@@ -1615,7 +1651,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 14,
           name: "Medigoron",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "medigoron & carpet salesman",
@@ -1631,14 +1667,16 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "DMC",
       short: "dmc",
       visibility: true,
+      hint: "none",
       checks: [
         {
           id: 0,
           name: "Bolero",
-          reachable: false,
+          reachable : "no",
           song: true,
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           box: false,
@@ -1647,7 +1685,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Crater HP",
-          reachable: false,
+          reachable : "no",
           song: true,
           checked: false,
           player: "",
@@ -1659,7 +1697,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Wall HP",
-          reachable: false,
+          reachable : "no",
           song: true,
           checked: false,
           player: "",
@@ -1671,7 +1709,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Fairy",
-          reachable: false,
+          reachable : "no",
           song: true,
           checked: false,
           player: "",
@@ -1683,7 +1721,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Grotto",
-          reachable: false,
+          reachable : "no",
           song: true,
           checked: false,
           player: "",
@@ -1695,7 +1733,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Scrub 1",
-          reachable: false,
+          reachable : "no",
           song: true,
           checked: false,
           player: "",
@@ -1707,7 +1745,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "Scrub 2",
-          reachable: false,
+          reachable : "no",
           song: true,
           checked: false,
           player: "",
@@ -1719,7 +1757,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 7,
           name: "Scrub 3",
-          reachable: false,
+          reachable : "no",
           song: true,
           checked: false,
           player: "",
@@ -1735,11 +1773,12 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Zoras river",
       short: "zr",
       visibility: true,
+      hint: "none",
       checks: [
         {
           id: 0,
           name: "Pillar HP",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -1751,7 +1790,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Scrub 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -1763,7 +1802,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Scrub 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -1775,9 +1814,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Frogs Sos",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -1787,7 +1827,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Frogs 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -1800,7 +1840,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Free gr.",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           setting: "none",
@@ -1812,7 +1852,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "Waterfall",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -1828,11 +1868,12 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Zoras domain",
       short: "zd",
       visibility: true,
+      hint: "none",
       checks: [
         {
           id: 0,
           name: "Torches",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -1844,7 +1885,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Rup. MG",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -1856,9 +1897,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "King Zora",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -1868,7 +1910,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Shop 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           rupee: "",
@@ -1881,7 +1923,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Shop 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           rupee: "",
@@ -1894,7 +1936,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Shop 3",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           rupee: "",
@@ -1907,7 +1949,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "Shop 4",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           rupee: "",
@@ -1924,11 +1966,12 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Zoras fountain",
       short: "zf",
       visibility: true,
+      hint: "none",
       checks: [
         {
           id: 0,
           name: "Iceberg",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -1940,9 +1983,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Icy wat.",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -1952,7 +1996,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Fairy",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -1968,11 +2012,12 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Lake Hylia",
       short: "lh",
       visibility: true,
+      hint: "none",
       checks: [
         {
           id: 0,
           name: "Chld fish.",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           setting: "none",
@@ -1984,7 +2029,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Underwater",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -1996,9 +2041,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Adlt fish.",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -2008,9 +2054,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Rooftop",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -2020,9 +2067,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Diving",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -2032,9 +2080,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Shoot. sun",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -2044,7 +2093,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "Scrub 1",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -2056,7 +2105,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 7,
           name: "Scrub 2",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -2068,7 +2117,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 8,
           name: "Scrub 3",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -2084,11 +2133,12 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Gerudos Valley",
       short: "gv",
       visibility: true,
+      hint: "none",
       checks: [
         {
           id: 0,
           name: "Box",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           setting: "none",
@@ -2100,7 +2150,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Waterfall",
-          reachable: true,
+          reachable : "yes",
           checked: false,
           player: "",
           setting: "none",
@@ -2112,9 +2162,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Cow",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "cowsanity",
           visibility: false,
           song: false,
@@ -2124,9 +2175,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Rocks",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -2136,7 +2188,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Scrub SoS 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -2148,7 +2200,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Scrub SoS 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -2164,11 +2216,12 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Gerudos Fort.",
       short: "gf",
       visibility: true,
+      hint: "none",
       checks: [
         {
           id: 0,
           name: "Rooftop",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2180,9 +2233,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "1000 pts",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -2192,9 +2246,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "1500 pts",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -2208,11 +2263,12 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Wasteland",
       short: "wa",
       visibility: true,
+      hint: "none",
       checks: [
         {
           id: 0,
           name: "Carpet Sale.",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "medigoron & carpet salesman",
@@ -2224,9 +2280,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Torches",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -2240,13 +2297,15 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Desert Col.",
       short: "co",
       visibility: true,
+      hint: "none",
       checks: [
         {
           id: 0,
           name: "Requiem",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: true,
@@ -2256,7 +2315,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Fairy",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2268,7 +2327,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Arch",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2280,7 +2339,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Scrub 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -2292,7 +2351,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Scrub 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -2310,13 +2369,14 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Deku",
       short: "dek",
       visibility: true,
+      hint:"none",
       dungeonShuffleInput: "",
       entrance: "deku",
       checks: [
         {
           id: 0,
           name: "Map",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2328,7 +2388,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Sling 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2340,7 +2400,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Sling 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2352,7 +2412,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Compass 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2364,7 +2424,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Compass 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2376,7 +2436,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Skll compass",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2388,7 +2448,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "B1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2400,7 +2460,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 7,
           name: "B1 Skll",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2412,7 +2472,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 8,
           name: "B1 Skll Vine",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2424,7 +2484,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 9,
           name: "Back Skull",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2436,7 +2496,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 10,
           name: "Gohma",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2452,13 +2512,14 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "DC",
       short: "dc",
       visibility: true,
+      hint:"none",
       dungeonShuffleInput: "",
       entrance: "dc",
       checks: [
         {
           id: 0,
           name: "Skll crow",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2470,7 +2531,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Skll keeses",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2482,7 +2543,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Scrub switch",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -2494,7 +2555,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Scrub main r.",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -2506,7 +2567,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Map",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2518,7 +2579,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Compass",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2530,7 +2591,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "Skll Nook",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2542,7 +2603,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 7,
           name: "Skll Vines",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2554,7 +2615,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 8,
           name: "Spike",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2566,7 +2627,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 9,
           name: "Bomb bag",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2578,9 +2639,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 10,
           name: "Scrub BB 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "scrubsanity",
           visibility: false,
           song: false,
@@ -2590,9 +2652,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 11,
           name: "Scrub BB 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "scrubsanity",
           visibility: false,
           song: false,
@@ -2602,7 +2665,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 12,
           name: "Bridge",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2614,7 +2677,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 13,
           name: "Skll armos",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2626,7 +2689,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 14,
           name: "Above KD",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2638,7 +2701,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 15,
           name: "King Do.",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2654,13 +2717,14 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Jabu",
       short: "jab",
       visibility: true,
+      hint:"none",
       dungeonShuffleInput: "",
       entrance: "jabu",
       checks: [
         {
           id: 0,
           name: "Skll Stinger",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2672,9 +2736,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Scrub",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "scrubsanity",
           visibility: false,
           song: false,
@@ -2684,9 +2749,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Boomrng",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -2696,7 +2762,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Map",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2708,7 +2774,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Compass",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2720,7 +2786,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Skll basem. 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2732,7 +2798,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "Skull basem. 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2744,7 +2810,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 7,
           name: "Skll Bar.",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2756,7 +2822,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 8,
           name: "Barinade",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2772,6 +2838,7 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Forest",
       short: "for",
       visibility: true,
+      hint:"none",
       dungeonShuffleInput: "",
       entrance: "forest",
       keysLeft: 5,
@@ -2782,7 +2849,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 0,
           name: "Skll tree",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2794,7 +2861,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Tree",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2806,7 +2873,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Skll Stalfos",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2818,7 +2885,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Stalfos",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2830,7 +2897,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Garden",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2842,7 +2909,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Skll garden",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2854,7 +2921,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "Bubble",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2866,7 +2933,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 7,
           name: "Well",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2878,7 +2945,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 8,
           name: "Eye",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2890,7 +2957,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 9,
           name: "Floormstr",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2902,7 +2969,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 10,
           name: "Skll arch",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2914,7 +2981,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 11,
           name: "BK",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2926,7 +2993,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 12,
           name: "Red",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2938,7 +3005,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 13,
           name: "Bow",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2950,7 +3017,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 14,
           name: "Blue",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2962,7 +3029,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 15,
           name: "Ceiling",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2974,7 +3041,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 16,
           name: "Spin room",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -2986,7 +3053,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 17,
           name: "Spin Skll",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2998,7 +3065,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 18,
           name: "P.Ganon",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3014,6 +3081,7 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Fire",
       short: "fir",
       visibility: true,
+      hint:"none",
       dungeonShuffleInput: "",
       entrance: "fire",
       keysLeft: 8,
@@ -3024,7 +3092,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 0,
           name: "Near boss",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3036,7 +3104,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Skll Dancer",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3048,7 +3116,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Dancer 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3060,7 +3128,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "BK chest",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3072,7 +3140,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Lava room",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3084,7 +3152,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Skll SoT",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3096,7 +3164,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "Lava bomb",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3108,7 +3176,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 7,
           name: "Maze low",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3120,7 +3188,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 8,
           name: "Skll maze",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3132,7 +3200,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 9,
           name: "Side room",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3144,7 +3212,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 10,
           name: "Map",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3156,7 +3224,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 11,
           name: "Up. Goron",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3168,7 +3236,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 12,
           name: "Shortcut",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3180,7 +3248,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 13,
           name: "Skll Crow 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3192,7 +3260,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 14,
           name: "Skll Crow 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3204,9 +3272,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 15,
           name: "Pierre",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -3216,7 +3285,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 16,
           name: "Compass",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3228,7 +3297,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 17,
           name: "SoT",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3240,9 +3309,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 18,
           name: "Hammer",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -3252,7 +3322,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 19,
           name: "Volvagia",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3268,6 +3338,7 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Water",
       short: "wat",
       visibility: true,
+      hint:"none",
       dungeonShuffleInput: "",
       entrance: "water",
       keysLeft: 6,
@@ -3278,9 +3349,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 0,
           name: "Skll gate",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "skullsanity",
           visibility: false,
           song: false,
@@ -3290,7 +3362,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Compass",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3302,7 +3374,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Map",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3314,7 +3386,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Broken wall",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3326,7 +3398,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Torches",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3338,7 +3410,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Skll b4 BK",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3350,9 +3422,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "BK",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -3362,7 +3435,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 7,
           name: "Eye",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3374,7 +3447,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 8,
           name: "Skll pillar",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3386,9 +3459,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 9,
           name: "Pillar",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -3398,7 +3472,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 10,
           name: "Skll plats",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3410,9 +3484,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 11,
           name: "Dark Link",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -3422,7 +3497,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 12,
           name: "Skll river",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3434,9 +3509,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 13,
           name: "River",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -3446,7 +3522,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 14,
           name: "Dragon",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3458,7 +3534,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 15,
           name: "Morpha",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3474,6 +3550,7 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Shadow",
       short: "sha",
       visibility: true,
+      hint:"none",
       dungeonShuffleInput: "",
       entrance: "shadow",
       keysLeft: 5,
@@ -3484,7 +3561,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 0,
           name: "Map",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3496,7 +3573,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Hovers",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3508,7 +3585,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Silv. rup.",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3520,7 +3597,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Compass",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3532,7 +3609,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Skll spin",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3544,7 +3621,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Spin. 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3556,7 +3633,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "Spin. 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3568,7 +3645,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 7,
           name: "Spike h1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3580,7 +3657,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 8,
           name: "Spike h2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3592,7 +3669,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 9,
           name: "Spike low",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3604,7 +3681,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 10,
           name: "Skll jail",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3616,7 +3693,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 11,
           name: "Redead rup.",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3628,7 +3705,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 12,
           name: "Skll pot",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3640,9 +3717,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 13,
           name: "Pot",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -3652,7 +3730,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 14,
           name: "Wind",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3664,7 +3742,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 15,
           name: "Gibdos",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3676,7 +3754,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 16,
           name: "Bombable",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3688,7 +3766,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 17,
           name: "Skll boat",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3700,7 +3778,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 18,
           name: "Near BK",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3712,7 +3790,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 19,
           name: "BK",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3724,7 +3802,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 20,
           name: "Skll 3pots",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3736,7 +3814,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 21,
           name: "Floormstr",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3748,7 +3826,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 22,
           name: "Bongo",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3764,6 +3842,7 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Spirit",
       short: "spi",
       visibility: true,
+      hint:"none",
       dungeonShuffleInput: "",
       entrance: "spirit",
       keysLeft: 5,
@@ -3774,7 +3853,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 0,
           name: "Chld crystal",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3786,7 +3865,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Chld keese",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3798,7 +3877,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Skll gate",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3810,7 +3889,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Skll climb",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3822,7 +3901,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Climb 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3834,7 +3913,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Climb 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3846,7 +3925,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "Map",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3858,7 +3937,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 7,
           name: "Sun block",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3870,7 +3949,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 8,
           name: "Skll knckle",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3881,10 +3960,11 @@ export const useLocationsStore = create<Locations>((set) => ({
         },
         {
           id: 9,
-          name: "R. hand",
-          reachable: false,
+          name: "S. Gauntlets",
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -3894,7 +3974,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 10,
           name: "L.Adlt",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3906,7 +3986,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 11,
           name: "Skll SoT",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3918,7 +3998,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 12,
           name: "R.Adlt",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3930,7 +4010,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 13,
           name: "Mirror 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3942,7 +4022,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 14,
           name: "Mirror 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3954,7 +4034,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 15,
           name: "Lul. high",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3966,7 +4046,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 16,
           name: "Lul. hand",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -3978,7 +4058,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 17,
           name: "Skll statue",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3990,7 +4070,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 18,
           name: "Armors sun",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4002,7 +4082,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 19,
           name: "Invsble 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4014,7 +4094,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 20,
           name: "Invsble 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4026,9 +4106,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 21,
           name: "Mir. shld",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -4038,7 +4119,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 22,
           name: "BK",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4050,7 +4131,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 23,
           name: "Last sun",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4062,7 +4143,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 24,
           name: "Twinrova",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4078,6 +4159,7 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Well",
       short: "wel",
       visibility: true,
+      hint:"none",
       dungeonShuffleInput: "",
       entrance: "well",
       keysLeft: 3,
@@ -4086,7 +4168,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 0,
           name: "Bomb entr.",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4098,7 +4180,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Left entr.",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4110,7 +4192,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Right entr.",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4122,7 +4204,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Skll chest",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4134,7 +4216,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Skll key 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -4146,7 +4228,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Skll key 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -4158,7 +4240,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "Bomb bck",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4170,7 +4252,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 7,
           name: "b4 coffin",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4182,7 +4264,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 8,
           name: "Coffin",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4194,7 +4276,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 9,
           name: "Compass",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4206,7 +4288,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 10,
           name: "b4 D.hand",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4218,7 +4300,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 11,
           name: "Dead hand",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4230,7 +4312,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 12,
           name: "Invsble",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4242,7 +4324,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 13,
           name: "Keeses",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4254,7 +4336,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 14,
           name: "Like Like",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4266,7 +4348,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 15,
           name: "Skll Like",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -4278,7 +4360,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 16,
           name: "Basement",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4294,15 +4376,17 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Ice Cavern",
       short: "ic",
       visibility: true,
+      hint:"none",
       dungeonShuffleInput: "",
       entrance: "ice cavern",
       checks: [
         {
           id: 0,
           name: "Serenade",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           box: false,
@@ -4312,7 +4396,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Skll spin",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -4324,7 +4408,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Map",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4336,7 +4420,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Compass",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4348,7 +4432,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Skull fire",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -4360,7 +4444,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Freestand.",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4372,7 +4456,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "Skll blocks",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -4384,9 +4468,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 7,
           name: "Iron boots",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           box: false,
@@ -4400,6 +4485,7 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "GTG",
       short: "gtg",
       visibility: true,
+      hint:"none",
       dungeonShuffleInput: "",
       entrance: "gtg",
       keysLeft: 9,
@@ -4408,7 +4494,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 0,
           name: "Eye 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4420,7 +4506,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Eye 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4432,7 +4518,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Stalfos",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4444,7 +4530,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Wolfos",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4456,7 +4542,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Block 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4468,7 +4554,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Block 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4480,7 +4566,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "Block 3",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4492,7 +4578,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 7,
           name: "Block 4",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4504,7 +4590,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 8,
           name: "Statue",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4516,7 +4602,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 9,
           name: "Abo. statue",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4528,7 +4614,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 10,
           name: "Ennemies",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4540,7 +4626,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 11,
           name: "Fire chest",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4552,7 +4638,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 12,
           name: "Freestand.",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4564,7 +4650,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 13,
           name: "SoT 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4576,7 +4662,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 14,
           name: "SoT 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4588,9 +4674,10 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 15,
           name: "Toilets",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
+          hinted: false,
           setting: "none",
           visibility: true,
           song: false,
@@ -4600,7 +4687,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 16,
           name: "Beamos",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4612,7 +4699,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 17,
           name: "L.maze 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4624,7 +4711,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 18,
           name: "L.maze 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4636,7 +4723,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 19,
           name: "L.maze 3",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4648,7 +4735,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 20,
           name: "L.maze 4",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4660,7 +4747,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 21,
           name: "Final",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4676,6 +4763,7 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Ganon's Castle",
       short: "gan",
       visibility: true,
+      hint:"none",
       dungeonShuffleInput: "",
       entrance: "ganon",
       keysLeft: 2,
@@ -4684,7 +4772,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 0,
           name: "Scrub 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -4696,7 +4784,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Scrub 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -4708,7 +4796,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 2,
           name: "Scrub 3",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -4720,7 +4808,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Scrub 4",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -4732,7 +4820,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 4,
           name: "Forest",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4744,7 +4832,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 5,
           name: "Water 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4756,7 +4844,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 6,
           name: "Water 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4768,7 +4856,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 7,
           name: "Shadow 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4780,7 +4868,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 8,
           name: "Shadow 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4792,7 +4880,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 9,
           name: "Light 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4804,7 +4892,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 10,
           name: "Light 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4816,7 +4904,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 11,
           name: "Light 3",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4828,7 +4916,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 12,
           name: "Light 4",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4840,7 +4928,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 13,
           name: "Light 5",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4852,7 +4940,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 14,
           name: "Light 6",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4864,7 +4952,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 15,
           name: "Light clr",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4876,7 +4964,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 16,
           name: "Light key",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4888,7 +4976,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 17,
           name: "Spirit 1",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4900,7 +4988,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 18,
           name: "Spirit 2",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",
@@ -4912,7 +5000,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 19,
           name: "Boss key",
-          reachable: false,
+          reachable : "no",
           checked: false,
           player: "",
           setting: "none",

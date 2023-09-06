@@ -1,5 +1,5 @@
 import React from "react";
-import { Element } from "../../datas/trackerState";
+import { Element } from "../../stores/trackerState";
 
 function Image(props: {
   className: string;

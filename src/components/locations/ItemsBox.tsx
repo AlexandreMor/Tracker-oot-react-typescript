@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
-import { useTrackerStore } from "../../datas/trackerState";
-import { useLocationsStore } from "../../datas/locationsState";
+import { useTrackerStore } from "../../stores/trackerState";
+import { useLocationsStore } from "../../stores/locationsState";
 
-function ItemsBox({ handleItemsBox, check, area, category }) {
+export const ItemsBox = ({ handleItemsBox, check, area, category }) => {
   const items = useTrackerStore((set) => set.items);
   const boxRef = useRef<HTMLDivElement>(null);
   const handleItemCheck = useLocationsStore((set) => set.handleItemCheck);
@@ -39,5 +39,3 @@ function ItemsBox({ handleItemsBox, check, area, category }) {
     </div>
   );
 }
-
-export default ItemsBox;

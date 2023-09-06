@@ -1,6 +1,6 @@
 import React from "react";
 import Dungeon from "./Dungeon";
-import { Element } from "../../datas/trackerState";
+import { Element } from "../../stores/trackerState";
 
 export default function DungeonGroup({ dungeons, className, category }) {
   const classNameDungeons = (category: "stones" | "medallions"): string => {
