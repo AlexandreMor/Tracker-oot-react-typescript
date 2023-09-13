@@ -43,6 +43,12 @@ export type Locations = {
     category: "overworld" | "dungeons",
     item: string
   ) => void;
+  handleCheckReachable: (
+    idArea: number,
+    idCheck: number,
+    category: "overworld" | "dungeons",
+    reachable: "yes" | "ool" | "no" //ool for Out of Logic
+  ) => void;
 };
 
 export const useLocationsStore = create<Locations>((set) => ({
@@ -5050,10 +5056,19 @@ export const useLocationsStore = create<Locations>((set) => ({
             if (!item.includes("cross")) {
               check.item = item;
               check.box = false;
-            } else {
-              check.item = "";
-              check.box = false;
             }
+          }
+        }
+      })
+    ),
+  handleCheckReachable: (idArea, idCheck, category, reachable) =>
+    set((state) =>
+      produce(state, (draft) => {
+        let area = draft[category].find((el) => el.id === idArea);
+        if (area) {
+          let check = area.checks.find((el) => el.id === idCheck);
+          if (check) {
+            check.reachable = reachable;
           }
         }
       })

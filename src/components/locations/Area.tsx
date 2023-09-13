@@ -1,10 +1,16 @@
 import React from "react";
 import { Check } from "./Check";
+import { Location } from "../../stores/locationsState";
 
-export const Area = ({ area, category }) => {
+type Props = {
+  area: Location;
+  category: "overworld" | "dungeons";
+};
+
+export const Area = ({ area, category }: Props) => {
   return (
-    <div className="mt-2 mx-2 bg-sky-950  rounded-t-lg rounded-b-lg tracking-tight">
-      <h1 className="2xl:text-base text-sm mb-2 font-bold text-center tracking-tight">
+    <div className="mt-2 mx-2 px-1 bg-blue-700  rounded-t-lg rounded-b-lg tracking-tight pb-2">
+      <h1 className="2xl:text-base py-1 text-sm mb-2 font-bold text-center tracking-tight">
         {area.name}
       </h1>
       <ul>

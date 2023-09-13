@@ -1,5 +1,7 @@
 import React from "react";
 
 export const Footer = () => {
-  return <div>Footer</div>;
+  return (<ul className="lg:hidden md:block">
+<li>test</li></ul>)
+
 };

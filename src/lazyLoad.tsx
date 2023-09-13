@@ -1,7 +1,7 @@
 import { lazy } from "react";
 
 export const lazyLoad = (path: string, componentName: string) => {
-  lazy(() => {
+  return lazy(() => {
     const promise = import(path);
     if (componentName === null) {
       return promise;

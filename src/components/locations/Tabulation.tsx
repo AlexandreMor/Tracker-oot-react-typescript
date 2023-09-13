@@ -2,7 +2,7 @@ import React from "react";
 
 export const Tabulation = ({ selectedTab, setSelectedTab }) => {
   return (
-    <nav>
+    <nav className="self-center">
       <button
         className={`py-2 px-3 ${
           selectedTab === "Overworld"
