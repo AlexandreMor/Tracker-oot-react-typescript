@@ -3,6 +3,7 @@ import DungeonGroup from "./tracker/DungeonGroup";
 import ElementGroup from "./tracker/ElementGroup";
 import React from "react";
 import Token from "./tracker/Token";
+import { RandomSpawns } from "./random-spawns/RandomSpawns";
 
 export const AsideLeft = () => {
   const items = useTrackerStore((set) => set.items);
@@ -38,6 +39,12 @@ export const AsideLeft = () => {
           className={dungeonsClassName}
           category="medallions"
         />
+      </div>
+      <div id="random-spawns" className="flex flex-col items-center mt-3">
+        <h3 className="text-center text-md lg:text-lg font-semibold">
+          Random Spawns
+        </h3>
+        <RandomSpawns />
       </div>
     </aside>
   );
