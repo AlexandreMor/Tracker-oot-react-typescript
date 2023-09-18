@@ -9,12 +9,7 @@ type randomSpawn = {
 
 type randomSpawns = randomSpawn[];
 
-export const randomSpawnsState: randomSpawns = [
-  { id: 0, name: "Child spawn", location: "" },
-  { id: 1, name: "Adult spawn", location: "" },
-];
-
-type Spawns = {
+export type Spawns = {
   id: number;
   name: string;
 };

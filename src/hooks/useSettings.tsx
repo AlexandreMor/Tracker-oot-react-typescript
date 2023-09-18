@@ -17,7 +17,7 @@ export const useSettings = () => {
   const skullSanitySetting = settingSelected(4);
   const scrubSanitySetting = settingSelected(5);
   const cowSanitySetting = settingSelected(6);
-  const dungeonShuffleSetting = settingSelected(7);
+  const dungeonsShuffleSetting = settingSelected(7);
   const bridgeSetting = settingSelected(8);
   const shuffleMerchantsSetting = settingSelected(9);
   const keysySetting = settingSelected(10);
@@ -31,7 +31,7 @@ export const useSettings = () => {
     skullSanitySetting,
     scrubSanitySetting,
     cowSanitySetting,
-    dungeonShuffleSetting,
+    dungeonsShuffleSetting,
     bridgeSetting,
     shuffleMerchantsSetting,
     keysySetting,

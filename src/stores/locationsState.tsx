@@ -21,6 +21,7 @@ export type Location = {
   short: string;
   visibility: boolean;
   hint: string;
+  entrance?: string;
   checks: Array<Check>;
 };
 
@@ -47,9 +48,28 @@ export type Locations = {
     idArea: number,
     idCheck: number,
     category: "overworld" | "dungeons",
-    reachable: "yes" | "ool" | "no" //ool for Out of Logic
+    reachable: "yes" | "out of logic" | "can be seen" | "no"
+  ) => void;
+  handleDungeonsEntrance: (
+    idArea: number,
+    entrance: string,
   ) => void;
 };
+
+export const dungeonsShuffleList: string[] = [
+  "",
+  "Deku",
+  "DC",
+  "Jabu",
+  "Forest",
+  "Fire",
+  "Water",
+  "Shadow",
+  "Spirit",
+  "Well",
+  "Ice",
+  "GTG",
+];
 
 export const useLocationsStore = create<Locations>((set) => ({
   overworld: [
@@ -4384,7 +4404,7 @@ export const useLocationsStore = create<Locations>((set) => ({
       visibility: true,
       hint: "none",
       dungeonShuffleInput: "",
-      entrance: "ice cavern",
+      entrance: "ice",
       checks: [
         {
           id: 0,
@@ -4770,8 +4790,6 @@ export const useLocationsStore = create<Locations>((set) => ({
       short: "gan",
       visibility: true,
       hint: "none",
-      dungeonShuffleInput: "",
-      entrance: "ganon",
       keysLeft: 2,
       maxKeys: 2,
       checks: [
@@ -5070,6 +5088,16 @@ export const useLocationsStore = create<Locations>((set) => ({
           if (check) {
             check.reachable = reachable;
           }
+        }
+      })
+    ),
+
+    handleDungeonsEntrance: (idArea, dungeon) =>
+    set((state) =>
+      produce(state, (draft) => {
+        let area = draft["dungeons"].find((el) => el.id === idArea);
+        if (area && area.name !== "Ganon's Castle") { 
+            area.entrance = dungeon.toLowerCase();
         }
       })
     ),
