@@ -1348,7 +1348,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 3,
           name: "Item box",
-          reachable: "no",
+          reachable: "can be seen",
           song: false,
           checked: false,
           player: "",
