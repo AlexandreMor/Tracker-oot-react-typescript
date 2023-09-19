@@ -5,7 +5,7 @@ export const Navbar = () => {
   const { menuOpen, toggleMenu, tab, githubLink } = useNavbar();
 
   return (
-    <nav className="flex items-center justify-between flex-wrap bg-blue-700 p-6">
+    <nav className="flex items-center justify-between flex-wrap bg-blue-900 p-5">
       <div className="flex items-center flex-shrink-0 text-white mr-6">
         <svg
           className="fill-current h-8 w-8 mr-2"

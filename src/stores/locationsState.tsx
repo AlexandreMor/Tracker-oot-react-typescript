@@ -50,9 +50,15 @@ export type Locations = {
     category: "overworld" | "dungeons",
     reachable: "yes" | "out of logic" | "can be seen" | "no"
   ) => void;
-  handleDungeonsEntrance: (
+  handleDungeonsEntrance: (idArea: number, entrance: string) => void;
+  handleVisibility: (
     idArea: number,
-    entrance: string,
+    category: "overworld" | "dungeons"
+  ) => void;
+  handleCheckOpacity: (
+    idArea: number,
+    idCheck: number,
+    category: "overworld" | "dungeons",
   ) => void;
 };
 
@@ -375,7 +381,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 0,
           name: "Saria",
-          reachable: "no",
+          reachable: "yes",
           song: true,
           checked: false,
           player: "",
@@ -1431,7 +1437,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Wall",
-          reachable: "no",
+          reachable: "can be seen",
           checked: false,
           player: "",
           setting: "none",
@@ -1711,7 +1717,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Crater HP",
-          reachable: "no",
+          reachable: "can be seen",
           song: true,
           checked: false,
           player: "",
@@ -2055,7 +2061,7 @@ export const useLocationsStore = create<Locations>((set) => ({
         {
           id: 1,
           name: "Underwater",
-          reachable: "no",
+          reachable: "can be seen",
           checked: false,
           player: "",
           setting: "none",
@@ -5091,13 +5097,41 @@ export const useLocationsStore = create<Locations>((set) => ({
         }
       })
     ),
-
-    handleDungeonsEntrance: (idArea, dungeon) =>
+  handleDungeonsEntrance: (idArea, dungeon) =>
     set((state) =>
       produce(state, (draft) => {
         let area = draft["dungeons"].find((el) => el.id === idArea);
-        if (area && area.name !== "Ganon's Castle") { 
-            area.entrance = dungeon.toLowerCase();
+        if (area && area.name !== "Ganon's Castle") {
+          area.entrance = dungeon.toLowerCase();
+        }
+      })
+    ),
+  handleVisibility: (idArea, category) =>
+    set((state) =>
+      produce(state, (draft) => {
+        let area = draft[category].find((el) => el.id === idArea);
+        if (area && area.visibility) {
+          area.visibility = false;
+        }
+        else if (area && !area.visibility) {
+          area.visibility = true;
+        }
+      })
+    ),
+    handleCheckOpacity: (idArea, idCheck, category) =>
+    set((state) =>
+      produce(state, (draft) => {
+        let area = draft[category].find((el) => el.id === idArea);
+        if (area) {
+          let check = area.checks.find((el) => el.id === idCheck);
+          if (check) {
+            if (check.checked) {
+              check.checked = false
+            }
+            else {
+              check.checked= true
+            }
+          }
         }
       })
     ),

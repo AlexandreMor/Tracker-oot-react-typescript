@@ -18,10 +18,14 @@ export const Area = ({ area, category }: Props) => {
   const handleDungeonsEntrance = useLocationsStore(
     (state) => state.handleDungeonsEntrance
   );
+  const handleVisibility = useLocationsStore((state) => state.handleVisibility);
 
   return (
-    <div className="mt-2 mx-2 px-1 bg-blue-700  rounded-t-lg rounded-b-lg tracking-tight pb-2">
-      <h1 className="2xl:text-base py-1 text-sm mb-2 font-bold text-center tracking-tight">
+    <div className="mt-2 mx-2 bg-blue-950 border rounded-t-lg rounded-b-lg tracking-tight">
+      <h1
+        className="2xl:text-base cursor-pointer text-sm pb-1 font-bold text-center tracking-tight"
+        onClick={() =>handleVisibility(area.id, category)}
+      >
         {area.name}
       </h1>
       {dungeonsShuffleSetting === "true" && category === "dungeons" ? (
@@ -33,7 +37,11 @@ export const Area = ({ area, category }: Props) => {
       ) : (
         ""
       )}
-      <ul>
+      <ul
+        className={`overflow-hidden duration-300 ease-in-out ${
+          area.visibility ? "max-h-screen" : "max-h-0"
+        }`}
+      >
         {area.checks.map((check) => {
           return (
             <Check
