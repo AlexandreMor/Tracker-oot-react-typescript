@@ -5,9 +5,9 @@ import { Element, useTrackerStore } from "../../stores/trackerState";
 export default function ElementGroup({ elements, className, category }) {
   const incrementElement = useTrackerStore((set) => set.increment);
   const decrementElement = useTrackerStore((set) => set.decrement);
-  const elementsClassName : string = "grid gap-x-1 gap-y-5 pb-2 border-x-2 border-black pt-1";
+  const elementsClassName : string = "grid gap-x-1 gap-y-5 pb-2 pt-1";
   const songsClassName: string = `${elementsClassName} + bg-emerald-900 grid-cols-6`;
-  const itemsClassName: string = `${elementsClassName} + bg-blue-900 border-t-2 rounded-t-lg grid-cols-7`;
+  const itemsClassName: string = `${elementsClassName} + bg-blue-900 grid-cols-7 rounded-lg px-1`;
 
   return (
     <div className={category === "items" ? itemsClassName : songsClassName}>

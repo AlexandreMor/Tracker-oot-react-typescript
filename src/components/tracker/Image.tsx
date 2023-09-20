@@ -18,9 +18,9 @@ function Image(props: {
 
   const handleItemsClass = (element : Element) : string => {
     if (element.inPossession !== 0) {
-      return `${props.className} hover:grayscale-0 hover:opacity-70`;
+      return `${props.className}`;
     }
-    return `${props.className} opacity-50 grayscale hover:grayscale-0 hover:opacity-70`;
+    return `${props.className} opacity-50 grayscale`;
   };
 
   return (

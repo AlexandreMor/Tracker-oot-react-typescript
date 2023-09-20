@@ -21,7 +21,7 @@ export const Area = ({ area, category }: Props) => {
   const handleVisibility = useLocationsStore((state) => state.handleVisibility);
 
   return (
-    <div className="mt-2 mx-2 bg-blue-950 border rounded-t-lg rounded-b-lg tracking-tight">
+    <div className="mt-2 mx-2 bg-zinc-900 border rounded-t-lg rounded-b-lg tracking-tight">
       <h1
         className="2xl:text-base cursor-pointer text-sm pb-1 font-bold text-center tracking-tight"
         onClick={() =>handleVisibility(area.id, category)}

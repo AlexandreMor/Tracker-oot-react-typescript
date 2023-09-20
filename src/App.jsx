@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import { Footer } from "./components/Footer";
 import { Navbar } from "./components/Navbar";
 import { lazyLoad } from "./lazyLoad";
 import { Routes, Route } from "react-router-dom";
@@ -34,7 +33,6 @@ export const App = () => {
             </Routes>
           </Suspense>
         </main>
-        <Footer />
       </div>
     </>
   );

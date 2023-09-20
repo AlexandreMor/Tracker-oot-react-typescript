@@ -22,7 +22,7 @@ export const ItemsBox = ({ handleItemsBox, check, area, category }) => {
 
   return (
     <div
-      className="z-10 grid grid-cols-7 absolute bg-stone-900 gap-0 rounded-b-lg"
+      className="z-10 grid grid-cols-7 border absolute bg-stone-800 gap-0 rounded-t-lg rounded-b-lg"
       ref={boxRef}
     >
       {items.map((item) => (

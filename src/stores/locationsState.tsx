@@ -33,11 +33,6 @@ export type Locations = {
     idCheck: number,
     category: "overworld" | "dungeons"
   ) => void;
-  closeItemsBox: (
-    idArea: number,
-    idCheck: number,
-    category: "overworld" | "dungeons"
-  ) => void;
   handleItemCheck: (
     idArea: number,
     idCheck: number,
@@ -58,7 +53,7 @@ export type Locations = {
   handleCheckOpacity: (
     idArea: number,
     idCheck: number,
-    category: "overworld" | "dungeons",
+    category: "overworld" | "dungeons"
   ) => void;
 };
 
@@ -5058,18 +5053,6 @@ export const useLocationsStore = create<Locations>((set) => ({
         }
       })
     ),
-  closeItemsBox: (idArea, idCheck, category) =>
-    set((state) =>
-      produce(state, (draft) => {
-        let area = draft[category].find((el) => el.id === idArea);
-        if (area) {
-          let check = area.checks.find((el) => el.id === idCheck);
-          if (check) {
-            check.box = false;
-          }
-        }
-      })
-    ),
   handleItemCheck: (idArea, idCheck, category, item) =>
     set((state) =>
       produce(state, (draft) => {
@@ -5079,6 +5062,9 @@ export const useLocationsStore = create<Locations>((set) => ({
           if (check) {
             if (!item.includes("cross")) {
               check.item = item;
+              check.box = false;
+            } else if (item.includes("cross")) {
+              check.item= "";
               check.box = false;
             }
           }
@@ -5112,13 +5098,12 @@ export const useLocationsStore = create<Locations>((set) => ({
         let area = draft[category].find((el) => el.id === idArea);
         if (area && area.visibility) {
           area.visibility = false;
-        }
-        else if (area && !area.visibility) {
+        } else if (area && !area.visibility) {
           area.visibility = true;
         }
       })
     ),
-    handleCheckOpacity: (idArea, idCheck, category) =>
+  handleCheckOpacity: (idArea, idCheck, category) =>
     set((state) =>
       produce(state, (draft) => {
         let area = draft[category].find((el) => el.id === idArea);
@@ -5126,10 +5111,9 @@ export const useLocationsStore = create<Locations>((set) => ({
           let check = area.checks.find((el) => el.id === idCheck);
           if (check) {
             if (check.checked) {
-              check.checked = false
-            }
-            else {
-              check.checked= true
+              check.checked = false;
+            } else {
+              check.checked = true;
             }
           }
         }

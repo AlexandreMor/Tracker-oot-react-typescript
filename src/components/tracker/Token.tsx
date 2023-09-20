@@ -6,7 +6,7 @@ function Token({ className, items }) {
   const incrementElement = useTrackerStore((set) => set.increment);
   const decrementElement = useTrackerStore((set) => set.decrement);
   return (
-    <div className="flex justify-center py-4 bg-blue-900 border-x-2 border-black">
+    <div className="flex justify-center py-4 bg-blue-900">
       <Image
         className={className}
         element={items[30]}

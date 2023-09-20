@@ -17,7 +17,7 @@ export const AsideLeft = () => {
 
   return (
     <aside id="aside-left" className="w-22 ms-2">
-      <div id="tracker">
+      <div id="tracker" className="border rounded-lg">
         <ElementGroup
           elements={items.filter((item) => item.id < 30)}
           className={itemsClassName}
