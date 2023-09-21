@@ -55,6 +55,12 @@ export type Locations = {
     idCheck: number,
     category: "overworld" | "dungeons"
   ) => void;
+  handleInputPlayer: (
+    idArea: number,
+    idCheck: number,
+    category: "overworld" | "dungeons",
+    value: string
+  ) => void;
 };
 
 export const dungeonsShuffleList: string[] = [
@@ -5041,14 +5047,12 @@ export const useLocationsStore = create<Locations>((set) => ({
     set((state) =>
       produce(state, (draft) => {
         let area = draft[category].find((el) => el.id === idArea);
-        if (area) {
-          let check = area.checks.find((el) => el.id === idCheck);
-          if (check) {
-            if (!check.box) {
-              check.box = true;
-            } else {
-              check.box = false;
-            }
+        let check = area?.checks.find((el) => el.id === idCheck);
+        if (area && check) {
+          if (!check.box) {
+            check.box = true;
+          } else {
+            check.box = false;
           }
         }
       })
@@ -5057,16 +5061,16 @@ export const useLocationsStore = create<Locations>((set) => ({
     set((state) =>
       produce(state, (draft) => {
         let area = draft[category].find((el) => el.id === idArea);
-        if (area) {
-          let check = area.checks.find((el) => el.id === idCheck);
-          if (check) {
-            if (!item.includes("cross")) {
-              check.item = item;
-              check.box = false;
-            } else if (item.includes("cross")) {
-              check.item= "";
-              check.box = false;
-            }
+        let check = area?.checks.find((el) => el.id === idCheck);
+        if (area && check) {
+          if (item === "cancel") {
+            check.box = false;
+          } else if (item !== "cancel" && !item.includes("cross")) {
+            check.item = item;
+            check.box = false;
+          } else if (item.includes("cross")) {
+            check.item = "";
+            check.box = false;
           }
         }
       })
@@ -5075,11 +5079,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     set((state) =>
       produce(state, (draft) => {
         let area = draft[category].find((el) => el.id === idArea);
-        if (area) {
-          let check = area.checks.find((el) => el.id === idCheck);
-          if (check) {
-            check.reachable = reachable;
-          }
+        let check = area?.checks.find((el) => el.id === idCheck);
+        if (area && check) {
+          check.reachable = reachable;
         }
       })
     ),
@@ -5107,15 +5109,23 @@ export const useLocationsStore = create<Locations>((set) => ({
     set((state) =>
       produce(state, (draft) => {
         let area = draft[category].find((el) => el.id === idArea);
-        if (area) {
-          let check = area.checks.find((el) => el.id === idCheck);
-          if (check) {
-            if (check.checked) {
-              check.checked = false;
-            } else {
-              check.checked = true;
-            }
+        let check = area?.checks.find((el) => el.id === idCheck);
+        if (area && check) {
+          if (check.checked) {
+            check.checked = false;
+          } else {
+            check.checked = true;
           }
+        }
+      })
+    ),
+  handleInputPlayer: (idArea, idCheck, category, value) =>
+    set((state) =>
+      produce(state, (draft) => {
+        let area = draft[category].find((el) => el.id === idArea);
+        let check = area?.checks.find((el) => el.id === idCheck);
+        if (area && check) {
+          check.player = value;
         }
       })
     ),

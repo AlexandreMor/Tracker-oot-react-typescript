@@ -24,6 +24,27 @@ export const useSettingsStore = create<Settings>((set) => ({
   settings: [
     {
       id: 0,
+      name: "Multiworld",
+      value: "no",
+      datasComponent: [
+        {
+          id: 0,
+          name: "Yes",
+          html: "mw-yes",
+          inputValue: "yes",
+          checked: true,
+        },
+        {
+          id: 1,
+          name: "No",
+          html: "mw-no",
+          inputValue: "no",
+          checked: false,
+        },
+      ],
+    },
+    {
+      id: 1,
       name: "Deku",
       value: "closed",
       datasComponent: [
@@ -44,7 +65,7 @@ export const useSettingsStore = create<Settings>((set) => ({
       ],
     },
     {
-      id: 1,
+      id: 2,
       name: "Fountain",
       value: "closed",
       datasComponent: [
@@ -65,7 +86,7 @@ export const useSettingsStore = create<Settings>((set) => ({
       ],
     },
     {
-      id: 2,
+      id: 3,
       name: "Fortress",
       value: "closed",
       datasComponent: [
@@ -86,7 +107,7 @@ export const useSettingsStore = create<Settings>((set) => ({
       ],
     },
     {
-      id: 3,
+      id: 4,
       name: "Shopsanity",
       value: "false",
       datasComponent: [
@@ -107,7 +128,7 @@ export const useSettingsStore = create<Settings>((set) => ({
       ],
     },
     {
-      id: 4,
+      id: 5,
       name: "Skullsanity dungeons",
       value: "false",
       datasComponent: [
@@ -128,7 +149,7 @@ export const useSettingsStore = create<Settings>((set) => ({
       ],
     },
     {
-      id: 5,
+      id: 6,
       name: "Scrubsanity",
       value: "false",
       datasComponent: [
@@ -149,7 +170,7 @@ export const useSettingsStore = create<Settings>((set) => ({
       ],
     },
     {
-      id: 6,
+      id: 7,
       name: "Cowsanity",
       value: "false",
       datasComponent: [
@@ -170,7 +191,7 @@ export const useSettingsStore = create<Settings>((set) => ({
       ],
     },
     {
-      id: 7,
+      id: 8,
       name: "Dungeon Shuffle",
       value: "false",
       datasComponent: [
@@ -191,7 +212,7 @@ export const useSettingsStore = create<Settings>((set) => ({
       ],
     },
     {
-      id: 8,
+      id: 9,
       name: "Bridge",
       value: "6",
       datasComponent: [
@@ -223,17 +244,17 @@ export const useSettingsStore = create<Settings>((set) => ({
           inputValue: "5",
           checked: false,
         },
-        { 
-          id: 4, 
-          name: "6 med", 
-          html: "6-med", 
-          inputValue: "6", 
-          checked: true 
+        {
+          id: 4,
+          name: "6 med",
+          html: "6-med",
+          inputValue: "6",
+          checked: true,
         },
       ],
     },
     {
-      id: 9,
+      id: 10,
       name: "Shuffle Merchants",
       value: "false",
       datasComponent: [
@@ -254,7 +275,7 @@ export const useSettingsStore = create<Settings>((set) => ({
       ],
     },
     {
-      id: 10,
+      id: 11,
       name: "Keysy",
       value: "false",
       datasComponent: [
@@ -275,7 +296,7 @@ export const useSettingsStore = create<Settings>((set) => ({
       ],
     },
     {
-      id: 11,
+      id: 12,
       name: "Boss Keysy",
       value: "false",
       datasComponent: [

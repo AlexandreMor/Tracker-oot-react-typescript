@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useLocationsStore } from "../../stores/locationsState";
 import { ItemsBox } from "./ItemsBox";
+import { InputText } from "../InputText";
+import { useSettings } from "../../hooks/useSettings";
 
 export const Check = ({ check, area, category }) => {
   const handleItemsBox = useLocationsStore((set) => set.handleItemBox);
   const handleCheckOpacity = useLocationsStore((set) => set.handleCheckOpacity);
+  const handleInputPlayer = useLocationsStore(
+    (state) => state.handleInputPlayer
+  );
+  const { multiworldSetting } = useSettings();
   const colorMap = {
     yes: "text-emerald-400",
     "out of logic": "text-yellow-400",
@@ -28,7 +34,17 @@ export const Check = ({ check, area, category }) => {
           {check.name}
         </h3>
         {check.item !== "" && (
-          <img className="w-1/4" src={check.item} alt={check.name} />
+          <div className="flex">
+            <img className="w-1/4" src={check.item} alt={check.name} />
+            {multiworldSetting === "yes" && (
+              <InputText
+                idArea={area.id}
+                data={check}
+                category={category}
+                func={handleInputPlayer}
+              />
+            )}
+          </div>
         )}
       </li>
       {check.box && (

@@ -10,20 +10,22 @@ export const useSettings = () => {
     return "Setting Not found";
   };
 
-  const dekuSetting = settingSelected(0);
-  const fountainSetting = settingSelected(1);
-  const fortressSetting = settingSelected(2);
-  const shopSanitySetting = settingSelected(3);
-  const skullSanitySetting = settingSelected(4);
-  const scrubSanitySetting = settingSelected(5);
-  const cowSanitySetting = settingSelected(6);
-  const dungeonsShuffleSetting = settingSelected(7);
-  const bridgeSetting = settingSelected(8);
-  const shuffleMerchantsSetting = settingSelected(9);
-  const keysySetting = settingSelected(10);
-  const bossKeysSetting = settingSelected(11);
+  const multiworldSetting = settingSelected(0);
+  const dekuSetting = settingSelected(1);
+  const fountainSetting = settingSelected(2);
+  const fortressSetting = settingSelected(3);
+  const shopSanitySetting = settingSelected(4);
+  const skullSanitySetting = settingSelected(5);
+  const scrubSanitySetting = settingSelected(6);
+  const cowSanitySetting = settingSelected(7);
+  const dungeonsShuffleSetting = settingSelected(8);
+  const bridgeSetting = settingSelected(9);
+  const shuffleMerchantsSetting = settingSelected(10);
+  const keysySetting = settingSelected(11);
+  const bossKeysSetting = settingSelected(12);
 
   return {
+    multiworldSetting,
     dekuSetting,
     fountainSetting,
     fortressSetting,
