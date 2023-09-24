@@ -20,7 +20,7 @@ export const Option = ({ setting, data }: Props) => {
         type="radio"
         value={data.inputValue}
         name={`list-radio-${setting.name}`}
-        className="w-4 h-4 text-blue-600 bg-blue-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-blue-700 dark:focus:ring-offset-blue-700 focus:ring-2 dark:bg-blue-600 dark:border-blue-500"
+        className="w-4 h-4 text-zinc-600 border-zinc-300 focus:ring-zinc-500 focus:ring-offset-zinc-700 focus:ring-2 bg-zinc-600"
         checked={setting.value === data.inputValue}
         onChange={() => changeValue(setting.id, data.inputValue)}
       />

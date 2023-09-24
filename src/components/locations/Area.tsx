@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Check } from "./Check";
 import {
   Location,
@@ -7,6 +7,7 @@ import {
 } from "../../stores/locationsState";
 import { useSettings } from "../../hooks/useSettings";
 import { Select } from "../Select";
+import { HintModal } from "./HintModal";
 
 type Props = {
   area: Location;
@@ -19,15 +20,52 @@ export const Area = ({ area, category }: Props) => {
     (state) => state.handleDungeonsEntrance
   );
   const handleVisibility = useLocationsStore((state) => state.handleVisibility);
+  const handleBoxArea = useLocationsStore((state) => state.handleBoxArea);
+  const closeBoxArea = useLocationsStore((state) => state.closeBoxArea);
+  const modalRef = useRef<HTMLUListElement | null>(null);
+  const bgColor =
+    area.hint.type === "Way of the Hero"
+      ? "bg-green-900"
+      : area.hint.type === "Foolish"
+      ? "bg-fuchsia-900"
+      : "bg-zinc-900";
+
+  useEffect(() => {
+    const handleClickOutside = (event: { target: any }) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+          closeBoxArea(area.id, category);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [area.id]);
 
   return (
-    <div className="mt-2 mx-2 bg-zinc-900 border rounded-t-lg rounded-b-lg tracking-tight">
+    <div
+      className={`mt-2 mx-2 pb-1.5 content-center ${bgColor} border rounded-t-lg rounded-b-lg tracking-tight`}
+    >
       <h1
         className="2xl:text-base cursor-pointer text-sm pb-1 font-bold text-center tracking-tight"
-        onClick={() =>handleVisibility(area.id, category)}
+        onClick={() => handleVisibility(area.id, category)}
+        onContextMenu={() => handleBoxArea(area.id, category)}
       >
         {area.name}
       </h1>
+      {area.hint.boss && area.hint.boss !== "None" && (
+        <h3 className="font-semibold text-center text-base py-0">
+          {area.hint.boss}
+        </h3>
+      )}
+      <ul
+        className={` absolute z-10 bg-zinc-900 overflow-hidden duration-300 ease-in-out ${
+          area.box ? "max-h-screen py-1 border rounded-lg" : "max-h-0 py-0"
+        }`}
+        ref={modalRef}
+      >
+        <HintModal area={area} category={category} />
+      </ul>
       {dungeonsShuffleSetting === "true" && category === "dungeons" ? (
         <Select
           func={handleDungeonsEntrance}

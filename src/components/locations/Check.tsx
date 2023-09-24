@@ -22,7 +22,7 @@ export const Check = ({ check, area, category }) => {
   return (
     <>
       <li
-        className={`2xl:text-sm text-xs lg:font-bold hover:bg-sky-600 block border-t border-b-white`}
+        className={`2xl:text-sm text-xs lg:font-bold bg-gray-900 odd:bg-gray-800 hover:bg-blue-800 block`}
         onContextMenu={() => handleItemsBox(area.id, check.id, category)}
       >
         <h3

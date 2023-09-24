@@ -11,7 +11,7 @@ export const Select = ({ func, datas, id }: Props) => {
   return (
     <select
       onChange={(e) => func(id, e.target.value)}
-      className="bg-blue-900 w-fit rounded-lg ps-1 text-[11px] lg:text-sm mb-2 dark:focus:ring-slate-300"
+      className="bg-zinc-750 border w-fit rounded-md ps-1 text-[11px] lg:text-sm mb-2 dark:focus:ring-slate-300"
     >
       {datas.map((data) => (
         <option value={data.name || data} key={data.name || data}>

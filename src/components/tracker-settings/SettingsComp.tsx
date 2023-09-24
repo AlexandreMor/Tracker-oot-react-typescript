@@ -9,7 +9,7 @@ export const SettingsComp = () => {
       <h1 className="my-5 font-semibold text-3xl text-gray-900 dark:text-white">
         Settings
       </h1>
-      <ul className="w-2/5 font-semibold flex flex-col items-center text-base text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-blue-700 dark:border-blue-600 dark:text-white">
+      <ul className="w-2/5 font-semibold flex flex-col items-center text-base text-gray-900 border border-gray-200 rounded-lg sm:flex bg-zinc-900 dark:text-white">
         {settings.map((setting) => (
           <SettingComp key={setting.id} setting={setting} />
         ))}

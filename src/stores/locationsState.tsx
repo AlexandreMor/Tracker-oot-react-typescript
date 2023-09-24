@@ -18,9 +18,9 @@ export type Check = {
 export type Location = {
   id: number;
   name: string;
-  short: string;
   visibility: boolean;
-  hint: string;
+  hint: { type: string; boss: string };
+  box: boolean;
   entrance?: string;
   checks: Array<Check>;
 };
@@ -61,7 +61,33 @@ export type Locations = {
     category: "overworld" | "dungeons",
     value: string
   ) => void;
+  handleBoxArea: (idArea: number, category: "overworld" | "dungeons") => void;
+  closeBoxArea: (idArea: number, category: "overworld" | "dungeons") => void;
+  handleHintType: (
+    idArea: number,
+    category: "overworld" | "dungeons",
+    type: string,
+    boss?: string
+  ) => void;
 };
+
+export const bosses: string[] = [
+  "None",
+  "Gohma",
+  "King Dodongo",
+  "Barinade",
+  "Ph. Ganon",
+  "Volvagia",
+  "Morpha",
+  "Bongo",
+  "Twinrova",
+];
+
+export const hintTypes = [
+  { name: "Way of the Hero", bosses: bosses },
+  { name: "Foolish" },
+  { name: "Clear" },
+];
 
 export const dungeonsShuffleList: string[] = [
   "",
@@ -83,9 +109,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 0,
       name: "Kokiri Forest",
-      short: "kf",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       checks: [
         {
           id: 0,
@@ -229,9 +255,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 1,
       name: "Lost Woods",
-      short: "lw",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       checks: [
         {
           id: 0,
@@ -375,9 +401,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 2,
       name: "SFM",
-      short: "sf",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       checks: [
         {
           id: 0,
@@ -446,9 +472,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 3,
       name: "Hyrule Field",
-      short: "hf",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       checks: [
         {
           id: 0,
@@ -554,9 +580,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 4,
       name: "Ranch",
-      short: "ra",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       checks: [
         {
           id: 0,
@@ -683,9 +709,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 5,
       name: "Market",
-      short: "ma",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       checks: [
         {
           id: 0,
@@ -924,9 +950,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 6,
       name: "Temple of Time",
-      short: "tot",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       checks: [
         {
           id: 0,
@@ -958,9 +984,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 7,
       name: "Hyrule Castle",
-      short: "hc",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       checks: [
         {
           id: 0,
@@ -980,9 +1006,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 8,
       name: "Outside Gs C",
-      short: "ou",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       checks: [
         {
           id: 0,
@@ -1002,9 +1028,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 9,
       name: "Kakariko",
-      short: "ka",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       checks: [
         {
           id: 0,
@@ -1311,9 +1337,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 10,
       name: "Graveyard",
-      short: "gy",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       checks: [
         {
           id: 0,
@@ -1419,9 +1445,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 11,
       name: "DMT",
-      short: "dmt",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       checks: [
         {
           id: 0,
@@ -1502,9 +1528,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 12,
       name: "Goron city",
-      short: "gc",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       checks: [
         {
           id: 0,
@@ -1698,9 +1724,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 13,
       name: "DMC",
-      short: "dmc",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       checks: [
         {
           id: 0,
@@ -1804,9 +1830,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 14,
       name: "Zoras river",
-      short: "zr",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       checks: [
         {
           id: 0,
@@ -1899,9 +1925,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 15,
       name: "Zoras domain",
-      short: "zd",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       checks: [
         {
           id: 0,
@@ -1997,9 +2023,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 16,
       name: "Zoras fountain",
-      short: "zf",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       checks: [
         {
           id: 0,
@@ -2043,9 +2069,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 17,
       name: "Lake Hylia",
-      short: "lh",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       checks: [
         {
           id: 0,
@@ -2164,9 +2190,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 18,
       name: "Gerudos Valley",
-      short: "gv",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       checks: [
         {
           id: 0,
@@ -2247,9 +2273,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 19,
       name: "Gerudos Fort.",
-      short: "gf",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       checks: [
         {
           id: 0,
@@ -2294,9 +2320,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 20,
       name: "Wasteland",
-      short: "wa",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       checks: [
         {
           id: 0,
@@ -2328,9 +2354,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 21,
       name: "Desert Col.",
-      short: "co",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       checks: [
         {
           id: 0,
@@ -2400,9 +2426,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 0,
       name: "Deku",
-      short: "dek",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       dungeonShuffleInput: "",
       entrance: "deku",
       checks: [
@@ -2543,9 +2569,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 1,
       name: "DC",
-      short: "dc",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       dungeonShuffleInput: "",
       entrance: "dc",
       checks: [
@@ -2748,9 +2774,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 2,
       name: "Jabu",
-      short: "jab",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       dungeonShuffleInput: "",
       entrance: "jabu",
       checks: [
@@ -2869,9 +2895,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 3,
       name: "Forest",
-      short: "for",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       dungeonShuffleInput: "",
       entrance: "forest",
       keysLeft: 5,
@@ -3112,9 +3138,9 @@ export const useLocationsStore = create<Locations>((set) => ({
     {
       id: 4,
       name: "Fire",
-      short: "fir",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       dungeonShuffleInput: "",
       entrance: "fire",
       keysLeft: 8,
@@ -3371,7 +3397,8 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Water",
       short: "wat",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       dungeonShuffleInput: "",
       entrance: "water",
       keysLeft: 6,
@@ -3583,7 +3610,8 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Shadow",
       short: "sha",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       dungeonShuffleInput: "",
       entrance: "shadow",
       keysLeft: 5,
@@ -3875,7 +3903,8 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Spirit",
       short: "spi",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       dungeonShuffleInput: "",
       entrance: "spirit",
       keysLeft: 5,
@@ -4192,7 +4221,8 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Well",
       short: "wel",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       dungeonShuffleInput: "",
       entrance: "well",
       keysLeft: 3,
@@ -4409,7 +4439,8 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Ice Cavern",
       short: "ic",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       dungeonShuffleInput: "",
       entrance: "ice",
       checks: [
@@ -4518,7 +4549,8 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "GTG",
       short: "gtg",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       dungeonShuffleInput: "",
       entrance: "gtg",
       keysLeft: 9,
@@ -4796,7 +4828,8 @@ export const useLocationsStore = create<Locations>((set) => ({
       name: "Ganon's Castle",
       short: "gan",
       visibility: true,
-      hint: "none",
+      hint: { type: "", boss: "" },
+      box: false,
       keysLeft: 2,
       maxKeys: 2,
       checks: [
@@ -5126,6 +5159,47 @@ export const useLocationsStore = create<Locations>((set) => ({
         let check = area?.checks.find((el) => el.id === idCheck);
         if (area && check) {
           check.player = value;
+        }
+      })
+    ),
+  handleBoxArea: (idArea, category) =>
+    set((state) =>
+      produce(state, (draft) => {
+        let area = draft[category].find((el) => el.id === idArea);
+        if (area) {
+          if (area.box) {
+            area.box = false;
+          } else {
+            area.box = true;
+          }
+        }
+      })
+    ),
+  closeBoxArea: (idArea, category) =>
+    set((state) =>
+      produce(state, (draft) => {
+        let area = draft[category].find((el) => el.id === idArea);
+        if (area) {
+          area.box = false;
+        }
+      })
+    ),
+  handleHintType: (idArea, category, type, boss?) =>
+    set((state) =>
+      produce(state, (draft) => {
+        let area = draft[category].find((el) => el.id === idArea);
+        if (area) {
+          if (type === "Way of the Hero" && boss) {
+            area.hint.type = type;
+            area.hint.boss = boss;
+          } else if (type === "Foolish") {
+            area.hint.type = type;
+            area.hint.boss = "";
+          } else if (type === "Clear") {
+            area.hint.type = "";
+            area.hint.boss = "";
+          }
+          area.box = false;
         }
       })
     ),

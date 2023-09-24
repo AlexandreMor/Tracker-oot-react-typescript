@@ -1,24 +1,17 @@
 import React from "react";
 
 export const Tabulation = ({ selectedTab, setSelectedTab }) => {
+  const style = "text-zinc-400 border-b-2 font-semibold border-zinc-400";
   return (
     <nav className="self-center">
       <button
-        className={`py-2 px-3 ${
-          selectedTab === "Overworld"
-            ? "text-blue-500 border-b-2 border-blue-500 font-medium"
-            : ""
-        }`}
+        className={`py-2 px-3 ${selectedTab === "Overworld" ? style : ""}`}
         onClick={() => setSelectedTab("Overworld")}
       >
         Overworld
       </button>
       <button
-        className={`py-2 px-3 ${
-          selectedTab === "Dungeons"
-            ? "text-blue-500 border-b-2 border-blue-500 font-medium"
-            : ""
-        }`}
+        className={`py-2 px-3 ${selectedTab === "Dungeons" ? style : ""}`}
         onClick={() => setSelectedTab("Dungeons")}
       >
         Dungeons
