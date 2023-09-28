@@ -10,6 +10,7 @@ export const Check = ({ check, area, category }) => {
   const handleInputPlayer = useLocationsStore(
     (state) => state.handleInputPlayer
   );
+  const handleHintCheck = useLocationsStore((set) => set.handleHintCheck);
   const { multiworldSetting } = useSettings();
   const colorMap = {
     yes: "text-emerald-400",
@@ -22,17 +23,29 @@ export const Check = ({ check, area, category }) => {
   return (
     <>
       <li
-        className={`2xl:text-sm text-xs lg:font-bold bg-gray-900 odd:bg-gray-800 hover:bg-blue-800 block`}
+        className={`2xl:text-sm text-xs bg-gray-900 odd:bg-gray-800 hover:bg-blue-800 block`}
         onContextMenu={() => handleItemsBox(area.id, check.id, category)}
       >
-        <h3
-          className={`${textColorClass} ${
-            check.checked ? "opacity-50" : "opacity-100"
-          } cursor-pointer py-1 ps-1`}
-          onClick={() => handleCheckOpacity(area.id, check.id, category)}
-        >
-          {check.name}
-        </h3>
+        <div className="flex justify-between 2xl:text-sm text-xs lg:font-bold">
+          <h3
+            className={`${textColorClass} ${
+              check.checked ? "opacity-40" : "opacity-100"
+            } cursor-pointer py-1 ps-1`}
+            onClick={() => handleCheckOpacity(area.id, check.id, category)}
+          >
+            {check.name}
+          </h3>
+          {check.hasOwnProperty("hint") && (
+            <p
+              className={`${
+                !check.hint ? "text-green-500 text-base px-2" : "text-red-500 text-lg px-2.5"
+              } cursor-pointer`}
+              onClick={()=>handleHintCheck(area.id, check.id, category)}
+            >
+              {!check.hint ? "+" : "-"}
+            </p>
+          )}
+        </div>
         {check.item !== "" && (
           <div className="flex">
             <img className="w-1/4" src={check.item} alt={check.name} />

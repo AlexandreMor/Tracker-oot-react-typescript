@@ -16,7 +16,7 @@ export const AsideLeft = () => {
   const tokenClassName = `${imgBaseClassName} + hover:bg-blue-200 place-self-end`;
 
   return (
-    <aside id="aside-left" className="w-22 ms-2">
+    <aside id="aside-left" className="w-22">
       <div id="tracker" className="border rounded-lg">
         <ElementGroup
           elements={items.filter((item) => item.id < 30)}
