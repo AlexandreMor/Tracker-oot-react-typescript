@@ -1,7 +1,7 @@
-import { useLocationsStore } from "../stores/locationsState";
+import { useAreasStore } from "../stores/areasState";
 
 export const useDungeonsEntrance = () => {
-  const dungeons = useLocationsStore((state) => state.dungeons);
+  const dungeons = useAreasStore((state) => state.dungeons);
 
   const dekuEntrance = dungeons[0].entrance;
   const dcEntrance = dungeons[1].entrance;

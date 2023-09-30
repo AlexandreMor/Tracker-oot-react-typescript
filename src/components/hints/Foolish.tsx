@@ -1,10 +1,11 @@
 import React from "react";
+import { Area } from "../../stores/areasState";
 
 type Props = {
-  category: Location[];
+  category: Area[];
 };
 
-export const Foolish = ({ category }) => {
+export const Foolish = ({ category } : Props) => {
   return category
     .filter((area) => area.hint.type === "Foolish")
     .map((area) => {

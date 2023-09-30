@@ -23,12 +23,10 @@ const dungeonsList: Array<string> = [
   "Sprt",
 ];
 
-type Elements = Array<Element>;
-
-type TrackerState = {
-  items: Elements;
-  songs: Elements;
-  dungeons: Elements;
+export type TrackerState = {
+  items: Array<Element>;
+  songs: Array<Element>;
+  dungeons: Array<Element>;
   increment: (id: number, category: "items" | "songs" | "dungeons") => void;
   decrement: (id: number, category: "items" | "songs" | "dungeons") => void;
   changeDungeonNameOnClick: (id: number) => void;

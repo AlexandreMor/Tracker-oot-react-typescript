@@ -1,6 +1,6 @@
 import { useTrackerStore } from "../stores/trackerState";
-import DungeonGroup from "./tracker/DungeonGroup";
-import ElementGroup from "./tracker/ElementGroup";
+import { DungeonGroup } from "./tracker/DungeonGroup";
+import { ElementGroup } from "./tracker/ElementGroup";
 import React from "react";
 import Token from "./tracker/Token";
 import { RandomSpawns } from "./random-spawns/RandomSpawns";

@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { useLocationsStore } from "../../stores/locationsState";
+import { Check, Area, useAreasStore } from "../../stores/areasState";
 import { ItemsBox } from "./ItemsBox";
 import { InputText } from "../InputText";
 import { useSettings } from "../../hooks/useSettings";
 
-export const Check = ({ check, area, category }) => {
-  const handleItemsBox = useLocationsStore((set) => set.handleItemBox);
-  const handleCheckOpacity = useLocationsStore((set) => set.handleCheckOpacity);
-  const handleInputPlayer = useLocationsStore(
+type Props = {
+  check: Check;
+  area: Area;
+  category: "overworld" | "dungeons";
+}
+
+export const Spot = ({ check, area, category }: Props) => {
+  const handleItemsBox = useAreasStore((set) => set.handleItemBox);
+  const handleCheckOpacity = useAreasStore((set) => set.handleCheckOpacity);
+  const handleInputPlayer = useAreasStore(
     (state) => state.handleInputPlayer
   );
-  const handleHintCheck = useLocationsStore((set) => set.handleHintCheck);
+  const handleHintCheck = useAreasStore((set) => set.handleHintCheck);
   const { multiworldSetting } = useSettings();
   const colorMap = {
     yes: "text-emerald-400",
@@ -63,7 +69,7 @@ export const Check = ({ check, area, category }) => {
       {check.box && (
         <ItemsBox
           handleItemsBox={handleItemsBox}
-          check={check}
+          spot={check}
           area={area}
           category={category}
         />

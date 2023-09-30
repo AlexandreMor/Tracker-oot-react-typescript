@@ -1,13 +1,17 @@
 import React from "react";
-import { Area } from "./Area";
-import { useLocationsStore } from "../../stores/locationsState";
+import { Zone } from "./Zone";
+import { useAreasStore } from "../../stores/areasState";
 
-export const Overworld = ({ areasClass }) => {
-  const areas = useLocationsStore((set) => set.overworld);
+type Props = {
+  areasClass : string;
+}
+
+export const Overworld = ({ areasClass }: Props) => {
+  const areas = useAreasStore((set) => set.overworld);
   return (
     <div className={areasClass}>
       {areas.map((area) => {
-        return <Area area={area} key={area.name} category="overworld" />;
+        return <Zone area={area} key={area.name} category="overworld" />;
       })}
     </div>
   );

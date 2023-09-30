@@ -1,27 +1,27 @@
 import React, { useRef, useEffect } from "react";
-import { Check } from "./Check";
+import { Spot } from "./Spot";
 import {
-  Location,
+  Area,
   dungeonsShuffleList,
-  useLocationsStore,
-} from "../../stores/locationsState";
+  useAreasStore,
+} from "../../stores/areasState";
 import { useSettings } from "../../hooks/useSettings";
 import { Select } from "../Select";
 import { HintModal } from "./HintModal";
 
 type Props = {
-  area: Location;
+  area: Area;
   category: "overworld" | "dungeons";
 };
 
-export const Area = ({ area, category }: Props) => {
+export const Zone = ({ area, category }: Props) => {
   const { dungeonsShuffleSetting } = useSettings();
-  const handleDungeonsEntrance = useLocationsStore(
+  const handleDungeonsEntrance = useAreasStore(
     (state) => state.handleDungeonsEntrance
   );
-  const handleVisibility = useLocationsStore((state) => state.handleVisibility);
-  const handleBoxArea = useLocationsStore((state) => state.handleBoxArea);
-  const closeBoxArea = useLocationsStore((state) => state.closeBoxArea);
+  const handleVisibility = useAreasStore((state) => state.handleVisibility);
+  const handleBoxArea = useAreasStore((state) => state.handleBoxArea);
+  const closeBoxArea = useAreasStore((state) => state.closeBoxArea);
   const modalRef = useRef<HTMLUListElement | null>(null);
   const bgColor =
     area.hint.type === "Way of the Hero"
@@ -82,7 +82,7 @@ export const Area = ({ area, category }: Props) => {
       >
         {area.checks.map((check) => {
           return (
-            <Check
+            <Spot
               check={check}
               key={check.name}
               area={area}

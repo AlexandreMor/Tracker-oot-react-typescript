@@ -1,17 +1,17 @@
 import React from "react";
 import {
-  Location,
+  Area,
   hintTypes,
-  useLocationsStore,
-} from "../../stores/locationsState";
+  useAreasStore,
+} from "../../stores/areasState";
 
 type Props = {
-  area: Location;
+  area: Area;
   category: "overworld" | "dungeons";
 };
 
 export const HintModal = ({ area, category }: Props) => {
-  const handleHintType = useLocationsStore((state) => state.handleHintType);
+  const handleHintType = useAreasStore((state) => state.handleHintType);
 
   return (
     <>

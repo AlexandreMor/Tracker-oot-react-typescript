@@ -1,16 +1,31 @@
 import React, { useEffect, useRef } from "react";
 import { useTrackerStore } from "../../stores/trackerState";
-import { useLocationsStore } from "../../stores/locationsState";
+import {
+  Check,
+  Area,
+  useAreasStore,
+} from "../../stores/areasState";
 
-export const ItemsBox = ({ handleItemsBox, check, area, category }) => {
+type Props = {
+  handleItemsBox: (
+    idArea: number,
+    idSpot: number,
+    category: "overworld" | "dungeons"
+  ) => void;
+  spot: Check;
+  area: Area;
+  category: "overworld" | "dungeons";
+};
+
+export const ItemsBox = ({ handleItemsBox, spot, area, category }: Props) => {
   const items = useTrackerStore((set) => set.items);
   const boxRef = useRef<HTMLDivElement>(null);
-  const handleItemCheck = useLocationsStore((set) => set.handleItemCheck);
+  const handleItemCheck = useAreasStore((set) => set.handleItemCheck);
 
   useEffect(() => {
     const handleClickOutside = (event: { target: any }) => {
       if (boxRef.current && !boxRef.current.contains(event.target)) {
-        handleItemsBox(area.id, check.id, category);
+        handleItemsBox(area.id, spot.id, category);
       }
     };
     document.addEventListener("click", handleClickOutside);
@@ -27,7 +42,7 @@ export const ItemsBox = ({ handleItemsBox, check, area, category }) => {
       <div className="flex justify-end me-1">
         <button
           className="bg-stone-900 px-2 py-1 mb-1 font-semibold"
-          onClick={() => handleItemCheck(area.id, check.id, category, "cancel")}
+          onClick={() => handleItemCheck(area.id, spot.id, category, "cancel")}
         >
           X
         </button>
@@ -40,7 +55,7 @@ export const ItemsBox = ({ handleItemsBox, check, area, category }) => {
             alt={item.name}
             key={item.name}
             onClick={() =>
-              handleItemCheck(area.id, check.id, category, item.image[0])
+              handleItemCheck(area.id, spot.id, category, item.image[0])
             }
           />
         ))}

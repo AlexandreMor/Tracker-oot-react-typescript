@@ -1,7 +1,7 @@
 import React from "react";
 import { Element } from "../../stores/trackerState";
 
-function Image(props: {
+type Props = {
   className: string;
   element: Element;
   incrementElement: (
@@ -14,28 +14,34 @@ function Image(props: {
   ) => void;
   id: number;
   category: "items" | "songs" | "dungeons";
-}) {
+};
 
-  const handleItemsClass = (element : Element) : string => {
+export const Image = ({
+  className,
+  element,
+  incrementElement,
+  decrementElement,
+  id,
+  category,
+}: Props) => {
+  const handleItemsClass = (element: Element): string => {
     if (element.inPossession !== 0) {
-      return `${props.className}`;
+      return `${className}`;
     }
-    return `${props.className} opacity-50 grayscale`;
+    return `${className} opacity-50 grayscale`;
   };
 
   return (
     <img
-      className={handleItemsClass(props.element)}
+      className={handleItemsClass(element)}
       src={
-        props.element.inPossession > 0 && props.element.id !== 30
-          ? props.element.image[props.element.inPossession - 1]
-          : props.element.image[0]
+        element.inPossession > 0 && element.id !== 30
+          ? element.image[element.inPossession - 1]
+          : element.image[0]
       }
-      alt={props.element.name}
-      onClick={() => props.incrementElement(props.id, props.category)}
-      onContextMenu={() => props.decrementElement(props.id, props.category)}
+      alt={element.name}
+      onClick={() => incrementElement(id, category)}
+      onContextMenu={() => decrementElement(id, category)}
     />
   );
-}
-
-export default Image;
+};

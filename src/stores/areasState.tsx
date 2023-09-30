@@ -15,7 +15,7 @@ export type Check = {
   item: string;
 };
 
-export type Location = {
+export type Area = {
   id: number;
   name: string;
   visibility: boolean;
@@ -25,9 +25,9 @@ export type Location = {
   checks: Array<Check>;
 };
 
-export type Locations = {
-  overworld: Array<Location>;
-  dungeons: Array<Location>;
+export type Areas = {
+  overworld: Array<Area>;
+  dungeons: Array<Area>;
   handleItemBox: (
     idArea: number,
     idCheck: number,
@@ -109,7 +109,7 @@ export const dungeonsShuffleList: string[] = [
   "GTG",
 ];
 
-export const useLocationsStore = create<Locations>((set) => ({
+export const useAreasStore = create<Areas>((set) => ({
   overworld: [
     {
       id: 0,

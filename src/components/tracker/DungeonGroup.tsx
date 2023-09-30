@@ -1,8 +1,14 @@
 import React from "react";
-import Dungeon from "./Dungeon";
+import { Dungeon } from "./Dungeon";
 import { Element } from "../../stores/trackerState";
 
-export default function DungeonGroup({ dungeons, className, category }) {
+type Props = {
+  dungeons: Element[];
+  className: string;
+  category: "medallions" | "stones";
+};
+
+export const DungeonGroup = ({ dungeons, className, category }: Props) => {
   const classNameDungeons = (category: "stones" | "medallions"): string => {
     if (category === "stones") {
       return "grid grid-cols-3 justify-items-center items-center bg-stone-400 ps-1";
@@ -12,9 +18,9 @@ export default function DungeonGroup({ dungeons, className, category }) {
 
   return (
     <div className={classNameDungeons(category)}>
-      {dungeons.map((dungeon: Element) => (
+      {dungeons.map((dungeon) => (
         <Dungeon dungeon={dungeon} key={dungeon.name} className={className} />
       ))}
     </div>
   );
-}
+};

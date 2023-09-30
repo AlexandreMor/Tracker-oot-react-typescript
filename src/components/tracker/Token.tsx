@@ -1,8 +1,13 @@
 import React from "react";
-import Image from "./Image";
-import { useTrackerStore } from "../../stores/trackerState";
+import {Image} from "./Image";
+import { Element, useTrackerStore } from "../../stores/trackerState";
 
-function Token({ className, items }) {
+type Props = {
+  className:string;
+  items: Element[];
+}
+
+function Token({ className, items }: Props) {
   const incrementElement = useTrackerStore((set) => set.increment);
   const decrementElement = useTrackerStore((set) => set.decrement);
   return (

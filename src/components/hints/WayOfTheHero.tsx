@@ -1,11 +1,12 @@
 import React from "react";
 import { ImageHint } from "./ImageHint";
+import { Area } from "../../stores/areasState";
 
 type Props = {
-  category: Array<Location>;
+  category: Array<Area>;
 };
 
-export const WayOfTheHero = ({ category }) => {
+export const WayOfTheHero = ({ category }: Props) => {
   return category
     .filter((area) => area.hint.type === "Way of the Hero")
     .map((area) => {

@@ -1,7 +1,12 @@
 import React from "react";
 import { ImageHint } from "./ImageHint";
+import { Area } from "../../stores/areasState";
 
-export const OtherHints = ({ category }) => {
+type Props = {
+  category: Area[];
+};
+
+export const OtherHints = ({ category }: Props) => {
   return category.map((area) => {
     return area.checks.map((check) => {
       if (check.hint !== undefined && check.hint === true) {

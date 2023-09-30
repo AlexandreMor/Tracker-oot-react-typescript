@@ -1,13 +1,22 @@
 import React from "react";
-import Image from "./Image";
-import { useTrackerStore } from "../../stores/trackerState";
+import {Image} from "./Image";
+import { Element, useTrackerStore } from "../../stores/trackerState";
 
-export default function Dungeon({ dungeon, className }) {
+type Props = {
+  dungeon: Element;
+  className: string;
+};
+
+export const Dungeon = ({ dungeon, className }: Props) => {
   const incrementElement = useTrackerStore((set) => set.increment);
   const decrementElement = useTrackerStore((set) => set.decrement);
-  const changeDungeonNameOnClick = useTrackerStore((set) => set.changeDungeonNameOnClick);
-  const changeDungeonNameOnContextMenu = useTrackerStore((set) => set.changeDungeonNameOnContextMenu);
-  
+  const changeDungeonNameOnClick = useTrackerStore(
+    (set) => set.changeDungeonNameOnClick
+  );
+  const changeDungeonNameOnContextMenu = useTrackerStore(
+    (set) => set.changeDungeonNameOnContextMenu
+  );
+
   return (
     <div key={dungeon.name} className="flex flex-col content-center">
       <Image
@@ -18,8 +27,14 @@ export default function Dungeon({ dungeon, className }) {
         id={dungeon.id}
         category="dungeons"
       />
-      <span className="text-sm text-black font-bold tracking-tight -mt-1 text-center" onClick={()=>changeDungeonNameOnClick(dungeon.id)} onContextMenu={()=>changeDungeonNameOnContextMenu(dungeon.id)}>
-        {dungeon.dungeonNames[dungeon.clickCount]}
+      <span
+        className="text-sm text-black font-bold tracking-tight -mt-1 text-center"
+        onClick={() => changeDungeonNameOnClick(dungeon.id)}
+        onContextMenu={() => changeDungeonNameOnContextMenu(dungeon.id)}
+      >
+        {dungeon.dungeonNames &&
+          dungeon.clickCount &&
+          dungeon.dungeonNames[dungeon.clickCount]}
       </span>
     </div>
   );

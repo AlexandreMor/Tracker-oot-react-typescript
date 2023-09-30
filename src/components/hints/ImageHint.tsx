@@ -1,6 +1,11 @@
 import React from "react";
+import { Check } from "../../stores/areasState";
 
-export const ImageHint = ({ check }) => {
+type Props = {
+  check : Check;
+}
+
+export const ImageHint = ({ check }: Props) => {
   return (
     <>
       <img
