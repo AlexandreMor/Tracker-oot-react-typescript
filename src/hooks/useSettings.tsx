@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useSettingsStore } from "../stores/settingsState";
 
 export const useSettings = () => {

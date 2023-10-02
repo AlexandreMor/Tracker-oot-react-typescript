@@ -21,7 +21,12 @@ export type Area = {
   visibility: boolean;
   hint: { type: string; boss: string };
   box: boolean;
+  dungeonShuffleInput?: string;
   entrance?: string;
+  keysLeft?: number;
+  maxKeys?: number;
+  bossKeyLeft?: number;
+  maxBossKey?: number;
   checks: Array<Check>;
 };
 
@@ -74,6 +79,8 @@ export type Areas = {
     type: string,
     boss?: string
   ) => void;
+  incrementKeys: (idArea: number, keyType: string) => void;
+  decrementKeys: (idArea: number, keyType: string) => void;
 };
 
 export const bosses: string[] = [
@@ -1058,7 +1065,7 @@ export const useAreasStore = create<Areas>((set) => ({
           song: true,
           checked: false,
           player: "",
-          hint: false,
+          hint: true,
           setting: "none",
           visibility: true,
           box: false,
@@ -5167,7 +5174,7 @@ export const useAreasStore = create<Areas>((set) => ({
         }
       })
     ),
-    handleHintCheck: (idArea, idCheck, category) =>
+  handleHintCheck: (idArea, idCheck, category) =>
     set((state) =>
       produce(state, (draft) => {
         let area = draft[category].find((el) => el.id === idArea);
@@ -5229,6 +5236,54 @@ export const useAreasStore = create<Areas>((set) => ({
             area.hint.boss = "";
           }
           area.box = false;
+        }
+      })
+    ),
+  decrementKeys: (idArea, keyType) =>
+    set((state) =>
+      produce(state, (draft) => {
+        let area = draft["dungeons"].find((el) => el.id === idArea);
+        if (area) {
+          if (keyType === "small key") {
+            if (area.keysLeft !== undefined && area.maxKeys !== undefined) {
+              if (area.keysLeft > 0) {
+                area.keysLeft = area.keysLeft - 1;
+              }
+            }
+          } else if (keyType === "boss key") {
+            if (
+              area.bossKeyLeft !== undefined &&
+              area.maxBossKey !== undefined
+            ) {
+              if (area.bossKeyLeft > 0) {
+                area.bossKeyLeft = area.bossKeyLeft - 1;
+              }
+            }
+          }
+        }
+      })
+    ),
+  incrementKeys: (idArea, keyType) =>
+    set((state) =>
+      produce(state, (draft) => {
+        let area = draft["dungeons"].find((el) => el.id === idArea);
+        if (area) {
+          if (keyType === "small key") {
+            if (area.keysLeft !== undefined && area.maxKeys !== undefined) {
+              if (area.keysLeft < area.maxKeys) {
+                area.keysLeft = area.keysLeft + 1;
+              }
+            }
+          } else if (keyType === "boss key") {
+            if (
+              area.bossKeyLeft !== undefined &&
+              area.maxBossKey !== undefined
+            ) {
+              if (area.bossKeyLeft < area.maxBossKey) {
+                area.bossKeyLeft = area.bossKeyLeft + 1;
+              }
+            }
+          }
         }
       })
     ),

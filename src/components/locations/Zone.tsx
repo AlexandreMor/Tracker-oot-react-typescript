@@ -8,6 +8,8 @@ import {
 import { useSettings } from "../../hooks/useSettings";
 import { Select } from "../Select";
 import { HintModal } from "./HintModal";
+import { useTrackerStore } from "../../stores/trackerState";
+import { Keys } from "./Keys";
 
 type Props = {
   area: Area;
@@ -22,6 +24,7 @@ export const Zone = ({ area, category }: Props) => {
   const handleVisibility = useAreasStore((state) => state.handleVisibility);
   const handleBoxArea = useAreasStore((state) => state.handleBoxArea);
   const closeBoxArea = useAreasStore((state) => state.closeBoxArea);
+
   const modalRef = useRef<HTMLUListElement | null>(null);
   const bgColor =
     area.hint.type === "Way of the Hero"
@@ -33,7 +36,7 @@ export const Zone = ({ area, category }: Props) => {
   useEffect(() => {
     const handleClickOutside = (event: { target: any }) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
-          closeBoxArea(area.id, category);
+        closeBoxArea(area.id, category);
       }
     };
     document.addEventListener("click", handleClickOutside);
@@ -44,7 +47,7 @@ export const Zone = ({ area, category }: Props) => {
 
   return (
     <div
-      className={`mt-2 mx-2 pb-1.5 content-center ${bgColor} border rounded-t-lg rounded-b-lg tracking-tight`}
+      className={`mt-2 mx-2 pb-1.5 content-center ${bgColor} border rounded-t-lg rounded-b-lg tracking-tight block`}
     >
       <h1
         className="2xl:text-base cursor-pointer text-sm pb-1 font-bold text-center tracking-tight"
@@ -53,6 +56,7 @@ export const Zone = ({ area, category }: Props) => {
       >
         {area.name}
       </h1>
+      {category === "dungeons" && <Keys area={area} />}
       {area.hint.boss && area.hint.boss !== "None" && (
         <h3 className="font-semibold text-center text-base py-0">
           {area.hint.boss}

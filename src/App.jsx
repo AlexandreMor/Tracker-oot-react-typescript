@@ -12,7 +12,10 @@ export const App = () => {
   };
 
   const Home = lazyLoad("./components/Home", "Home");
-  const Settings = lazyLoad("./components/tracker-settings/SettingsComp", "SettingsComp");
+  const Settings = lazyLoad(
+    "./components/tracker-settings/SettingsComp",
+    "SettingsComp"
+  );
 
   return (
     <>
@@ -26,7 +29,11 @@ export const App = () => {
       >
         <Navbar />
         <main className="mt-2">
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense
+            fallback={
+              <div className="flex justify-center items-center">Loading...</div>
+            }
+          >
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/settings" element={<Settings />} />
