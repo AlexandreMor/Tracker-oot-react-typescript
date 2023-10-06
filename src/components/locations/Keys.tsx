@@ -8,19 +8,23 @@ export const Keys = ({ area }) => {
   const decrementKeys = useAreasStore((state) => state.decrementKeys);
   const incrementKeys = useAreasStore((state) => state.incrementKeys);
 
+  const divClass = "flex flex-col cursor-pointer";
+  const imgClass="w-7 h-7";
+  const spanClass="-mt-4 rounded-full self-center px-1 bg-blue-800 text-sm"
+
   return (
     <div id="dungeons-keys" className="flex justify-center">
       {area.hasOwnProperty("keysLeft") && (
         <div
           id="small_keys"
-          className="flex flex-col cursor-pointer"
+          className={divClass}
           onClick={() => decrementKeys(area.id, "small key")}
           onContextMenu={() => incrementKeys(area.id, "small key")}
         >
-          <img src={key} alt="keys" className="w-7 h-7" />
+          <img src={key} alt="keys" className={imgClass} />
           <span
             id="small_key_number"
-            className="-mt-4 rounded-full self-center px-1 bg-zinc-800 text-sm"
+            className={spanClass}
           >
             {area.keysLeft}
           </span>
@@ -29,14 +33,14 @@ export const Keys = ({ area }) => {
       {area.hasOwnProperty("bossKeyLeft") && (
         <div
           id="boss_key"
-          className="flex flex-col cursor-pointer"
+          className={divClass}
           onClick={() => decrementKeys(area.id, "boss key")}
           onContextMenu={() => incrementKeys(area.id, "boss key")}
         >
-          <img src={bossKey} alt="boss_key" className="w-7 h-7" />
+          <img src={bossKey} alt="boss_key" className={imgClass} />
           <span
             id="boss_key_number"
-            className="-mt-4 rounded-full self-center px-1 bg-zinc-800 text-sm"
+            className={spanClass}
           >
             {area.bossKeyLeft}
           </span>

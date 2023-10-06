@@ -9,7 +9,7 @@ export const AsideRight = () => {
   const dungeons = useAreasStore((set) => set.dungeons);
 
   return (
-    <section className="lg:w-90 w-1/12 flex flex-col items-start text-xs lg:text-base border rounded-t-lg rounded-b-lg bg-gray-800 ps-1">
+    <section className="lg:w-90 w-fit h-fit flex flex-col items-start text-xs lg:text-base border rounded-t-lg rounded-b-lg bg-gray-800 ps-1 py-1">
       <WayOfTheHero category={overworld} />
       <WayOfTheHero category={dungeons} />
       <Foolish category={overworld} />

@@ -1,9 +1,9 @@
 import React from "react";
 import {Image} from "./Image";
-import { Element, useTrackerStore } from "../../stores/trackerState";
+import { Temple, useTrackerStore } from "../../stores/trackerState";
 
 type Props = {
-  dungeon: Element;
+  dungeon: Temple;
   className: string;
 };
 
@@ -33,7 +33,7 @@ export const Dungeon = ({ dungeon, className }: Props) => {
         onContextMenu={() => changeDungeonNameOnContextMenu(dungeon.id)}
       >
         {dungeon.dungeonNames &&
-          dungeon.clickCount &&
+          dungeon.clickCount !== undefined &&
           dungeon.dungeonNames[dungeon.clickCount]}
       </span>
     </div>

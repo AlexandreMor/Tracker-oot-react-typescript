@@ -4,9 +4,10 @@ import { produce } from "immer";
 export type Check = {
   id: number;
   name: string;
-  reachable: string;
+  reachable: boolean;
   checked: boolean;
   player: string;
+  rupee?: string;
   hint?: boolean;
   setting: string;
   visibility: boolean;
@@ -19,7 +20,7 @@ export type Area = {
   id: number;
   name: string;
   visibility: boolean;
-  hint: { type: string; boss: string };
+  hint: { type: string; boss: string; player: string };
   box: boolean;
   dungeonShuffleInput?: string;
   entrance?: string;
@@ -48,10 +49,10 @@ export type Areas = {
     idArea: number,
     idCheck: number,
     category: "overworld" | "dungeons",
-    reachable: "yes" | "out of logic" | "can be seen" | "no"
+    reachable: boolean,
   ) => void;
   handleDungeonsEntrance: (idArea: number, entrance: string) => void;
-  handleVisibility: (
+  handleAreaVisibility: (
     idArea: number,
     category: "overworld" | "dungeons"
   ) => void;
@@ -71,14 +72,26 @@ export type Areas = {
     category: "overworld" | "dungeons",
     value: string
   ) => void;
+  handleInputRupee: (
+    idArea: number,
+    idCheck: number,
+    category: "overworld" | "dungeons",
+    value: string
+  ) => void;
   handleBoxArea: (idArea: number, category: "overworld" | "dungeons") => void;
   closeBoxArea: (idArea: number, category: "overworld" | "dungeons") => void;
+  handleAreaPlayer: (
+    idArea: number,
+    category: "overworld" | "dungeons",
+    value: string
+  ) => void;
   handleHintType: (
     idArea: number,
     category: "overworld" | "dungeons",
     type: string,
     boss?: string
   ) => void;
+  handleCheckVisibility: (filterName: string, settingValue: string) => void;
   incrementKeys: (idArea: number, keyType: string) => void;
   decrementKeys: (idArea: number, keyType: string) => void;
 };
@@ -122,13 +135,13 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 0,
       name: "Kokiri Forest",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       checks: [
         {
           id: 0,
           name: "Mido 1",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           setting: "none",
@@ -140,7 +153,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Mido 2",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           setting: "none",
@@ -152,7 +165,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Mido 3",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           setting: "none",
@@ -164,7 +177,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Mido 4",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           setting: "none",
@@ -176,7 +189,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "K.Sword",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           setting: "none",
@@ -188,7 +201,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "SoS gr.",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -200,7 +213,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 6,
           name: "Link's Cow",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -213,7 +226,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 7,
           name: "Shop 1",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           rupee: "",
@@ -226,7 +239,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 8,
           name: "Shop 2",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           rupee: "",
@@ -239,7 +252,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 9,
           name: "Shop 3",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           rupee: "",
@@ -252,7 +265,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 10,
           name: "Shop 4",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           rupee: "",
@@ -268,13 +281,13 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 1,
       name: "Lost Woods",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       checks: [
         {
           id: 0,
           name: "Skll Kid",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -287,7 +300,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Fr. Scrub",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           setting: "none",
@@ -299,7 +312,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Target",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -312,7 +325,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Oca. game",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -324,7 +337,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Grotto",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -336,7 +349,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "Skll Mask",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           hint: true,
@@ -350,7 +363,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 6,
           name: "L.Scrub theater",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -363,7 +376,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 7,
           name: "R.Scrub theater",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -376,7 +389,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 8,
           name: "L.Scrub gr.",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -388,7 +401,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 9,
           name: "R.Scrub gr.",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -400,7 +413,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 10,
           name: "Ocarina",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "shuffle ocarina",
@@ -415,13 +428,13 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 2,
       name: "SFM",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       checks: [
         {
           id: 0,
           name: "Saria",
-          reachable: "yes",
+          reachable: true,
           song: true,
           checked: false,
           player: "",
@@ -434,7 +447,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Minuet",
-          reachable: "no",
+          reachable: false,
           song: true,
           checked: false,
           player: "",
@@ -447,7 +460,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Wolfos gr.",
-          reachable: "no",
+          reachable: false,
           song: false,
           checked: false,
           player: "",
@@ -459,7 +472,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Scrub sos 1",
-          reachable: "no",
+          reachable: false,
           song: false,
           checked: false,
           player: "",
@@ -471,7 +484,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Scrub sos 2",
-          reachable: "no",
+          reachable: false,
           song: false,
           checked: false,
           player: "",
@@ -486,13 +499,13 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 3,
       name: "Hyrule Field",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       checks: [
         {
           id: 0,
           name: "SoT",
-          reachable: "no",
+          reachable: false,
           song: true,
           checked: false,
           player: "",
@@ -506,7 +519,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Open gr.",
-          reachable: "yes",
+          reachable: true,
           song: false,
           checked: false,
           player: "",
@@ -518,7 +531,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Remote",
-          reachable: "no",
+          reachable: false,
           song: false,
           checked: false,
           player: "",
@@ -530,7 +543,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Scrub",
-          reachable: "no",
+          reachable: false,
           song: false,
           checked: false,
           player: "",
@@ -542,7 +555,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Boulda",
-          reachable: "no",
+          reachable: false,
           song: false,
           checked: false,
           player: "",
@@ -554,7 +567,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "Tektile",
-          reachable: "no",
+          reachable: false,
           song: false,
           checked: false,
           player: "",
@@ -566,7 +579,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 6,
           name: "Cow",
-          reachable: "no",
+          reachable: false,
           song: false,
           checked: false,
           player: "",
@@ -579,7 +592,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 7,
           name: "OoT",
-          reachable: "no",
+          reachable: false,
           song: false,
           checked: false,
           player: "",
@@ -595,13 +608,13 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 4,
       name: "Ranch",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       checks: [
         {
           id: 0,
           name: "Epona",
-          reachable: "no",
+          reachable: false,
           song: true,
           checked: false,
           player: "",
@@ -613,7 +626,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Cow 1",
-          reachable: "no",
+          reachable: false,
           song: false,
           checked: false,
           player: "",
@@ -625,7 +638,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Cow 2",
-          reachable: "no",
+          reachable: false,
           song: false,
           checked: false,
           player: "",
@@ -637,7 +650,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Talon",
-          reachable: "yes",
+          reachable: true,
           song: false,
           checked: false,
           player: "",
@@ -649,7 +662,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Freest.",
-          reachable: "yes",
+          reachable: true,
           song: false,
           checked: false,
           player: "",
@@ -661,7 +674,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "Cow 4",
-          reachable: "no",
+          reachable: false,
           song: false,
           checked: false,
           player: "",
@@ -673,7 +686,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 6,
           name: "Cow 5",
-          reachable: "no",
+          reachable: false,
           song: false,
           checked: false,
           player: "",
@@ -685,7 +698,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 7,
           name: "Scrub 1",
-          reachable: "yes",
+          reachable: true,
           song: false,
           checked: false,
           player: "",
@@ -697,7 +710,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 8,
           name: "Scrub 2",
-          reachable: "yes",
+          reachable: true,
           song: false,
           checked: false,
           player: "",
@@ -709,7 +722,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 9,
           name: "Scrub 3",
-          reachable: "yes",
+          reachable: true,
           song: false,
           checked: false,
           player: "",
@@ -724,13 +737,13 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 5,
       name: "Market",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       checks: [
         {
           id: 0,
           name: "Sling MG",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           setting: "none",
@@ -742,7 +755,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Kiki",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           setting: "none",
@@ -754,7 +767,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Bowling 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -767,7 +780,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Bowling 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -780,7 +793,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "CMG",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -793,7 +806,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "Big poe",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -806,7 +819,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 6,
           name: "Bazaar 1",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           rupee: "",
@@ -819,7 +832,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 7,
           name: "Bazaar 2",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           rupee: "",
@@ -832,7 +845,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 8,
           name: "Bazaar 3",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           rupee: "",
@@ -845,7 +858,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 9,
           name: "Bazaar 4",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           rupee: "",
@@ -858,7 +871,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 10,
           name: "Potion 1",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           rupee: "",
@@ -871,7 +884,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 11,
           name: "Potion 2",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           rupee: "",
@@ -884,7 +897,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 12,
           name: "Potion 3",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           rupee: "",
@@ -897,7 +910,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 13,
           name: "Potion 4",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           rupee: "",
@@ -910,7 +923,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 14,
           name: "Chu shop 1",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           rupee: "",
@@ -923,7 +936,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 15,
           name: "Chu shop 2",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           rupee: "",
@@ -936,7 +949,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 16,
           name: "Chu shop 3",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           rupee: "",
@@ -949,7 +962,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 17,
           name: "Chu shop 4",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           rupee: "",
@@ -965,13 +978,13 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 6,
       name: "ToT",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       checks: [
         {
           id: 0,
           name: "Prelude",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -984,7 +997,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Light arr.",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -999,13 +1012,13 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 7,
       name: "Hyrule Castle",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       checks: [
         {
           id: 0,
           name: "Dins Fairy",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -1021,13 +1034,13 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 8,
       name: "Outside GC",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       checks: [
         {
           id: 0,
           name: "DD Fairy",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -1043,13 +1056,13 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 9,
       name: "Kakariko",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       checks: [
         {
           id: 0,
           name: "SoS",
-          reachable: "no",
+          reachable: false,
           song: true,
           checked: false,
           player: "",
@@ -1061,7 +1074,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Nocturne",
-          reachable: "no",
+          reachable: false,
           song: true,
           checked: false,
           player: "",
@@ -1074,7 +1087,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Cuccos",
-          reachable: "yes",
+          reachable: true,
           song: false,
           checked: false,
           player: "",
@@ -1087,7 +1100,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Lazy dude",
-          reachable: "yes",
+          reachable: true,
           song: false,
           checked: false,
           player: "",
@@ -1098,20 +1111,21 @@ export const useAreasStore = create<Areas>((set) => ({
         },
         {
           id: 4,
-          name: "Free gr.",
-          reachable: "yes",
+          name: "Witch",
+          reachable: false,
           song: false,
           checked: false,
           player: "",
-          setting: "none",
-          visibility: true,
+          rupee: "",
+          setting: "shuffle merchants",
+          visibility: false,
           box: false,
           item: "",
         },
         {
           id: 5,
-          name: "Windmill",
-          reachable: "yes",
+          name: "Free gr.",
+          reachable: true,
           song: false,
           checked: false,
           player: "",
@@ -1122,8 +1136,8 @@ export const useAreasStore = create<Areas>((set) => ({
         },
         {
           id: 6,
-          name: "Archrie",
-          reachable: "no",
+          name: "Windmill",
+          reachable: true,
           song: false,
           checked: false,
           player: "",
@@ -1134,8 +1148,8 @@ export const useAreasStore = create<Areas>((set) => ({
         },
         {
           id: 7,
-          name: "Anju",
-          reachable: "yes",
+          name: "Archrie",
+          reachable: false,
           song: false,
           checked: false,
           player: "",
@@ -1146,8 +1160,8 @@ export const useAreasStore = create<Areas>((set) => ({
         },
         {
           id: 8,
-          name: "Cow PoH",
-          reachable: "yes",
+          name: "Anju",
+          reachable: true,
           song: false,
           checked: false,
           player: "",
@@ -1158,20 +1172,8 @@ export const useAreasStore = create<Areas>((set) => ({
         },
         {
           id: 9,
-          name: "Cow",
-          reachable: "yes",
-          song: false,
-          checked: false,
-          player: "",
-          setting: "cowsanity",
-          visibility: false,
-          box: false,
-          item: "",
-        },
-        {
-          id: 10,
-          name: "Redead gr.",
-          reachable: "no",
+          name: "Cow PoH",
+          reachable: true,
           song: false,
           checked: false,
           player: "",
@@ -1181,9 +1183,21 @@ export const useAreasStore = create<Areas>((set) => ({
           item: "",
         },
         {
+          id: 10,
+          name: "Cow",
+          reachable: true,
+          song: false,
+          checked: false,
+          player: "",
+          setting: "cowsanity",
+          visibility: false,
+          box: false,
+          item: "",
+        },
+        {
           id: 11,
-          name: "10s",
-          reachable: "no",
+          name: "Redead gr.",
+          reachable: false,
           song: false,
           checked: false,
           player: "",
@@ -1194,8 +1208,20 @@ export const useAreasStore = create<Areas>((set) => ({
         },
         {
           id: 12,
+          name: "10s",
+          reachable: false,
+          song: false,
+          checked: false,
+          player: "",
+          setting: "none",
+          visibility: true,
+          box: false,
+          item: "",
+        },
+        {
+          id: 13,
           name: "20s",
-          reachable: "no",
+          reachable: false,
           song: false,
           checked: false,
           player: "",
@@ -1206,23 +1232,9 @@ export const useAreasStore = create<Areas>((set) => ({
           item: "",
         },
         {
-          id: 13,
-          name: "30s",
-          reachable: "no",
-          song: false,
-          checked: false,
-          player: "",
-          hint: true,
-          setting: "none",
-          visibility: true,
-          box: false,
-          hintBox: false,
-          item: "",
-        },
-        {
           id: 14,
-          name: "40s",
-          reachable: "no",
+          name: "30s",
+          reachable: false,
           song: false,
           checked: false,
           player: "",
@@ -1235,8 +1247,8 @@ export const useAreasStore = create<Areas>((set) => ({
         },
         {
           id: 15,
-          name: "50s",
-          reachable: "no",
+          name: "40s",
+          reachable: false,
           song: false,
           checked: false,
           player: "",
@@ -1249,21 +1261,22 @@ export const useAreasStore = create<Areas>((set) => ({
         },
         {
           id: 16,
-          name: "Bazaar 1",
-          reachable: "yes",
+          name: "50s",
+          reachable: false,
           song: false,
           checked: false,
           player: "",
-          rupee: "",
-          setting: "shopsanity",
-          visibility: false,
+          hint: true,
+          setting: "none",
+          visibility: true,
           box: false,
+          hintBox: false,
           item: "",
         },
         {
           id: 17,
-          name: "Bazaar 2",
-          reachable: "yes",
+          name: "Bazaar 1",
+          reachable: true,
           song: false,
           checked: false,
           player: "",
@@ -1275,8 +1288,8 @@ export const useAreasStore = create<Areas>((set) => ({
         },
         {
           id: 18,
-          name: "Bazaar 3",
-          reachable: "yes",
+          name: "Bazaar 2",
+          reachable: true,
           song: false,
           checked: false,
           player: "",
@@ -1288,8 +1301,8 @@ export const useAreasStore = create<Areas>((set) => ({
         },
         {
           id: 19,
-          name: "Bazaar 4",
-          reachable: "yes",
+          name: "Bazaar 3",
+          reachable: true,
           song: false,
           checked: false,
           player: "",
@@ -1301,8 +1314,8 @@ export const useAreasStore = create<Areas>((set) => ({
         },
         {
           id: 20,
-          name: "Potion 1",
-          reachable: "yes",
+          name: "Bazaar 4",
+          reachable: true,
           song: false,
           checked: false,
           player: "",
@@ -1314,8 +1327,8 @@ export const useAreasStore = create<Areas>((set) => ({
         },
         {
           id: 21,
-          name: "Potion 2",
-          reachable: "yes",
+          name: "Potion 1",
+          reachable: true,
           song: false,
           checked: false,
           player: "",
@@ -1327,8 +1340,8 @@ export const useAreasStore = create<Areas>((set) => ({
         },
         {
           id: 22,
-          name: "Potion 3",
-          reachable: "yes",
+          name: "Potion 2",
+          reachable: true,
           song: false,
           checked: false,
           player: "",
@@ -1340,8 +1353,21 @@ export const useAreasStore = create<Areas>((set) => ({
         },
         {
           id: 23,
+          name: "Potion 3",
+          reachable: true,
+          song: false,
+          checked: false,
+          player: "",
+          rupee: "",
+          setting: "shopsanity",
+          visibility: false,
+          box: false,
+          item: "",
+        },
+        {
+          id: 24,
           name: "Potion 4",
-          reachable: "yes",
+          reachable: true,
           song: false,
           checked: false,
           player: "",
@@ -1357,13 +1383,13 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 10,
       name: "Graveyard",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       checks: [
         {
           id: 0,
           name: "Sun song",
-          reachable: "no",
+          reachable: false,
           song: true,
           checked: false,
           player: "",
@@ -1376,7 +1402,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Free tomb",
-          reachable: "yes",
+          reachable: true,
           song: false,
           checked: false,
           player: "",
@@ -1388,7 +1414,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Dampe tour",
-          reachable: "yes",
+          reachable: true,
           song: false,
           checked: false,
           player: "",
@@ -1400,7 +1426,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Item box",
-          reachable: "can be seen",
+          reachable: false,
           song: false,
           checked: false,
           player: "",
@@ -1412,7 +1438,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Race 1",
-          reachable: "yes",
+          reachable: true,
           song: false,
           checked: false,
           player: "",
@@ -1424,7 +1450,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "Race 2",
-          reachable: "yes",
+          reachable: true,
           song: false,
           checked: false,
           player: "",
@@ -1436,7 +1462,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 6,
           name: "Play. Sun",
-          reachable: "no",
+          reachable: false,
           song: false,
           checked: false,
           player: "",
@@ -1449,7 +1475,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 7,
           name: "Royal torch.",
-          reachable: "no",
+          reachable: false,
           song: false,
           checked: false,
           player: "",
@@ -1465,13 +1491,13 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 11,
       name: "DMT",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       checks: [
         {
           id: 0,
           name: "Free HP",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           setting: "none",
@@ -1483,7 +1509,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Wall",
-          reachable: "can be seen",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -1495,7 +1521,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Sos gr.",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -1507,7 +1533,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Fairy",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -1519,7 +1545,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Biggoron",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: true,
@@ -1533,7 +1559,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "Cow",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "cowsanity",
@@ -1549,13 +1575,13 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 12,
       name: "Goron city",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       checks: [
         {
           id: 0,
           name: "Big roll.",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -1567,7 +1593,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Darunia",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -1580,7 +1606,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Pot",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -1593,7 +1619,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Link",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -1605,7 +1631,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "R. Maze 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -1617,7 +1643,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "R. Maze 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -1629,7 +1655,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 6,
           name: "L. Maze",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -1642,7 +1668,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 7,
           name: "Scrub 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -1654,7 +1680,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 8,
           name: "Scrub 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -1666,7 +1692,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 9,
           name: "Scrub 3",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -1678,7 +1704,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 10,
           name: "Shop 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           rupee: "",
@@ -1691,7 +1717,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 11,
           name: "Shop 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           rupee: "",
@@ -1704,7 +1730,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 12,
           name: "Shop 3",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           rupee: "",
@@ -1717,7 +1743,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 13,
           name: "Shop 4",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           rupee: "",
@@ -1730,10 +1756,10 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 14,
           name: "Medigoron",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
-          setting: "medigoron & carpet salesman",
+          setting: "shuffle merchants",
           visibility: false,
           song: false,
           box: false,
@@ -1745,13 +1771,13 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 13,
       name: "DMC",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       checks: [
         {
           id: 0,
           name: "Bolero",
-          reachable: "no",
+          reachable: false,
           song: true,
           checked: false,
           player: "",
@@ -1764,7 +1790,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Crater HP",
-          reachable: "can be seen",
+          reachable: false,
           song: true,
           checked: false,
           player: "",
@@ -1776,7 +1802,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Wall HP",
-          reachable: "no",
+          reachable: false,
           song: true,
           checked: false,
           player: "",
@@ -1788,7 +1814,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Fairy",
-          reachable: "no",
+          reachable: false,
           song: true,
           checked: false,
           player: "",
@@ -1800,7 +1826,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Grotto",
-          reachable: "no",
+          reachable: false,
           song: true,
           checked: false,
           player: "",
@@ -1812,7 +1838,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "Scrub 1",
-          reachable: "no",
+          reachable: false,
           song: true,
           checked: false,
           player: "",
@@ -1824,7 +1850,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 6,
           name: "Scrub 2",
-          reachable: "no",
+          reachable: false,
           song: true,
           checked: false,
           player: "",
@@ -1836,7 +1862,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 7,
           name: "Scrub 3",
-          reachable: "no",
+          reachable: false,
           song: true,
           checked: false,
           player: "",
@@ -1851,13 +1877,13 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 14,
       name: "Zoras river",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       checks: [
         {
           id: 0,
           name: "Pillar HP",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -1869,7 +1895,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Scrub 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -1881,7 +1907,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Scrub 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -1893,7 +1919,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Frogs Sos",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -1906,7 +1932,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Frogs 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: true,
@@ -1920,7 +1946,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "Free gr.",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           setting: "none",
@@ -1932,7 +1958,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 6,
           name: "Waterfall",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -1947,13 +1973,13 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 15,
       name: "Zoras domain",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       checks: [
         {
           id: 0,
           name: "Torches",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -1965,7 +1991,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Rup. MG",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -1977,7 +2003,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "King Zora",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -1990,7 +2016,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Shop 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           rupee: "",
@@ -2003,7 +2029,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Shop 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           rupee: "",
@@ -2016,7 +2042,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "Shop 3",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           rupee: "",
@@ -2029,7 +2055,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 6,
           name: "Shop 4",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           rupee: "",
@@ -2045,13 +2071,13 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 16,
       name: "Zoras fountain",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       checks: [
         {
           id: 0,
           name: "Iceberg",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2063,7 +2089,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Icy wat.",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -2076,7 +2102,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Fairy",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2091,13 +2117,13 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 17,
       name: "Lake Hylia",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       checks: [
         {
           id: 0,
           name: "Chld fish.",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           setting: "none",
@@ -2109,7 +2135,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Underwater",
-          reachable: "can be seen",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2121,7 +2147,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Adlt fish.",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -2134,7 +2160,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Rooftop",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -2147,7 +2173,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Diving",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -2160,7 +2186,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "Shoot. sun",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -2173,7 +2199,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 6,
           name: "Scrub 1",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -2185,7 +2211,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 7,
           name: "Scrub 2",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -2197,7 +2223,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 8,
           name: "Scrub 3",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -2212,13 +2238,13 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 18,
       name: "Gerudos Valley",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       checks: [
         {
           id: 0,
           name: "Box",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           setting: "none",
@@ -2230,7 +2256,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Waterfall",
-          reachable: "yes",
+          reachable: true,
           checked: false,
           player: "",
           setting: "none",
@@ -2242,7 +2268,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Cow",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -2255,7 +2281,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Rocks",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -2268,7 +2294,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Scrub SoS 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -2280,7 +2306,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "Scrub SoS 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -2295,13 +2321,13 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 19,
       name: "Gerudos Fort.",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       checks: [
         {
           id: 0,
           name: "Rooftop",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2313,7 +2339,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "1000 pts",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -2326,7 +2352,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "1500 pts",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -2342,16 +2368,16 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 20,
       name: "Wasteland",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       checks: [
         {
           id: 0,
           name: "Carpet Sale.",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
-          setting: "medigoron & carpet salesman",
+          setting: "shuffle merchants",
           visibility: false,
           song: false,
           box: false,
@@ -2360,7 +2386,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Torches",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -2376,13 +2402,13 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 21,
       name: "Desert Col.",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       checks: [
         {
           id: 0,
           name: "Requiem",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -2395,7 +2421,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Fairy",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2407,7 +2433,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Arch",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2419,7 +2445,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Scrub 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -2431,7 +2457,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Scrub 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -2448,7 +2474,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 0,
       name: "Deku",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       dungeonShuffleInput: "",
       entrance: "deku",
@@ -2456,7 +2482,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 0,
           name: "Map",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2468,7 +2494,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Sling 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2480,7 +2506,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Sling 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2492,7 +2518,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Compass 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2504,7 +2530,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Compass 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2516,7 +2542,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "Skll compass",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2528,7 +2554,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 6,
           name: "B1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2540,7 +2566,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 7,
           name: "B1 Skll",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2552,7 +2578,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 8,
           name: "B1 Skll Vine",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2564,7 +2590,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 9,
           name: "Back Skull",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2576,7 +2602,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 10,
           name: "Gohma",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2591,7 +2617,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 1,
       name: "DC",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       dungeonShuffleInput: "",
       entrance: "dc",
@@ -2599,7 +2625,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 0,
           name: "Skll crow",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2611,7 +2637,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Skll keeses",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2623,7 +2649,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Scrub switch",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -2635,7 +2661,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Scrub main r.",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -2647,7 +2673,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Map",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2659,7 +2685,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "Compass",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2671,7 +2697,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 6,
           name: "Skll Nook",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2683,7 +2709,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 7,
           name: "Skll Vines",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2695,7 +2721,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 8,
           name: "Spike",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2707,7 +2733,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 9,
           name: "Bomb bag",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2719,7 +2745,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 10,
           name: "Scrub BB 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -2732,7 +2758,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 11,
           name: "Scrub BB 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -2745,7 +2771,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 12,
           name: "Bridge",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2757,7 +2783,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 13,
           name: "Skll armos",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2769,7 +2795,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 14,
           name: "Above KD",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2781,7 +2807,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 15,
           name: "King Do.",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2796,7 +2822,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 2,
       name: "Jabu",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       dungeonShuffleInput: "",
       entrance: "jabu",
@@ -2804,7 +2830,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 0,
           name: "Skll Stinger",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2816,7 +2842,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Scrub",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -2829,7 +2855,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Boomrng",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -2842,7 +2868,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Map",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2854,7 +2880,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Compass",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2866,7 +2892,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "Skll basem. 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2878,7 +2904,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 6,
           name: "Skull basem. 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2890,7 +2916,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 7,
           name: "Skll Bar.",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2902,7 +2928,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 8,
           name: "Barinade",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2917,7 +2943,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 3,
       name: "Forest",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       dungeonShuffleInput: "",
       entrance: "forest",
@@ -2929,7 +2955,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 0,
           name: "Skll tree",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2941,7 +2967,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Tree",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2953,7 +2979,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Skll Stalfos",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -2965,7 +2991,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Stalfos",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2977,7 +3003,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Garden",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -2989,7 +3015,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "Skll garden",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3001,7 +3027,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 6,
           name: "Bubble",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3013,7 +3039,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 7,
           name: "Well",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3025,7 +3051,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 8,
           name: "Eye",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3037,7 +3063,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 9,
           name: "Floormstr",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3049,7 +3075,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 10,
           name: "Skll arch",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3061,7 +3087,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 11,
           name: "BK",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3073,7 +3099,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 12,
           name: "Red",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3085,7 +3111,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 13,
           name: "Bow",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3097,7 +3123,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 14,
           name: "Blue",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3109,7 +3135,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 15,
           name: "Ceiling",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3121,7 +3147,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 16,
           name: "Spin room",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3133,7 +3159,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 17,
           name: "Spin Skll",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3145,7 +3171,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 18,
           name: "P.Ganon",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3160,7 +3186,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 4,
       name: "Fire",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       dungeonShuffleInput: "",
       entrance: "fire",
@@ -3172,7 +3198,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 0,
           name: "Near boss",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3184,7 +3210,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Skll Dancer",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3196,7 +3222,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Dancer 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3208,7 +3234,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "BK chest",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3220,7 +3246,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Lava room",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3232,7 +3258,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "Skll SoT",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3244,7 +3270,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 6,
           name: "Lava bomb",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3256,7 +3282,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 7,
           name: "Maze low",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3268,7 +3294,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 8,
           name: "Skll maze",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3280,7 +3306,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 9,
           name: "Side room",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3292,7 +3318,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 10,
           name: "Map",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3304,7 +3330,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 11,
           name: "Up. Goron",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3316,7 +3342,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 12,
           name: "Shortcut",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3328,7 +3354,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 13,
           name: "Skll Crow 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3340,7 +3366,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 14,
           name: "Skll Crow 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3352,7 +3378,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 15,
           name: "Pierre",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -3365,7 +3391,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 16,
           name: "Compass",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3377,7 +3403,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 17,
           name: "SoT",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3389,7 +3415,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 18,
           name: "Hammer",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -3402,7 +3428,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 19,
           name: "Volvagia",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3418,7 +3444,7 @@ export const useAreasStore = create<Areas>((set) => ({
       name: "Water",
       short: "wat",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       dungeonShuffleInput: "",
       entrance: "water",
@@ -3430,7 +3456,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 0,
           name: "Skll gate",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -3443,7 +3469,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Compass",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3455,7 +3481,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Map",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3467,7 +3493,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Broken wall",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3479,7 +3505,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Torches",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3491,7 +3517,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "Skll b4 BK",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3503,7 +3529,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 6,
           name: "BK",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -3516,7 +3542,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 7,
           name: "Eye",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3528,7 +3554,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 8,
           name: "Skll pillar",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3540,7 +3566,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 9,
           name: "Pillar",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -3553,7 +3579,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 10,
           name: "Skll plats",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3565,7 +3591,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 11,
           name: "Dark Link",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -3578,7 +3604,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 12,
           name: "Skll river",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3590,7 +3616,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 13,
           name: "River",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -3603,7 +3629,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 14,
           name: "Dragon",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3615,7 +3641,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 15,
           name: "Morpha",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3631,7 +3657,7 @@ export const useAreasStore = create<Areas>((set) => ({
       name: "Shadow",
       short: "sha",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       dungeonShuffleInput: "",
       entrance: "shadow",
@@ -3643,7 +3669,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 0,
           name: "Map",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3655,7 +3681,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Hovers",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3667,7 +3693,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Silv. rup.",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3679,7 +3705,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Compass",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3691,7 +3717,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Skll spin",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3703,7 +3729,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "Spin. 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3715,7 +3741,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 6,
           name: "Spin. 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3727,7 +3753,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 7,
           name: "Spike h1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3739,7 +3765,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 8,
           name: "Spike h2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3751,7 +3777,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 9,
           name: "Spike low",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3763,7 +3789,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 10,
           name: "Skll jail",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3775,7 +3801,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 11,
           name: "Redead rup.",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3787,7 +3813,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 12,
           name: "Skll pot",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3799,7 +3825,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 13,
           name: "Pot",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -3812,7 +3838,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 14,
           name: "Wind",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3824,7 +3850,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 15,
           name: "Gibdos",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3836,7 +3862,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 16,
           name: "Bombable",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3848,7 +3874,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 17,
           name: "Skll boat",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3860,7 +3886,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 18,
           name: "Near BK",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3872,7 +3898,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 19,
           name: "BK",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3884,7 +3910,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 20,
           name: "Skll 3pots",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3896,7 +3922,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 21,
           name: "Floormstr",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3908,7 +3934,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 22,
           name: "Bongo",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3924,7 +3950,7 @@ export const useAreasStore = create<Areas>((set) => ({
       name: "Spirit",
       short: "spi",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       dungeonShuffleInput: "",
       entrance: "spirit",
@@ -3936,7 +3962,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 0,
           name: "Chld crystal",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3948,7 +3974,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Chld keese",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3960,7 +3986,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Skll gate",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3972,7 +3998,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Skll climb",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -3984,7 +4010,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Climb 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -3996,7 +4022,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "Climb 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4008,7 +4034,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 6,
           name: "Map",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4020,7 +4046,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 7,
           name: "Sun block",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4032,7 +4058,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 8,
           name: "Skll knckle",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -4044,7 +4070,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 9,
           name: "Right Hand",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -4057,7 +4083,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 10,
           name: "L.Adlt",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4069,7 +4095,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 11,
           name: "Skll SoT",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -4081,7 +4107,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 12,
           name: "R.Adlt",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4093,7 +4119,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 13,
           name: "Mirror 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4105,7 +4131,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 14,
           name: "Mirror 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4117,7 +4143,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 15,
           name: "Lul. high",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4129,7 +4155,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 16,
           name: "Lul. hand",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4141,7 +4167,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 17,
           name: "Skll statue",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -4153,7 +4179,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 18,
           name: "Armors sun",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4165,7 +4191,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 19,
           name: "Invsble 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4177,7 +4203,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 20,
           name: "Invsble 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4189,7 +4215,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 21,
           name: "Left hand",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -4202,7 +4228,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 22,
           name: "BK",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4214,7 +4240,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 23,
           name: "Last sun",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4226,7 +4252,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 24,
           name: "Twinrova",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4242,7 +4268,7 @@ export const useAreasStore = create<Areas>((set) => ({
       name: "Well",
       short: "wel",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       dungeonShuffleInput: "",
       entrance: "well",
@@ -4252,7 +4278,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 0,
           name: "Bomb entr.",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4264,7 +4290,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Left entr.",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4276,7 +4302,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Right entr.",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4288,7 +4314,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Skll chest",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4300,7 +4326,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Skll key 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -4312,7 +4338,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "Skll key 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -4324,7 +4350,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 6,
           name: "Bomb bck",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4336,7 +4362,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 7,
           name: "b4 coffin",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4348,7 +4374,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 8,
           name: "Coffin",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4360,7 +4386,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 9,
           name: "Compass",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4372,7 +4398,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 10,
           name: "b4 D.hand",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4384,7 +4410,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 11,
           name: "Dead hand",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4396,7 +4422,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 12,
           name: "Invsble",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4408,7 +4434,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 13,
           name: "Keeses",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4420,7 +4446,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 14,
           name: "Like Like",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4432,7 +4458,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 15,
           name: "Skll Like",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -4444,7 +4470,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 16,
           name: "Basement",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4460,7 +4486,7 @@ export const useAreasStore = create<Areas>((set) => ({
       name: "Ice Cavern",
       short: "ic",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       dungeonShuffleInput: "",
       entrance: "ice",
@@ -4468,7 +4494,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 0,
           name: "Serenade",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -4481,7 +4507,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Skll spin",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -4493,7 +4519,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Map",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4505,7 +4531,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Compass",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4517,7 +4543,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Skull fire",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -4529,7 +4555,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "Freestand.",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4541,7 +4567,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 6,
           name: "Skll blocks",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "skullsanity",
@@ -4553,7 +4579,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 7,
           name: "Iron boots",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -4570,7 +4596,7 @@ export const useAreasStore = create<Areas>((set) => ({
       name: "GTG",
       short: "gtg",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       dungeonShuffleInput: "",
       entrance: "gtg",
@@ -4580,7 +4606,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 0,
           name: "Eye 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4592,7 +4618,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Eye 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4604,7 +4630,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Stalfos",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4616,7 +4642,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Wolfos",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4628,7 +4654,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Block 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4640,7 +4666,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "Block 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4652,7 +4678,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 6,
           name: "Block 3",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4664,7 +4690,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 7,
           name: "Block 4",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4676,7 +4702,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 8,
           name: "Statue",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4688,7 +4714,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 9,
           name: "Abo. statue",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4700,7 +4726,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 10,
           name: "Ennemies",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4712,7 +4738,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 11,
           name: "Fire chest",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4724,7 +4750,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 12,
           name: "Freestand.",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4736,7 +4762,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 13,
           name: "SoT 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4748,7 +4774,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 14,
           name: "SoT 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4760,7 +4786,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 15,
           name: "Toilets",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -4773,7 +4799,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 16,
           name: "Beamos",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4785,7 +4811,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 17,
           name: "L.maze 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4797,7 +4823,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 18,
           name: "L.maze 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4809,7 +4835,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 19,
           name: "L.maze 3",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4821,7 +4847,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 20,
           name: "L.maze 4",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4833,7 +4859,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 21,
           name: "Final",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           hint: false,
@@ -4850,7 +4876,7 @@ export const useAreasStore = create<Areas>((set) => ({
       name: "Ganon's Castle",
       short: "gan",
       visibility: true,
-      hint: { type: "", boss: "" },
+      hint: { type: "", boss: "", player: "" },
       box: false,
       keysLeft: 2,
       maxKeys: 2,
@@ -4858,7 +4884,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 0,
           name: "Scrub 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -4870,7 +4896,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 1,
           name: "Scrub 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -4882,7 +4908,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 2,
           name: "Scrub 3",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -4894,7 +4920,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 3,
           name: "Scrub 4",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "scrubsanity",
@@ -4906,7 +4932,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 4,
           name: "Forest",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4918,7 +4944,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 5,
           name: "Water 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4930,7 +4956,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 6,
           name: "Water 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4942,7 +4968,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 7,
           name: "Shadow 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4954,7 +4980,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 8,
           name: "Shadow 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4966,7 +4992,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 9,
           name: "Light 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4978,7 +5004,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 10,
           name: "Light 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -4990,7 +5016,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 11,
           name: "Light 3",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -5002,7 +5028,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 12,
           name: "Light 4",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -5014,7 +5040,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 13,
           name: "Light 5",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -5026,7 +5052,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 14,
           name: "Light 6",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -5038,7 +5064,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 15,
           name: "Light clr",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -5050,7 +5076,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 16,
           name: "Light key",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -5062,7 +5088,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 17,
           name: "Spirit 1",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -5074,7 +5100,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 18,
           name: "Spirit 2",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -5086,7 +5112,7 @@ export const useAreasStore = create<Areas>((set) => ({
         {
           id: 19,
           name: "Boss key",
-          reachable: "no",
+          reachable: false,
           checked: false,
           player: "",
           setting: "none",
@@ -5130,13 +5156,13 @@ export const useAreasStore = create<Areas>((set) => ({
         }
       })
     ),
-  handleCheckReachable: (idArea, idCheck, category, reachable) =>
+  handleCheckReachable: (idArea, idCheck, category,value) =>
     set((state) =>
       produce(state, (draft) => {
         let area = draft[category].find((el) => el.id === idArea);
         let check = area?.checks.find((el) => el.id === idCheck);
         if (area && check) {
-          check.reachable = reachable;
+          check.reachable = value;
         }
       })
     ),
@@ -5149,7 +5175,7 @@ export const useAreasStore = create<Areas>((set) => ({
         }
       })
     ),
-  handleVisibility: (idArea, category) =>
+  handleAreaVisibility: (idArea, category) =>
     set((state) =>
       produce(state, (draft) => {
         let area = draft[category].find((el) => el.id === idArea);
@@ -5198,6 +5224,16 @@ export const useAreasStore = create<Areas>((set) => ({
         }
       })
     ),
+  handleInputRupee: (idArea, idCheck, category, value) =>
+    set((state) =>
+      produce(state, (draft) => {
+        let area = draft[category].find((el) => el.id === idArea);
+        let check = area?.checks.find((el) => el.id === idCheck);
+        if (area && check) {
+          check.rupee = value;
+        }
+      })
+    ),
   handleBoxArea: (idArea, category) =>
     set((state) =>
       produce(state, (draft) => {
@@ -5220,6 +5256,15 @@ export const useAreasStore = create<Areas>((set) => ({
         }
       })
     ),
+  handleAreaPlayer: (idArea, category, value) =>
+    set((state) =>
+      produce(state, (draft) => {
+        let area = draft[category].find((el) => el.id === idArea);
+        if (area) {
+          area.hint.player = value;
+        }
+      })
+    ),
   handleHintType: (idArea, category, type, boss?) =>
     set((state) =>
       produce(state, (draft) => {
@@ -5237,6 +5282,23 @@ export const useAreasStore = create<Areas>((set) => ({
           }
           area.box = false;
         }
+      })
+    ),
+  handleCheckVisibility: (filterName, settingValue) =>
+    set((state) =>
+      produce(state, (draft) => {
+        let areasDungeons = draft["dungeons"];
+        areasDungeons.map((area) => {
+          area.checks
+            .filter((area) => area.setting === filterName)
+            .map((check) => (check.visibility = settingValue === "yes"));
+        });
+        let areasOverworld = draft["overworld"];
+        areasOverworld.map((area) => {
+          area.checks
+            .filter((area) => area.setting === filterName)
+            .map((check) => (check.visibility = settingValue === "yes"));
+        });
       })
     ),
   decrementKeys: (idArea, keyType) =>

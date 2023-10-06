@@ -1,9 +1,9 @@
 import React from "react";
 import { Dungeon } from "./Dungeon";
-import { Element } from "../../stores/trackerState";
+import { Temple } from "../../stores/trackerState";
 
 type Props = {
-  dungeons: Element[];
+  dungeons: Temple[];
   className: string;
   category: "medallions" | "stones";
 };

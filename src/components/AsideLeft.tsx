@@ -10,10 +10,10 @@ export const AsideLeft = () => {
   const songs = useTrackerStore((set) => set.songs);
   const dungeons = useTrackerStore((set) => set.dungeons);
   const imgBaseClassName = "rounded-lg";
-  const itemsClassName = `${imgBaseClassName} + hover:bg-blue-200`;
-  const songsClassName = `${imgBaseClassName} + hover:bg-emerald-200`;
-  const dungeonsClassName = `${imgBaseClassName} + hover:bg-stone-200`;
-  const tokenClassName = `${imgBaseClassName} + hover:bg-blue-200 place-self-end`;
+  const itemsClassName = `${imgBaseClassName} + hover:bg-blue-500`;
+  const songsClassName = `${imgBaseClassName} + hover:bg-emerald-500`;
+  const dungeonsClassName = `${imgBaseClassName} + hover:bg-stone-500`;
+  const tokenClassName = `${imgBaseClassName} + hover:bg-blue-500`;
 
   return (
     <aside id="aside-left" className="w-22">

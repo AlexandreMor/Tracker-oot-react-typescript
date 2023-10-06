@@ -8,14 +8,14 @@ type Props = {
   check: Check;
   area: Area;
   category: "overworld" | "dungeons";
-}
+};
 
 export const Spot = ({ check, area, category }: Props) => {
   const handleItemsBox = useAreasStore((set) => set.handleItemBox);
+  const { shopSanitySetting } = useSettings();
   const handleCheckOpacity = useAreasStore((set) => set.handleCheckOpacity);
-  const handleInputPlayer = useAreasStore(
-    (state) => state.handleInputPlayer
-  );
+  const handleInputPlayer = useAreasStore((state) => state.handleInputPlayer);
+  const handleInputRupee = useAreasStore((state) => state.handleInputRupee);
   const handleHintCheck = useAreasStore((set) => set.handleHintCheck);
   const { multiworldSetting } = useSettings();
   const colorMap = {
@@ -24,7 +24,7 @@ export const Spot = ({ check, area, category }: Props) => {
     "can be seen": "text-neutral-400",
   };
 
-  const textColorClass = colorMap[check.reachable] || "text-red-500";
+  const textColorClass = check.reachable ? "text-emerald-400" : "text-red-500";
 
   return (
     <>
@@ -41,31 +41,47 @@ export const Spot = ({ check, area, category }: Props) => {
           >
             {check.name}
           </h3>
+          {/*If this spot can be hinted*/}
           {check.hasOwnProperty("hint") && (
             <p
               className={`${
-                !check.hint ? "text-green-500 text-base px-2" : "text-red-500 text-lg px-2.5"
+                !check.hint
+                  ? "text-green-500 text-base px-2"
+                  : "text-red-500 text-lg px-2.5"
               } cursor-pointer`}
-              onClick={()=>handleHintCheck(area.id, check.id, category)}
+              onClick={() => handleHintCheck(area.id, check.id, category)}
             >
               {!check.hint ? "+" : "-"}
             </p>
           )}
         </div>
+        {/*Display the obtained item*/}
         {check.item !== "" && (
           <div className="flex">
-            <img className="w-1/4" src={check.item} alt={check.name} />
+            <img className="w-6 h-6" src={check.item} alt={check.name} />
+            {/* Display input field if multiworld enabled */}
             {multiworldSetting === "yes" && (
               <InputText
                 idArea={area.id}
-                data={check}
+                check={check}
                 category={category}
                 func={handleInputPlayer}
+                placeholder="Pla"
+              />
+            )}
+            {shopSanitySetting ==="yes" && (
+              <InputText
+                idArea={area.id}
+                check={check}
+                category={category}
+                func={handleInputRupee}
+                placeholder="Rup"
               />
             )}
           </div>
         )}
       </li>
+      {/*Modal of items*/}
       {check.box && (
         <ItemsBox
           handleItemsBox={handleItemsBox}

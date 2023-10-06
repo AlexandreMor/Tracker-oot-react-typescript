@@ -109,20 +109,20 @@ export const useSettingsStore = create<Settings>((set) => ({
     {
       id: 4,
       name: "Shopsanity",
-      value: "false",
+      value: "no",
       datasComponent: [
         {
           id: 0,
           name: "Yes",
           html: "shop-on",
-          inputValue: "true",
+          inputValue: "yes",
           checked: false,
         },
         {
           id: 1,
           name: "No",
           html: "shop-off",
-          inputValue: "false",
+          inputValue: "no",
           checked: true,
         },
       ],
@@ -130,20 +130,20 @@ export const useSettingsStore = create<Settings>((set) => ({
     {
       id: 5,
       name: "Skullsanity dungeons",
-      value: "false",
+      value: "no",
       datasComponent: [
         {
           id: 0,
           name: "Yes",
           html: "skull-on",
-          inputValue: "true",
+          inputValue: "yes",
           checked: false,
         },
         {
           id: 1,
           name: "No",
           html: "skull-off",
-          inputValue: "false",
+          inputValue: "no",
           checked: true,
         },
       ],
@@ -151,20 +151,20 @@ export const useSettingsStore = create<Settings>((set) => ({
     {
       id: 6,
       name: "Scrubsanity",
-      value: "false",
+      value: "no",
       datasComponent: [
         {
           id: 0,
           name: "Yes",
           html: "scrub-on",
-          inputValue: "true",
+          inputValue: "yes",
           checked: false,
         },
         {
           id: 1,
           name: "No",
           html: "scrub-off",
-          inputValue: "false",
+          inputValue: "no",
           checked: true,
         },
       ],
@@ -172,20 +172,20 @@ export const useSettingsStore = create<Settings>((set) => ({
     {
       id: 7,
       name: "Cowsanity",
-      value: "false",
+      value: "no",
       datasComponent: [
         {
           id: 0,
           name: "Yes",
           html: "cow-on",
-          inputValue: "true",
+          inputValue: "yes",
           checked: false,
         },
         {
           id: 1,
           name: "No",
           html: "cow-off",
-          inputValue: "false",
+          inputValue: "no",
           checked: true,
         },
       ],
@@ -193,20 +193,20 @@ export const useSettingsStore = create<Settings>((set) => ({
     {
       id: 8,
       name: "Dungeon Shuffle",
-      value: "false",
+      value: "no",
       datasComponent: [
         {
           id: 0,
           name: "Yes",
           html: "dungeon-shuf-on",
-          inputValue: "true",
+          inputValue: "yes",
           checked: false,
         },
         {
           id: 1,
           name: "No",
           html: "dungeon-shuf-off",
-          inputValue: "false",
+          inputValue: "no",
           checked: true,
         },
       ],
@@ -256,20 +256,20 @@ export const useSettingsStore = create<Settings>((set) => ({
     {
       id: 10,
       name: "Shuffle Merchants",
-      value: "false",
+      value: "no",
       datasComponent: [
         {
           id: 0,
           name: "Yes",
           html: "med-carpet-on",
-          inputValue: "true",
+          inputValue: "yes",
           checked: false,
         },
         {
           id: 1,
           name: "No",
           html: "med-carpet-off",
-          inputValue: "false",
+          inputValue: "no",
           checked: true,
         },
       ],
@@ -277,20 +277,20 @@ export const useSettingsStore = create<Settings>((set) => ({
     {
       id: 11,
       name: "Keysy",
-      value: "false",
+      value: "no",
       datasComponent: [
         {
           id: 0,
           name: "Yes",
           html: "keysy-on",
-          inputValue: "true",
+          inputValue: "yes",
           checked: false,
         },
         {
           id: 1,
           name: "No",
           html: "keysy-off",
-          inputValue: "false",
+          inputValue: "no",
           checked: true,
         },
       ],
@@ -298,20 +298,20 @@ export const useSettingsStore = create<Settings>((set) => ({
     {
       id: 12,
       name: "Boss Keysy",
-      value: "false",
+      value: "no",
       datasComponent: [
         {
           id: 0,
           name: "Yes",
           html: "bkeysy-on",
-          inputValue: "true",
+          inputValue: "yes",
           checked: false,
         },
         {
           id: 1,
           name: "No",
           html: "bkeysy-off",
-          inputValue: "false",
+          inputValue: "no",
           checked: true,
         },
       ],
