@@ -49,7 +49,7 @@ export type Areas = {
     idArea: number,
     idCheck: number,
     category: "overworld" | "dungeons",
-    reachable: boolean,
+    reachable: boolean
   ) => void;
   handleDungeonsEntrance: (idArea: number, entrance: string) => void;
   handleAreaVisibility: (
@@ -94,6 +94,7 @@ export type Areas = {
   handleCheckVisibility: (filterName: string, settingValue: string) => void;
   incrementKeys: (idArea: number, keyType: string) => void;
   decrementKeys: (idArea: number, keyType: string) => void;
+  handleKeysy: (idArea: number, keyType: string, isActive: boolean) => void;
 };
 
 export const bosses: string[] = [
@@ -3269,7 +3270,7 @@ export const useAreasStore = create<Areas>((set) => ({
         },
         {
           id: 6,
-          name: "Lava bomb",
+          name: "Lava wall",
           reachable: false,
           checked: false,
           player: "",
@@ -5111,7 +5112,7 @@ export const useAreasStore = create<Areas>((set) => ({
         },
         {
           id: 19,
-          name: "Boss key",
+          name: "BK",
           reachable: false,
           checked: false,
           player: "",
@@ -5156,7 +5157,7 @@ export const useAreasStore = create<Areas>((set) => ({
         }
       })
     ),
-  handleCheckReachable: (idArea, idCheck, category,value) =>
+  handleCheckReachable: (idArea, idCheck, category, value) =>
     set((state) =>
       produce(state, (draft) => {
         let area = draft[category].find((el) => el.id === idArea);
@@ -5343,6 +5344,34 @@ export const useAreasStore = create<Areas>((set) => ({
             ) {
               if (area.bossKeyLeft < area.maxBossKey) {
                 area.bossKeyLeft = area.bossKeyLeft + 1;
+              }
+            }
+          }
+        }
+      })
+    ),
+  handleKeysy: (idArea, keyType, isActive) =>
+    set((state) =>
+      produce(state, (draft) => {
+        let area = draft["dungeons"].find((el) => el.id === idArea);
+        if (area) {
+          if (keyType === "small key") {
+            if (area.keysLeft !== undefined && area.maxKeys !== undefined) {
+              if (isActive) {
+                area.keysLeft = 0;
+              } else {
+                area.keysLeft = area.maxKeys;
+              }
+            }
+          } else if (keyType === "boss key") {
+            if (
+              area.bossKeyLeft !== undefined &&
+              area.maxBossKey !== undefined
+            ) {
+              if (isActive) {
+                area.bossKeyLeft = 0;
+              } else {
+                area.bossKeyLeft = area.maxBossKey;
               }
             }
           }

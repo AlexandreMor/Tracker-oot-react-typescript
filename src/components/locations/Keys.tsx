@@ -1,12 +1,14 @@
 import React from "react";
 import { useTrackerStore } from "../../stores/trackerState";
 import { useAreasStore } from "../../stores/areasState";
+import { useSettings } from "../../hooks/useSettings";
 
 export const Keys = ({ area }) => {
   const key = useTrackerStore((state) => state.items[32].image[0]);
   const bossKey = useTrackerStore((state) => state.items[33].image[0]);
   const decrementKeys = useAreasStore((state) => state.decrementKeys);
   const incrementKeys = useAreasStore((state) => state.incrementKeys);
+  const {keysySetting,bossKeysSetting} = useSettings();
 
   const divClass = "flex flex-col cursor-pointer";
   const imgClass="w-7 h-7";
@@ -14,7 +16,7 @@ export const Keys = ({ area }) => {
 
   return (
     <div id="dungeons-keys" className="flex justify-center">
-      {area.hasOwnProperty("keysLeft") && (
+      {area.hasOwnProperty("keysLeft") && keysySetting==="no" && (
         <div
           id="small_keys"
           className={divClass}
@@ -30,7 +32,7 @@ export const Keys = ({ area }) => {
           </span>
         </div>
       )}
-      {area.hasOwnProperty("bossKeyLeft") && (
+      {area.hasOwnProperty("bossKeyLeft") && bossKeysSetting==="no" && (
         <div
           id="boss_key"
           className={divClass}

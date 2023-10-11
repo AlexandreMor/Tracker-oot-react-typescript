@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Check, Area, useAreasStore } from "../../stores/areasState";
 import { ItemsBox } from "./ItemsBox";
 import { InputText } from "../InputText";

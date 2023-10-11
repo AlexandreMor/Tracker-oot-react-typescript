@@ -24,6 +24,7 @@ export const useSettings = () => {
   const shuffleMerchantsSetting = settingSelected(10);
   const keysySetting = settingSelected(11);
   const bossKeysSetting = settingSelected(12);
+  const plantedBeansSetting = settingSelected(13);
 
   return {
     multiworldSetting,
@@ -39,5 +40,6 @@ export const useSettings = () => {
     shuffleMerchantsSetting,
     keysySetting,
     bossKeysSetting,
+    plantedBeansSetting,
   };
 };

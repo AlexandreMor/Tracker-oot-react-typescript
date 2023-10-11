@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { Navbar } from "./components/Navbar";
 import { lazyLoad } from "./lazyLoad";
 import { Routes, Route } from "react-router-dom";
+import { Home } from "./components/Home";
 
 export const App = () => {
   const bodyEl = (el) => {
@@ -11,7 +12,6 @@ export const App = () => {
       });
   };
 
-  const Home = lazyLoad("./components/Home", "Home");
   const Settings = lazyLoad(
     "./components/tracker-settings/SettingsComp",
     "SettingsComp"

@@ -6,7 +6,8 @@ import { useAreasStore } from "../stores/areasState";
 import { useTrackerStore } from "../stores/trackerState";
 
 export const useAccess = () => {
-  const { dekuSetting, fountainSetting, fortressSetting } = useSettings();
+  const { dekuSetting, fountainSetting, fortressSetting, plantedBeansSetting } =
+    useSettings();
   const {
     kokiriSword,
     zelda,
@@ -14,7 +15,6 @@ export const useAccess = () => {
     minuet,
     epona,
     longshot,
-    bomb,
     bow,
     silverScale,
     strength1,
@@ -23,13 +23,25 @@ export const useAccess = () => {
     hoverBoots,
     lens,
     magic,
+    explosive,
     requiem,
+    prescription,
+    bottle,
+    hasBlueFireArrow,
+    claimCheck,
+    hasFireChild,
+    hasBottle,
+    giantWallet,
+    gerudoCard,
   } = useItems();
+
   const { childSpawn, adultSpawn } = useRandomSpawns();
   const morphaReachable = useAreasStore(
     (state) => state.dungeons[5].checks[15].reachable
   );
   const medallions = useTrackerStore((state) => state.dungeons);
+
+  const iceCavernBlueFireAccessible = useAreasStore((state) => state.dungeons[9].checks[2].reachable);
 
   const minuetAccess = useCallback(() => {
     return saria || minuet || adultSpawn === "SFM Minuet";
@@ -43,45 +55,69 @@ export const useAccess = () => {
     return (dekuSetting === "yes" && kokiriSword) || !dekuSetting;
   }, [dekuSetting, kokiriSword]);
 
-  const zoraRiverAccess = useCallback(() => {
-    return bomb || silverScale || childSpawn === "Zora R.";
-  }, [bomb, silverScale, childSpawn]);
+  const zoraRiverAccessInChild = useCallback(() => {
+    return explosive || silverScale || childSpawn === "Zora R.";
+  }, [explosive, silverScale, childSpawn]);
 
   const zoraDomainAccessInChild = useCallback(() => {
-    return (bomb && zelda) || silverScale || childSpawn === "Zora D.";
-  }, [bomb, zelda, silverScale, childSpawn]);
+    return (explosive && zelda) || silverScale || childSpawn === "Zora D.";
+  }, [explosive, zelda, silverScale, childSpawn]);
+
+  const zoraDomainAccessInAdult = useCallback(() => {
+    return zelda || adultSpawn === "Zora D.";
+  }, [explosive, zelda, silverScale, adultSpawn]);
+
+  const canDeliverRutosLetter = useCallback(() => {
+    return zoraDomainAccessInChild() && rutosLetter;
+  }, [zoraDomainAccessInChild, rutosLetter]);
 
   const zoraFountainAccessInChild = useCallback(() => {
-    return (
-      (zoraDomainAccessInChild() && rutosLetter) || childSpawn === "Zora F."
-    );
+    return canDeliverRutosLetter() || childSpawn === "Zora F.";
   }, [rutosLetter, zoraDomainAccessInChild, childSpawn]);
 
   const zoraFountainAccessInAdult = useCallback(() => {
     return (
-      (zoraDomainAccessInChild() &&
-        rutosLetter &&
-        (zelda || adultSpawn === "Zora D.")) ||
+      (canDeliverRutosLetter() && (zelda || adultSpawn === "Zora D.")) ||
       adultSpawn === "Zora F." ||
       (zelda && fountainSetting === "yes")
     );
   }, [
-    rutosLetter,
+    canDeliverRutosLetter,
     zoraDomainAccessInChild,
     zelda,
     adultSpawn,
     fountainSetting,
   ]);
 
-  const dmcLowerDCAccess = useCallback(() => {
+  const canUnfreezeKingZora = useCallback(() => {
     return (
-      bomb ||
+      zoraFountainAccessInAdult() && (rutosLetter || bottle || hasBlueFireArrow)
+    );
+  }, [rutosLetter, zoraDomainAccessInChild, bottle, hasBlueFireArrow]);
+
+  const dmcLowerAccess = useCallback(() => {
+    return (
+      explosive ||
       bow ||
       strength1 ||
       adultSpawn === "DMC lower" ||
       adultSpawn === "DMC fairy"
     );
-  }, [bomb, bow, strength1, adultSpawn]);
+  }, [explosive, bow, strength1, adultSpawn]);
+
+  const dmcUpperAccess = useCallback(() => {
+    return (
+      hammer || explosive || dmcLowerAccess() || adultSpawn === "DMC upper"
+    );
+  }, [explosive, hammer, dmcLowerAccess, adultSpawn]);
+
+  const daruniaRoomInChild = useCallback(() => {
+    const goodSpawns =
+      childSpawn === "GC Darunia" ||
+      childSpawn === "DMC fairy" ||
+      childSpawn === "DMC lower";
+    return goodSpawns || zelda || hasFireChild;
+  }, [childSpawn, zelda, hasFireChild]);
 
   const gerudoValleyBridgeAccess = useCallback(() => {
     return (
@@ -89,13 +125,19 @@ export const useAccess = () => {
       longshot ||
       adultSpawn === "Gerudo V." ||
       adultSpawn === "Gerudo F." ||
+      childSpawn === "Gerudo V." ||
+      childSpawn === "Gerudo F." ||
       fortressSetting === "yes"
     );
-  }, [epona, longshot, adultSpawn, fortressSetting]);
+  }, [epona, longshot, adultSpawn, childSpawn, fortressSetting]);
+
+  const carpentersReleased = useCallback(() => {
+    return gerudoValleyBridgeAccess() && gerudoCard;
+  }, [gerudoValleyBridgeAccess, gerudoCard]);
 
   const wastelandMausoleumAccess = useCallback(() => {
-    return gerudoValleyBridgeAccess() && (longshot || hoverBoots);
-  }, [gerudoValleyBridgeAccess, longshot, hoverBoots]);
+    return carpentersReleased() && (longshot || hoverBoots);
+  }, [carpentersReleased, longshot, hoverBoots]);
 
   const desertColossusAccess = useCallback(() => {
     return (
@@ -106,7 +148,7 @@ export const useAccess = () => {
   }, [lens, magic, requiem, wastelandMausoleumAccess, adultSpawn]);
 
   const morphaDefeated = useCallback(() => {
-    morphaReachable;
+    return morphaReachable;
   }, [morphaReachable]);
 
   const medallionsObtained = useCallback(() => {
@@ -119,17 +161,50 @@ export const useAccess = () => {
     return number;
   }, [medallions]);
 
+  const canBuyBeans = useCallback(() => {
+    return zoraRiverAccessInChild() || plantedBeansSetting === "yes";
+  }, [zoraRiverAccessInChild, plantedBeansSetting]);
+
+  const canCompleteBiggoronQuest = useCallback(() => {
+    return (
+      ((canUnfreezeKingZora() && prescription) || claimCheck) &&
+      dmcUpperAccess()
+    );
+  }, [dmcUpperAccess, prescription, claimCheck, canUnfreezeKingZora]);
+
+  const hasBlueFire = useCallback(() => {
+    return (
+      (hasBottle || canDeliverRutosLetter()) &&
+      (iceCavernBlueFireAccessible || giantWallet)
+    );
+  }, [
+    canDeliverRutosLetter,
+    hasBottle,
+    giantWallet,
+    iceCavernBlueFireAccessible,
+  ]);
+
   return {
     minuetAccess,
     grottosAfterMidoInAdult,
     dekuAccess,
     zoraDomainAccessInChild,
+    zoraDomainAccessInAdult,
     zoraFountainAccessInAdult,
     zoraFountainAccessInChild,
-    zoraRiverAccess,
-    dmcLowerDCAccess,
+    zoraRiverAccessInChild,
+    dmcLowerAccess,
+    dmcUpperAccess,
     gerudoValleyBridgeAccess,
+    wastelandMausoleumAccess,
     morphaDefeated,
     desertColossusAccess,
+    canBuyBeans,
+    canCompleteBiggoronQuest,
+    daruniaRoomInChild,
+    canDeliverRutosLetter,
+    hasBlueFire,
+    carpentersReleased,
+    medallionsObtained,
   };
 };

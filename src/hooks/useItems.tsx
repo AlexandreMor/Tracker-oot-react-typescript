@@ -3,6 +3,31 @@ import { useTrackerStore } from "../stores/trackerState";
 export const useItems = () => {
   const items = useTrackerStore((set) => set.items);
   const songs = useTrackerStore((set) => set.songs);
+  const dungeons = useTrackerStore((set) => set.dungeons);
+
+  const allStonesCompleted = () => {
+    return (
+      dungeons[0].inPossession === 1 &&
+      dungeons[1].inPossession === 1 &&
+      dungeons[2].inPossession === 1
+    );
+  };
+
+  const preludeSpot = () => {
+    return dungeons[3].inPossession === 1;
+  };
+
+  const nocturneSpot = () => {
+    return (
+      dungeons[3].inPossession === 1 &&
+      dungeons[4].inPossession === 1 &&
+      dungeons[5].inPossession === 1
+    );
+  };
+
+  const lightArrowsCutscene = () => {
+    return dungeons[6].inPossession === 1 && dungeons[7].inPossession === 1;
+  };
 
   const itemsPossessed = (id: number, nb: number): boolean => {
     return items[id].inPossession >= nb;
@@ -27,7 +52,7 @@ export const useItems = () => {
   const hammer = itemsPossessed(11, 1);
   const bomb = itemsPossessed(12, 1);
   const chu = itemsPossessed(13, 1);
-  const explosive = bomb || chu
+  const explosive = bomb || chu;
   const bottle = itemsPossessed(14, 1);
   const bigPoe = itemsPossessed(15, 1);
   const rutosLetter = itemsPossessed(16, 1);
@@ -49,19 +74,25 @@ export const useItems = () => {
   const zoraTunic = itemsPossessed(27, 1);
   const ironBoots = itemsPossessed(28, 1);
   const hoverBoots = itemsPossessed(29, 1);
+  const hasFireChild = magic && dins;
+  const hasFireAdult = magic && bow && fireArrow;
+  const hasFire = hasFireAdult || hasFireChild;
+  const hasBlueFireArrow = magic && iceArrow && bow;
+  const hasBottle = bottle || bigPoe
+  const tokenPossessed = items[30].inPossession;
 
-  const zelda = songsPossessed(0, 1);
-  const epona = songsPossessed(1, 1);
-  const saria = songsPossessed(2, 1);
-  const sun = songsPossessed(3, 1);
-  const time = songsPossessed(4, 1);
-  const storm = songsPossessed(5, 1);
-  const minuet = songsPossessed(6, 1);
-  const bolero = songsPossessed(7, 1);
-  const serenade = songsPossessed(8, 1);
-  const requiem = songsPossessed(9, 1);
-  const nocturne = songsPossessed(10, 1);
-  const prelude = songsPossessed(11, 1);
+  const zelda = songsPossessed(0, 1) && ocarina;
+  const epona = songsPossessed(1, 1) && ocarina;
+  const saria = songsPossessed(2, 1) && ocarina;
+  const sun = songsPossessed(3, 1) && ocarina;
+  const time = songsPossessed(4, 1) && ocarina;
+  const storm = songsPossessed(5, 1) && ocarina;
+  const minuet = songsPossessed(6, 1) && ocarina;
+  const bolero = songsPossessed(7, 1) && ocarina;
+  const serenade = songsPossessed(8, 1) && ocarina;
+  const requiem = songsPossessed(9, 1) && ocarina;
+  const nocturne = songsPossessed(10, 1) && ocarina;
+  const prelude = songsPossessed(11, 1) && ocarina;
 
   return {
     hookshot,
@@ -101,6 +132,9 @@ export const useItems = () => {
     zoraTunic,
     ironBoots,
     hoverBoots,
+    hasFire,
+    hasFireAdult,
+    hasFireChild,
     zelda,
     epona,
     saria,
@@ -113,5 +147,12 @@ export const useItems = () => {
     requiem,
     nocturne,
     prelude,
+    tokenPossessed,
+    hasBlueFireArrow,
+    hasBottle,
+    allStonesCompleted,
+    preludeSpot,
+    nocturneSpot,
+    lightArrowsCutscene,
   };
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavbar } from "../hooks/useNavbar";
 
 export const Navbar = () => {

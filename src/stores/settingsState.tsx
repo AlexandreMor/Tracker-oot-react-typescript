@@ -316,6 +316,27 @@ export const useSettingsStore = create<Settings>((set) => ({
         },
       ],
     },
+    {
+      id: 13,
+      name: "Planted Beans",
+      value: "no",
+      datasComponent: [
+        {
+          id: 0,
+          name: "Yes",
+          html: "beans-on",
+          inputValue: "yes",
+          checked: false,
+        },
+        {
+          id: 1,
+          name: "No",
+          html: "beans-off",
+          inputValue: "no",
+          checked: true,
+        },
+      ],
+    },
   ],
   changeValue: (id, inputValue) =>
     set((state) =>
