@@ -30,7 +30,7 @@ export const useNavbar = () => {
     },
     {
       element: (
-        <a href="#" className={classLink}>
+        <a href="https://github.com/AlexandreMor/Tracker-oot-react-typescript/blob/main/UserGuide.md" className={classLink}>
           Help
         </a>
       ),
@@ -38,7 +38,7 @@ export const useNavbar = () => {
   ];
   const githubLink = (
     <a
-      href="https://github.com/AlexandreMor/Tracker-oot-react-typescript/blob/main/UserGuide.md"
+      href="https://github.com/AlexandreMor/"
       className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0"
     >
       Github
