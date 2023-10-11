@@ -1,15 +1,20 @@
 import { create } from "zustand";
 import { produce } from "immer";
 
-export type Element = {
+export type Temple = {
   id: number;
   name: string;
   image: Array<string>;
   inPossession: number;
   limit: number;
-  dungeonNames?: Array<string>;
-  clickCount?: number;
+  dungeonNames: Array<string>;
+  clickCount: number;
 };
+
+export type Element = Pick<
+  Temple,
+  "id" | "name" | "image" | "inPossession" | "limit"
+>;
 
 const dungeonsList: Array<string> = [
   "???",
@@ -23,12 +28,10 @@ const dungeonsList: Array<string> = [
   "Sprt",
 ];
 
-type Elements = Array<Element>;
-
-type TrackerState = {
-  items: Elements;
-  songs: Elements;
-  dungeons: Elements;
+export type TrackerState = {
+  items: Array<Element>;
+  songs: Array<Element>;
+  dungeons: Array<Temple>;
   increment: (id: number, category: "items" | "songs" | "dungeons") => void;
   decrement: (id: number, category: "items" | "songs" | "dungeons") => void;
   changeDungeonNameOnClick: (id: number) => void;
@@ -442,7 +445,7 @@ export const useTrackerStore = create<TrackerState>((set) => ({
     },
     {
       id: 5,
-      name: "Water Medallion",
+      name: "Water medallion",
       image: [`./src/assets/items/water.png`],
       inPossession: 0,
       limit: 1,
@@ -515,7 +518,7 @@ export const useTrackerStore = create<TrackerState>((set) => ({
         }
       })
     ),
-    changeDungeonNameOnContextMenu: (id) =>
+  changeDungeonNameOnContextMenu: (id) =>
     set((state) =>
       produce(state, (draft) => {
         let element = draft["dungeons"].find((el) => el.id === id);

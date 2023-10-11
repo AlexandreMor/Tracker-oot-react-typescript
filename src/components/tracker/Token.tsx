@@ -1,12 +1,17 @@
 import React from "react";
-import Image from "./Image";
-import { useTrackerStore } from "../../datas/trackerState";
+import { Image } from "./Image";
+import { Element, useTrackerStore } from "../../stores/trackerState";
 
-function Token({ className, items }) {
+type Props = {
+  className: string;
+  items: Element[];
+};
+
+function Token({ className, items }: Props) {
   const incrementElement = useTrackerStore((set) => set.increment);
   const decrementElement = useTrackerStore((set) => set.decrement);
   return (
-    <div className="flex justify-center py-4 bg-blue-900 border-x-2 border-black">
+    <div className="flex flex-col items-center py-4 bg-blue-900">
       <Image
         className={className}
         element={items[30]}
@@ -16,7 +21,7 @@ function Token({ className, items }) {
         id={items[30].id}
         category={"dungeons"}
       />
-      <span className="justify-self-start self-center ms-2">
+      <span className="z-10 text-sm -mt-1 bg-zinc-800 rounded-full px-1.5">
         {items[30].inPossession}
       </span>
     </div>

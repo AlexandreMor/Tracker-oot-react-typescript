@@ -1,7 +1,21 @@
 import React from "react";
+import { useAreasStore } from "../stores/areasState";
+import { WayOfTheHero } from "./hints/WayOfTheHero";
+import { Foolish } from "./hints/Foolish";
+import { OtherHints } from "./hints/OtherHints";
 
-function AsideRight() {
-  return <div>AsideRight</div>;
-}
+export const AsideRight = () => {
+  const overworld = useAreasStore((set) => set.overworld);
+  const dungeons = useAreasStore((set) => set.dungeons);
 
-export default AsideRight;
+  return (
+    <section className="lg:w-90 w-fit h-fit flex flex-col items-start text-xs lg:text-base border rounded-t-lg rounded-b-lg bg-gray-800 ps-1 py-1">
+      <WayOfTheHero category={overworld} />
+      <WayOfTheHero category={dungeons} />
+      <Foolish category={overworld} />
+      <Foolish category={dungeons} />
+      <OtherHints category={overworld} />
+      <OtherHints category={dungeons} />
+    </section>
+  );
+};

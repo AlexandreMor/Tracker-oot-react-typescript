@@ -1,17 +1,21 @@
-import "./App.css";
-import AsideLeft from "./components/AsideLeft";
-import Footer from "./components/Footer";
-import MainContent from "./components/CentralContent";
-import Navbar from "./components/Navbar";
-import AsideRight from "./components/AsideRight";
+import { Suspense } from "react";
+import { Navbar } from "./components/Navbar";
+import { lazyLoad } from "./lazyLoad";
+import { Routes, Route } from "react-router-dom";
+import { Home } from "./components/Home";
 
-function App() {
+export const App = () => {
   const bodyEl = (el) => {
     el &&
       el.addEventListener("selectstart", (e) => {
         e.preventDefault();
       });
   };
+
+  const Settings = lazyLoad(
+    "./components/tracker-settings/SettingsComp",
+    "SettingsComp"
+  );
 
   return (
     <>
@@ -24,15 +28,19 @@ function App() {
         className="flex flex-col"
       >
         <Navbar />
-        <main className="flex justify-between">
-          <AsideLeft />
-          <MainContent />
-          <AsideRight />
+        <main className="mt-2">
+          <Suspense
+            fallback={
+              <div className="flex justify-center items-center">Loading...</div>
+            }
+          >
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/settings" element={<Settings />} />
+            </Routes>
+          </Suspense>
         </main>
-        <Footer />
       </div>
     </>
   );
-}
-
-export default App;
+};
