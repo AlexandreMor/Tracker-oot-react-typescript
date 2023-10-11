@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { Navbar } from "./components/Navbar";
-import { lazyLoad } from "./lazyLoad";
+import { SettingsComp } from "./components/tracker-settings/SettingsComp";
 import { Routes, Route } from "react-router-dom";
 import { Home } from "./components/Home";
 
@@ -11,11 +11,6 @@ export const App = () => {
         e.preventDefault();
       });
   };
-
-  const Settings = lazyLoad(
-    "./src/components/tracker-settings/SettingsComp",
-    "SettingsComp"
-  );
 
   return (
     <>
@@ -36,7 +31,7 @@ export const App = () => {
           >
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/settings" element={<Settings />} />
+              <Route path="/settings" element={<SettingsComp />} />
             </Routes>
           </Suspense>
         </main>
