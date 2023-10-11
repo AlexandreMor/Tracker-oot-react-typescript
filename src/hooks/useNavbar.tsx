@@ -30,7 +30,12 @@ export const useNavbar = () => {
     },
     {
       element: (
-        <a href="https://github.com/AlexandreMor/Tracker-oot-react-typescript/blob/main/UserGuide.md" className={classLink}>
+        <a
+          href="https://github.com/AlexandreMor/Tracker-oot-react-typescript/blob/main/UserGuide.md"
+          className={classLink}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
           Help
         </a>
       ),
