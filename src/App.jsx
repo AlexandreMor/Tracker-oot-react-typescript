@@ -13,7 +13,7 @@ export const App = () => {
   };
 
   const Settings = lazyLoad(
-    "../components/tracker-settings/SettingsComp",
+    "./src/components/tracker-settings/SettingsComp",
     "SettingsComp"
   );
 
