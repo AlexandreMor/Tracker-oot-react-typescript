@@ -1,5 +1,5 @@
 import React from "react";
-import {Image }from "./Image";
+import { Image } from "./Image";
 import { Element, useTrackerStore } from "../../stores/trackerState";
 
 type Props = {

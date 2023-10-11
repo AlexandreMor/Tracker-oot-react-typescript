@@ -2,12 +2,11 @@ import { useEffect } from "react";
 import { useItems } from "../useItems";
 import { useAreasStore } from "../../stores/areasState";
 import { useAccess } from "../useAccess";
-import { useRandomSpawns } from "../useRandomSpawns";
+
 
 export const useGerudoValleyLogic = () => {
-  const { epona, hammer, storm, ocarina } = useItems();
-  const { childSpawn, adultSpawn } = useRandomSpawns();
-  const { zoraFountainAccessInAdult, gerudoValleyBridgeAccess } = useAccess();
+  const { epona, hammer, storm } = useItems();
+  const { gerudoValleyBridgeAccess } = useAccess();
 
   const handleCheckReachable = useAreasStore(
     (state) => state.handleCheckReachable

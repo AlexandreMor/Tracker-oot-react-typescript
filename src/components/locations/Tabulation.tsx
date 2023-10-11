@@ -1,9 +1,9 @@
 import React from "react";
 
 type Props = {
-  selectedTab : string;
-  setSelectedTab : React.Dispatch<React.SetStateAction<string>>
-}
+  selectedTab: string;
+  setSelectedTab: React.Dispatch<React.SetStateAction<string>>;
+};
 
 export const Tabulation = ({ selectedTab, setSelectedTab }: Props) => {
   const style = "text-zinc-400 border-b-2 font-semibold border-zinc-400";

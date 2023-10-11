@@ -64,6 +64,11 @@ export const useLakeHyliaLogic = () => {
 
   // Shooting the sun
   useEffect(() => {
-    handleCheckReachable(17, 5, "overworld", (morphaDefeated() || ocarina && longshot) && bow);
-  }, [handleCheckReachable, longshot,ocarina,morphaDefeated, bow]);
+    handleCheckReachable(
+      17,
+      5,
+      "overworld",
+      (morphaDefeated() || (ocarina && longshot)) && bow
+    );
+  }, [handleCheckReachable, longshot, ocarina, morphaDefeated, bow]);
 };

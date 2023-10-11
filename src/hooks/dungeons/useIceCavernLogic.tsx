@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useEffect } from "react";
 import { useItems } from "../useItems";
 import { useAreasStore } from "../../stores/areasState";
 import { useAccessDungeons } from "../useAccessDungeons";

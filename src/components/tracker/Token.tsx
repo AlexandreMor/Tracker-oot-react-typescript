@@ -1,11 +1,11 @@
 import React from "react";
-import {Image} from "./Image";
+import { Image } from "./Image";
 import { Element, useTrackerStore } from "../../stores/trackerState";
 
 type Props = {
-  className:string;
+  className: string;
   items: Element[];
-}
+};
 
 function Token({ className, items }: Props) {
   const incrementElement = useTrackerStore((set) => set.increment);

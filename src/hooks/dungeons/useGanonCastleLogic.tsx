@@ -22,7 +22,9 @@ export const useGanonCastleLogic = () => {
     (state) => state.handleCheckReachable
   );
 
-  const keys = Number(useAreasStore((state) => state.dungeons[11].maxKeys)) - Number(useAreasStore((state) => state.dungeons[11].keysLeft));
+  const keys =
+    Number(useAreasStore((state) => state.dungeons[11].maxKeys)) -
+    Number(useAreasStore((state) => state.dungeons[11].keysLeft));
 
   const { bridgeSetting } = useSettings();
   const enterGanonCastle = Number(bridgeSetting) === medallionsObtained();

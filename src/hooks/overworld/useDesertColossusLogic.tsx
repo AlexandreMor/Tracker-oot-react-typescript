@@ -2,11 +2,9 @@ import { useEffect } from "react";
 import { useItems } from "../useItems";
 import { useAreasStore } from "../../stores/areasState";
 import { useAccess } from "../useAccess";
-import { useRandomSpawns } from "../useRandomSpawns";
 
 export const useDesertColossusLogic = () => {
   const { ocarina, explosive, zelda, requiem, strength2 } = useItems();
-  const { childSpawn, adultSpawn } = useRandomSpawns();
   const { desertColossusAccess, canBuyBeans } = useAccess();
 
   const handleCheckReachable = useAreasStore(

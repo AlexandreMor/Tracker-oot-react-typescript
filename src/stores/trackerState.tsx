@@ -11,7 +11,10 @@ export type Temple = {
   clickCount: number;
 };
 
-export type Element = Pick<Temple, 'id' | 'name' | 'image' | 'inPossession' | 'limit'>;
+export type Element = Pick<
+  Temple,
+  "id" | "name" | "image" | "inPossession" | "limit"
+>;
 
 const dungeonsList: Array<string> = [
   "???",

@@ -5,7 +5,7 @@ type Props = {
   category: Area[];
 };
 
-export const Foolish = ({ category } : Props) => {
+export const Foolish = ({ category }: Props) => {
   return category
     .filter((area) => area.hint.type === "Foolish")
     .map((area) => {

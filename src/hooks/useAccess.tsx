@@ -41,7 +41,9 @@ export const useAccess = () => {
   );
   const medallions = useTrackerStore((state) => state.dungeons);
 
-  const iceCavernBlueFireAccessible = useAreasStore((state) => state.dungeons[9].checks[2].reachable);
+  const iceCavernBlueFireAccessible = useAreasStore(
+    (state) => state.dungeons[9].checks[2].reachable
+  );
 
   const minuetAccess = useCallback(() => {
     return saria || minuet || adultSpawn === "SFM Minuet";

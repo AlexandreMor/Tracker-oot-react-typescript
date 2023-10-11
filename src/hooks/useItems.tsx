@@ -78,7 +78,7 @@ export const useItems = () => {
   const hasFireAdult = magic && bow && fireArrow;
   const hasFire = hasFireAdult || hasFireChild;
   const hasBlueFireArrow = magic && iceArrow && bow;
-  const hasBottle = bottle || bigPoe
+  const hasBottle = bottle || bigPoe;
   const tokenPossessed = items[30].inPossession;
 
   const zelda = songsPossessed(0, 1) && ocarina;

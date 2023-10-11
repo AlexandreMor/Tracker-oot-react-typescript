@@ -154,7 +154,9 @@ export const useGTGLogic = () => {
 
   // Freestanding, right maze checks SoT 1 & 2
   useEffect(() => {
-    const rightMaze = (keys >= 9 && enterGTG) || ((canBeatBeamosDino() ||wolfosRoom()) && time);
+    const rightMaze =
+      (keys >= 9 && enterGTG) ||
+      ((canBeatBeamosDino() || wolfosRoom()) && time);
     for (let i = 12; i < 15; i++) {
       handleCheckReachable(10, i, "dungeons", rightMaze);
     }

@@ -12,11 +12,7 @@ export const RandomSpawns = () => {
       {spawns.map((spawn) => (
         <div key={spawn.name}>
           <p className="mt-3">{spawn.name}</p>
-          <Select
-            func={setSpawn}
-            datas={spawnsList}
-            id={spawn.id}
-          ></Select>
+          <Select func={setSpawn} datas={spawnsList} id={spawn.id}></Select>
         </div>
       ))}
     </div>

@@ -23,11 +23,13 @@ export const useShadowLogic = () => {
     useAreasStore((state) => state.dungeons[6].entrance)
   );
 
-  const keys = Number(useAreasStore((state) => state.dungeons[6].maxKeys)) - Number(useAreasStore((state) => state.dungeons[6].keysLeft));
+  const keys =
+    Number(useAreasStore((state) => state.dungeons[6].maxKeys)) -
+    Number(useAreasStore((state) => state.dungeons[6].keysLeft));
 
-  const bossKey = Number(useAreasStore((state) => state.dungeons[6].maxBossKey)) - Number(
-    useAreasStore((state) => state.dungeons[6].bossKeyLeft)
-  );
+  const bossKey =
+    Number(useAreasStore((state) => state.dungeons[6].maxBossKey)) -
+    Number(useAreasStore((state) => state.dungeons[6].bossKeyLeft));
 
   const enterShadow = useAccessDungeons(shadowEntrance);
 

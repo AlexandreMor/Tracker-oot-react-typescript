@@ -1,10 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useTrackerStore } from "../../stores/trackerState";
-import {
-  Check,
-  Area,
-  useAreasStore,
-} from "../../stores/areasState";
+import { Check, Area, useAreasStore } from "../../stores/areasState";
+import { ItemsBoxSection } from "./ItemsBoxSection";
 
 type Props = {
   handleItemsBox: (
@@ -19,6 +16,7 @@ type Props = {
 
 export const ItemsBox = ({ handleItemsBox, spot, area, category }: Props) => {
   const items = useTrackerStore((set) => set.items);
+  const songs = useTrackerStore((set) => set.songs);
   const boxRef = useRef<HTMLDivElement>(null);
   const handleItemCheck = useAreasStore((set) => set.handleItemCheck);
 
@@ -36,7 +34,7 @@ export const ItemsBox = ({ handleItemsBox, spot, area, category }: Props) => {
 
   return (
     <div
-      className="z-10 border absolute bg-stone-800 gap-0 rounded-t-lg rounded-b-lg"
+      className="z-10 border absolute bg-stone-800 rounded-t-lg rounded-b-lg"
       ref={boxRef}
     >
       <div className="flex justify-end me-1">
@@ -47,19 +45,18 @@ export const ItemsBox = ({ handleItemsBox, spot, area, category }: Props) => {
           X
         </button>
       </div>
-      <div className="grid lg:grid-cols-7 grid-cols-2 gap-0">
-        {items.map((item) => (
-          <img
-            className="lg:w-3/6 w-2/6"
-            src={item.image[0]}
-            alt={item.name}
-            key={item.name}
-            onClick={() =>
-              handleItemCheck(area.id, spot.id, category, item.image[0])
-            }
-          />
-        ))}
-      </div>
+      <ItemsBoxSection
+        datas={songs}
+        idArea={area.id}
+        idCheck={spot.id}
+        category={category}
+      />
+      <ItemsBoxSection
+        datas={items}
+        idArea={area.id}
+        idCheck={spot.id}
+        category={category}
+      />
     </div>
   );
 };

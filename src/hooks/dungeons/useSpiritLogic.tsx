@@ -30,11 +30,13 @@ export const useSpiritLogic = () => {
     useAreasStore((state) => state.dungeons[7].entrance)
   );
 
-  const keys = Number(useAreasStore((state) => state.dungeons[7].maxKeys)) - Number(useAreasStore((state) => state.dungeons[7].keysLeft));
+  const keys =
+    Number(useAreasStore((state) => state.dungeons[7].maxKeys)) -
+    Number(useAreasStore((state) => state.dungeons[7].keysLeft));
 
-  const bossKey = Number(useAreasStore((state) => state.dungeons[7].maxBossKey)) - Number(
-    useAreasStore((state) => state.dungeons[7].bossKeyLeft)
-  );
+  const bossKey =
+    Number(useAreasStore((state) => state.dungeons[7].maxBossKey)) -
+    Number(useAreasStore((state) => state.dungeons[7].bossKeyLeft));
 
   const enterSpirit = useAccessDungeons(spiritEntrance);
   const { dungeonsShuffleSetting } = useSettings();

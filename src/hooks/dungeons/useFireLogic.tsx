@@ -24,11 +24,13 @@ export const useFireLogic = () => {
     useAreasStore((state) => state.dungeons[4].entrance)
   );
 
-  const keys = Number(useAreasStore((state) => state.dungeons[4].maxKeys)) - Number(useAreasStore((state) => state.dungeons[4].keysLeft));
+  const keys =
+    Number(useAreasStore((state) => state.dungeons[4].maxKeys)) -
+    Number(useAreasStore((state) => state.dungeons[4].keysLeft));
 
-  const bossKey = Number(useAreasStore((state) => state.dungeons[4].maxBossKey)) - Number(
-    useAreasStore((state) => state.dungeons[4].bossKeyLeft)
-  );
+  const bossKey =
+    Number(useAreasStore((state) => state.dungeons[4].maxBossKey)) -
+    Number(useAreasStore((state) => state.dungeons[4].bossKeyLeft));
 
   const enterFire = useAccessDungeons(fireEntrance);
 
@@ -136,6 +138,11 @@ export const useFireLogic = () => {
 
   // Volvagia
   useEffect(() => {
-    handleCheckReachable(4, 19, "dungeons", enterFire && bossKey === 1 && hammer);
-  }, [enterFire, bossKey,hammer, handleCheckReachable]);
+    handleCheckReachable(
+      4,
+      19,
+      "dungeons",
+      enterFire && bossKey === 1 && hammer
+    );
+  }, [enterFire, bossKey, hammer, handleCheckReachable]);
 };

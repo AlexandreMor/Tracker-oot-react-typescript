@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  Area,
-  hintTypes,
-  useAreasStore,
-} from "../../stores/areasState";
+import { Area, hintTypes, useAreasStore } from "../../stores/areasState";
 
 type Props = {
   area: Area;

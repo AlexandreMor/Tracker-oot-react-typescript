@@ -28,11 +28,13 @@ export const useForestLogic = () => {
     useAreasStore((state) => state.dungeons[3].entrance)
   );
 
-  const keys = Number(useAreasStore((state) => state.dungeons[3].maxKeys)) - Number(useAreasStore((state) => state.dungeons[3].keysLeft));
+  const keys =
+    Number(useAreasStore((state) => state.dungeons[3].maxKeys)) -
+    Number(useAreasStore((state) => state.dungeons[3].keysLeft));
 
-  const bossKey = Number(useAreasStore((state) => state.dungeons[3].maxBossKey)) - Number(
-    useAreasStore((state) => state.dungeons[3].bossKeyLeft)
-  );
+  const bossKey =
+    Number(useAreasStore((state) => state.dungeons[3].maxBossKey)) -
+    Number(useAreasStore((state) => state.dungeons[3].bossKeyLeft));
 
   const enterForest = useAccessDungeons(forestEntrance);
 
@@ -164,26 +166,25 @@ export const useForestLogic = () => {
 
   // Ceiling and Spinning chests
   useEffect(() => {
-    const ceilingSpinning = (enterForest && keys >= 5 && AfterBlockRoom())
+    const ceilingSpinning = enterForest && keys >= 5 && AfterBlockRoom();
     handleCheckReachable(3, 15, "dungeons", ceilingSpinning);
     handleCheckReachable(3, 16, "dungeons", ceilingSpinning);
   }, [enterForest, AfterBlockRoom, keys, handleCheckReachable]);
 
   // Spinning Skull
   useEffect(() => {
-    const skull = (enterForest && keys >= 5 && AfterBlockRoom() && hookshot)
+    const skull = enterForest && keys >= 5 && AfterBlockRoom() && hookshot;
     handleCheckReachable(3, 17, "dungeons", skull);
   }, [enterForest, AfterBlockRoom, keys, hookshot, handleCheckReachable]);
 
   // Phantom Ganon
   useEffect(() => {
-    const phantomGanon = (
+    const phantomGanon =
       enterForest &&
       keys >= 5 &&
       AfterBlockRoom() &&
       bossKey === 1 &&
-      (hookshot || bow)
-    ) 
+      (hookshot || bow);
     handleCheckReachable(3, 18, "dungeons", phantomGanon);
   }, [
     enterForest,

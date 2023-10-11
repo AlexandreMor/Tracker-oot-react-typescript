@@ -3,8 +3,8 @@ import { Zone } from "./Zone";
 import { useAreasStore } from "../../stores/areasState";
 
 type Props = {
-  areasClass : string;
-}
+  areasClass: string;
+};
 
 export const Dungeons = ({ areasClass }: Props) => {
   const dungeons = useAreasStore((set) => set.dungeons);

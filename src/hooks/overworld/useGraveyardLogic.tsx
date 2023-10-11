@@ -4,30 +4,30 @@ import { useAreasStore } from "../../stores/areasState";
 import { useAccess } from "../useAccess";
 
 export const useGraveyardLogic = () => {
-    const { zelda, hasFire, sun } = useItems();
-    const {canBuyBeans} = useAccess();
+  const { zelda, hasFire, sun } = useItems();
+  const { canBuyBeans } = useAccess();
 
-    const handleCheckReachable = useAreasStore(
-      (state) => state.handleCheckReachable
-    );
-  
-    // Sun Song
-    useEffect(() => {
-      handleCheckReachable(10, 0, "overworld", zelda);
-    }, [zelda, handleCheckReachable]);
+  const handleCheckReachable = useAreasStore(
+    (state) => state.handleCheckReachable
+  );
 
-    // Item box
-    useEffect(() => {
-        handleCheckReachable(10, 3, "overworld", canBuyBeans());
-      }, [canBuyBeans, handleCheckReachable]);
+  // Sun Song
+  useEffect(() => {
+    handleCheckReachable(10, 0, "overworld", zelda);
+  }, [zelda, handleCheckReachable]);
 
-      // Playing Sun Song
-    useEffect(() => {
-        handleCheckReachable(10, 6, "overworld", sun);
-      }, [sun, handleCheckReachable]);
+  // Item box
+  useEffect(() => {
+    handleCheckReachable(10, 3, "overworld", canBuyBeans());
+  }, [canBuyBeans, handleCheckReachable]);
 
-      // Torches in Royal family tomb
-    useEffect(() => {
-        handleCheckReachable(10, 7, "overworld", zelda && hasFire);
-      }, [zelda,hasFire, handleCheckReachable]);
-}
+  // Playing Sun Song
+  useEffect(() => {
+    handleCheckReachable(10, 6, "overworld", sun);
+  }, [sun, handleCheckReachable]);
+
+  // Torches in Royal family tomb
+  useEffect(() => {
+    handleCheckReachable(10, 7, "overworld", zelda && hasFire);
+  }, [zelda, hasFire, handleCheckReachable]);
+};

@@ -32,11 +32,13 @@ export const useWaterLogic = () => {
     useAreasStore((state) => state.dungeons[5].entrance)
   );
 
-  const keys = Number(useAreasStore((state) => state.dungeons[5].maxKeys)) - Number(useAreasStore((state) => state.dungeons[5].keysLeft));
+  const keys =
+    Number(useAreasStore((state) => state.dungeons[5].maxKeys)) -
+    Number(useAreasStore((state) => state.dungeons[5].keysLeft));
 
-  const bossKey = Number(useAreasStore((state) => state.dungeons[5].maxBossKey)) - Number(
-    useAreasStore((state) => state.dungeons[5].bossKeyLeft)
-  );
+  const bossKey =
+    Number(useAreasStore((state) => state.dungeons[5].maxBossKey)) -
+    Number(useAreasStore((state) => state.dungeons[5].bossKeyLeft));
 
   const enterWater = useAccessDungeons(waterEntrance);
 

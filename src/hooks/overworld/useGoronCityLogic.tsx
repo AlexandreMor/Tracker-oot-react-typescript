@@ -1,14 +1,10 @@
 import { useEffect } from "react";
 import { useItems } from "../useItems";
 import { useAreasStore } from "../../stores/areasState";
-import { useRandomSpawns } from "../useRandomSpawns";
 import { useAccess } from "../useAccess";
 
 export const useGoronCityLogic = () => {
   const {
-    storm,
-    epona,
-    zelda,
     saria,
     explosive,
     bomb,

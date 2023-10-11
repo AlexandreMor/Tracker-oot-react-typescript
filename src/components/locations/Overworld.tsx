@@ -3,8 +3,8 @@ import { Zone } from "./Zone";
 import { useAreasStore } from "../../stores/areasState";
 
 type Props = {
-  areasClass : string;
-}
+  areasClass: string;
+};
 
 export const Overworld = ({ areasClass }: Props) => {
   const areas = useAreasStore((set) => set.overworld);

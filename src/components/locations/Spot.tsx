@@ -18,12 +18,6 @@ export const Spot = ({ check, area, category }: Props) => {
   const handleInputRupee = useAreasStore((state) => state.handleInputRupee);
   const handleHintCheck = useAreasStore((set) => set.handleHintCheck);
   const { multiworldSetting } = useSettings();
-  const colorMap = {
-    yes: "text-emerald-400",
-    "out of logic": "text-yellow-400",
-    "can be seen": "text-neutral-400",
-  };
-
   const textColorClass = check.reachable ? "text-emerald-400" : "text-red-500";
 
   return (
@@ -69,7 +63,7 @@ export const Spot = ({ check, area, category }: Props) => {
                 placeholder="Pla"
               />
             )}
-            {shopSanitySetting ==="yes" && (
+            {shopSanitySetting === "yes" && (
               <InputText
                 idArea={area.id}
                 check={check}

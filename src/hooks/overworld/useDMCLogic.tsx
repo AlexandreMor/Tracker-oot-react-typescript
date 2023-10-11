@@ -25,14 +25,18 @@ export const useDMCLogic = () => {
 
   // Crater HP
   useEffect(() => {
-    const crater = (bolero || hookshot && dmcLowerAccess()) && canBuyBeans() || (dmcLowerAccess() && hoverBoots)
-    handleCheckReachable(
-      13,
-      1,
-      "overworld",
-      crater
-    );
-  }, [bolero, hookshot, canBuyBeans, dmcLowerAccess, hoverBoots, handleCheckReachable]);
+    const crater =
+      ((bolero || (hookshot && dmcLowerAccess())) && canBuyBeans()) ||
+      (dmcLowerAccess() && hoverBoots);
+    handleCheckReachable(13, 1, "overworld", crater);
+  }, [
+    bolero,
+    hookshot,
+    canBuyBeans,
+    dmcLowerAccess,
+    hoverBoots,
+    handleCheckReachable,
+  ]);
 
   // Wall HP
   useEffect(() => {
@@ -42,18 +46,10 @@ export const useDMCLogic = () => {
   // Fairy
   useEffect(() => {
     const fairy =
-      (hammer ||
-        adultSpawn === "DMC fairy" ||
-        childSpawn === "DMC fairy") &&
+      (hammer || adultSpawn === "DMC fairy" || childSpawn === "DMC fairy") &&
       zelda;
     handleCheckReachable(13, 3, "overworld", fairy);
-  }, [
-    adultSpawn,
-    childSpawn,
-    zelda,
-    hammer,
-    handleCheckReachable,
-  ]);
+  }, [adultSpawn, childSpawn, zelda, hammer, handleCheckReachable]);
 
   // Grotto
   useEffect(() => {

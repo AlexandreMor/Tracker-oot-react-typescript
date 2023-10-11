@@ -2,11 +2,9 @@ import { useEffect } from "react";
 import { useItems } from "../useItems";
 import { useAreasStore } from "../../stores/areasState";
 import { useAccess } from "../useAccess";
-import { useRandomSpawns } from "../useRandomSpawns";
 
 export const useWastelandLogic = () => {
   const { adultWallet, hasFire } = useItems();
-  const { childSpawn, adultSpawn } = useRandomSpawns();
   const { wastelandMausoleumAccess } = useAccess();
 
   const handleCheckReachable = useAreasStore(

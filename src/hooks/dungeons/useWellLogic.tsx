@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useEffect } from "react";
 import { useItems } from "../useItems";
 import { useAreasStore } from "../../stores/areasState";
 import { useAccessDungeons } from "../useAccessDungeons";
@@ -14,7 +14,9 @@ export const useWellLogic = () => {
     useAreasStore((state) => state.dungeons[8].entrance)
   );
 
-  const keys = Number(useAreasStore((state) => state.dungeons[8].maxKeys)) - Number(useAreasStore((state) => state.dungeons[8].keysLeft));
+  const keys =
+    Number(useAreasStore((state) => state.dungeons[8].maxKeys)) -
+    Number(useAreasStore((state) => state.dungeons[8].keysLeft));
 
   const enterWell = useAccessDungeons(wellEntrance);
 
