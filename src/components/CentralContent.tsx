@@ -10,8 +10,6 @@ export const CentralContent = () => {
   const areasClass: string =
     "grid items-start row-span-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 min-[2000px]:grid-cols-12";
 
-  useOverworldLogic();
-  useDungeonsLogic();
   return (
     <div className="flex flex-col">
       <Tabulation selectedTab={selectedTab} setSelectedTab={setSelectedTab} />

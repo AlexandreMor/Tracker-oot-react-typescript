@@ -16,6 +16,8 @@ export type Check = {
   item: string;
 };
 
+//hint: { type: string; pathData: [{boss: string; player: string}] };
+
 export type Area = {
   id: number;
   name: string;
@@ -5310,7 +5312,7 @@ export const useAreasStore = create<Areas>((set) => ({
           if (keyType === "small key") {
             if (area.keysLeft !== undefined && area.maxKeys !== undefined) {
               if (area.keysLeft > 0) {
-                area.keysLeft = area.keysLeft - 1;
+                area.keysLeft -= 1;
               }
             }
           } else if (keyType === "boss key") {
@@ -5319,7 +5321,7 @@ export const useAreasStore = create<Areas>((set) => ({
               area.maxBossKey !== undefined
             ) {
               if (area.bossKeyLeft > 0) {
-                area.bossKeyLeft = area.bossKeyLeft - 1;
+                area.bossKeyLeft -= 1;
               }
             }
           }

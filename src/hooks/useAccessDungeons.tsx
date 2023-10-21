@@ -2,7 +2,6 @@ import { useItems } from "./useItems";
 import { useSettings } from "./useSettings";
 import { useAccess } from "./useAccess";
 import { useRandomSpawns } from "./useRandomSpawns";
-import { useEffect } from "react";
 import { useAreasStore } from "../stores/areasState";
 
 const TEMPLE = {
@@ -33,8 +32,7 @@ export const useAccessDungeons = (templeName: string): boolean => {
     bolero,
   } = useItems();
 
-  const { dekuSetting, dungeonsShuffleSetting, keysySetting, bossKeysSetting } =
-    useSettings();
+  const { dekuSetting, dungeonsShuffleSetting } = useSettings();
   const {
     zoraFountainAccessInChild,
     zoraFountainAccessInAdult,
@@ -46,15 +44,6 @@ export const useAccessDungeons = (templeName: string): boolean => {
   const { adultSpawn, childSpawn } = useRandomSpawns();
 
   const dungeons = useAreasStore((state) => state.dungeons);
-  const handleKeysy = useAreasStore((state) => state.handleKeysy);
-
-  // Handle Keysy settings
-  useEffect(() => {
-    dungeons.map((dungeon) => {
-      handleKeysy(dungeon.id, "small key", keysySetting === "yes");
-      handleKeysy(dungeon.id, "boss key", bossKeysSetting === "yes");
-    });
-  }, [handleKeysy, dungeons, keysySetting, bossKeysSetting]);
 
   switch (templeName) {
     case TEMPLE.DEKU:

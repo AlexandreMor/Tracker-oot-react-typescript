@@ -26,12 +26,14 @@ export const Spot = ({ check, area, category }: Props) => {
         className={`2xl:text-sm text-xs bg-gray-900 odd:bg-gray-800 hover:bg-blue-800 block`}
         onContextMenu={() => handleItemsBox(area.id, check.id, category)}
       >
-        <div className="flex justify-between 2xl:text-sm text-xs lg:font-bold">
+        <div
+          className="flex justify-between 2xl:text-sm text-xs lg:font-bold cursor-pointer"
+          onClick={() => handleCheckOpacity(area.id, check.id, category)}
+        >
           <h3
             className={`${textColorClass} ${
               check.checked ? "opacity-40" : "opacity-100"
-            } cursor-pointer py-1 ps-1`}
-            onClick={() => handleCheckOpacity(area.id, check.id, category)}
+            } py-1 ps-1`}
           >
             {check.name}
           </h3>

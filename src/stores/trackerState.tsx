@@ -18,6 +18,7 @@ export type Element = Pick<
 
 const dungeonsList: Array<string> = [
   "???",
+  "Free",
   "Deku",
   "DC",
   "Jabu",
@@ -38,17 +39,14 @@ export type TrackerState = {
   changeDungeonNameOnContextMenu: (id: number) => void;
 };
 
-const url="/images"
+const url = "/images";
 
 export const useTrackerStore = create<TrackerState>((set) => ({
   items: [
     {
       id: 0,
       name: "Hookshot",
-      image: [
-        `${url}/hookshot.png`,
-        `${url}/longshot.png`,
-      ],
+      image: [`${url}/hookshot.png`, `${url}/longshot.png`],
       inPossession: 0,
       limit: 2,
     },
@@ -83,10 +81,7 @@ export const useTrackerStore = create<TrackerState>((set) => ({
     {
       id: 5,
       name: "Ocarina",
-      image: [
-        `${url}/ocarina.png`,
-        `${url}/ocarina_2.png`,
-      ],
+      image: [`${url}/ocarina.png`, `${url}/ocarina_2.png`],
       inPossession: 0,
       limit: 2,
     },
@@ -182,10 +177,7 @@ export const useTrackerStore = create<TrackerState>((set) => ({
     {
       id: 18,
       name: "Keaton Mask",
-      image: [
-        `${url}/keaton_mask.png`,
-        `${url}/skull_mask.png`,
-      ],
+      image: [`${url}/keaton_mask.png`, `${url}/skull_mask.png`],
       inPossession: 0,
       limit: 2,
     },
@@ -217,10 +209,7 @@ export const useTrackerStore = create<TrackerState>((set) => ({
     {
       id: 22,
       name: "Wallet",
-      image: [
-        `${url}/adults_wallet.png`,
-        `${url}/giants_wallet.png`,
-      ],
+      image: [`${url}/adults_wallet.png`, `${url}/giants_wallet.png`],
       inPossession: 0,
       limit: 2,
     },
@@ -241,10 +230,7 @@ export const useTrackerStore = create<TrackerState>((set) => ({
     {
       id: 25,
       name: "Scale",
-      image: [
-        `${url}/silver_scale.png`,
-        `${url}/golden_scale.png`,
-      ],
+      image: [`${url}/silver_scale.png`, `${url}/golden_scale.png`],
       inPossession: 0,
       limit: 2,
     },
@@ -510,10 +496,10 @@ export const useTrackerStore = create<TrackerState>((set) => ({
         let element = draft["dungeons"].find((el) => el.id === id);
         if (element) {
           if (element.clickCount !== undefined) {
-            if (element && element.clickCount <= 8) {
+            if (element && element.clickCount <= 9) {
               element.clickCount += 1;
             }
-            if (element && element.clickCount > 8) {
+            if (element && element.clickCount > 9) {
               element.clickCount = 0;
             }
           }

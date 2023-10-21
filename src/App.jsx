@@ -3,6 +3,8 @@ import { Navbar } from "./components/Navbar";
 import { SettingsComp } from "./components/tracker-settings/SettingsComp";
 import { Routes, Route } from "react-router-dom";
 import { Home } from "./components/Home";
+import { useDungeonsLogic } from "./hooks/dungeons/useDungeonsLogic";
+import { useOverworldLogic } from "./hooks/overworld/useOverworldLogic";
 
 export const App = () => {
   const bodyEl = (el) => {
@@ -11,6 +13,8 @@ export const App = () => {
         e.preventDefault();
       });
   };
+  useOverworldLogic();
+  useDungeonsLogic();
 
   return (
     <>

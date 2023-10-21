@@ -18,7 +18,10 @@ export const WayOfTheHero = ({ category }: Props) => {
                 {area.name}
               </h3>
               {area.hint.boss !== "" && area.hint.boss !== "None" && (
-                <span className="text-cyan-400">{area.hint.boss}</span>
+                <span className="pe-2 text-cyan-400">{area.hint.boss}</span>
+              )}
+              {area.hint.player !== ""  && (
+                <span className="pe-1 text-white-400">{area.hint.player}</span>
               )}
             </div>
             <div className="flex w-fit">
