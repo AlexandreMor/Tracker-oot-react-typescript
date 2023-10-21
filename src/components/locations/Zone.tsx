@@ -83,21 +83,28 @@ export const Zone = ({ area, category }: Props) => {
       </h1>
       {/*Dungeons keys (when it is required)*/}
       {category === "dungeons" && <Keys area={area} />}
-      {/*If this zone is Way of the hero and a boss is selected*/}
-      {area.hint.boss && area.hint.boss !== "None" && (
-        <h3 className="font-semibold text-center text-base py-0">
-          {area.hint.boss}
-        </h3>
-      )}
-      {/*Input text if Multiworld setting is active*/}
-      {multiworldSetting === "yes" && area.hint.type === "Way of the Hero" && (
-        <InputTextArea
-          idArea={area.id}
-          category={category}
-          player={area.hint.player}
-          func={handleAreaPlayer}
-        />
-      )}
+      {/*If this zone is Way of the hero and a boss is selected, display boss and player number if multiworld is enabled*/}
+      {area.hint.type === "Way of the Hero" &&
+        area.hint.pathData.length > 0 &&
+        area.hint.pathData.map((path, index) => {
+          return (
+            <div key={index} className="flex ms-0.5">
+              <h3 className="font-semibold text-center xl:text-base text-xs py-0 me-2">
+                {path.boss}
+              </h3>
+              {multiworldSetting === "yes" && (
+                <InputTextArea
+                  idArea={area.id}
+                  idPath={index}
+                  category={category}
+                  player={path.player}
+                  func={handleAreaPlayer}
+                />
+              )}
+            </div>
+          );
+        })}
+
       <ul
         className={` absolute z-10 bg-zinc-900 overflow-hidden duration-300 ease-in-out ${
           area.box ? "max-h-screen py-1 border rounded-lg" : "max-h-0 py-0"

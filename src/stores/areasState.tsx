@@ -18,11 +18,13 @@ export type Check = {
 
 //hint: { type: string; pathData: [{boss: string; player: string}] };
 
+type PathData = { boss: string; player: string }[];
+
 export type Area = {
   id: number;
   name: string;
   visibility: boolean;
-  hint: { type: string; boss: string; player: string };
+  hint: { type: string; pathData: PathData };
   box: boolean;
   dungeonShuffleInput?: string;
   entrance?: string;
@@ -84,6 +86,7 @@ export type Areas = {
   closeBoxArea: (idArea: number, category: "overworld" | "dungeons") => void;
   handleAreaPlayer: (
     idArea: number,
+    idPath: number,
     category: "overworld" | "dungeons",
     value: string
   ) => void;
@@ -100,9 +103,9 @@ export type Areas = {
 };
 
 export const bosses: string[] = [
-  "None",
+  "-",
   "Gohma",
-  "King Dodongo",
+  "K Dodongo",
   "Barinade",
   "Ph. Ganon",
   "Volvagia",
@@ -138,7 +141,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 0,
       name: "Kokiri Forest",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       checks: [
         {
@@ -284,7 +287,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 1,
       name: "Lost Woods",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       checks: [
         {
@@ -431,7 +434,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 2,
       name: "SFM",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       checks: [
         {
@@ -502,7 +505,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 3,
       name: "Hyrule Field",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       checks: [
         {
@@ -611,7 +614,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 4,
       name: "Ranch",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       checks: [
         {
@@ -740,7 +743,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 5,
       name: "Market",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       checks: [
         {
@@ -981,7 +984,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 6,
       name: "ToT",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       checks: [
         {
@@ -1015,7 +1018,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 7,
       name: "Hyrule Castle",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       checks: [
         {
@@ -1037,7 +1040,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 8,
       name: "Outside GC",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       checks: [
         {
@@ -1059,7 +1062,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 9,
       name: "Kakariko",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       checks: [
         {
@@ -1386,7 +1389,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 10,
       name: "Graveyard",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       checks: [
         {
@@ -1494,7 +1497,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 11,
       name: "DMT",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       checks: [
         {
@@ -1578,7 +1581,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 12,
       name: "Goron city",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       checks: [
         {
@@ -1774,7 +1777,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 13,
       name: "DMC",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       checks: [
         {
@@ -1880,7 +1883,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 14,
       name: "Zoras river",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       checks: [
         {
@@ -1976,7 +1979,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 15,
       name: "Zoras domain",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       checks: [
         {
@@ -2074,7 +2077,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 16,
       name: "Zoras fountain",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       checks: [
         {
@@ -2120,7 +2123,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 17,
       name: "Lake Hylia",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       checks: [
         {
@@ -2241,7 +2244,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 18,
       name: "Gerudos Valley",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       checks: [
         {
@@ -2324,7 +2327,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 19,
       name: "Gerudos Fort.",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       checks: [
         {
@@ -2371,7 +2374,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 20,
       name: "Wasteland",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       checks: [
         {
@@ -2405,7 +2408,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 21,
       name: "Desert Col.",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       checks: [
         {
@@ -2477,7 +2480,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 0,
       name: "Deku",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       dungeonShuffleInput: "",
       entrance: "deku",
@@ -2620,7 +2623,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 1,
       name: "DC",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       dungeonShuffleInput: "",
       entrance: "dc",
@@ -2825,7 +2828,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 2,
       name: "Jabu",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       dungeonShuffleInput: "",
       entrance: "jabu",
@@ -2946,7 +2949,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 3,
       name: "Forest",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       dungeonShuffleInput: "",
       entrance: "forest",
@@ -3189,7 +3192,7 @@ export const useAreasStore = create<Areas>((set) => ({
       id: 4,
       name: "Fire",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       dungeonShuffleInput: "",
       entrance: "fire",
@@ -3447,7 +3450,7 @@ export const useAreasStore = create<Areas>((set) => ({
       name: "Water",
       short: "wat",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       dungeonShuffleInput: "",
       entrance: "water",
@@ -3660,7 +3663,7 @@ export const useAreasStore = create<Areas>((set) => ({
       name: "Shadow",
       short: "sha",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       dungeonShuffleInput: "",
       entrance: "shadow",
@@ -3953,7 +3956,7 @@ export const useAreasStore = create<Areas>((set) => ({
       name: "Spirit",
       short: "spi",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       dungeonShuffleInput: "",
       entrance: "spirit",
@@ -4271,7 +4274,7 @@ export const useAreasStore = create<Areas>((set) => ({
       name: "Well",
       short: "wel",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       dungeonShuffleInput: "",
       entrance: "well",
@@ -4489,7 +4492,7 @@ export const useAreasStore = create<Areas>((set) => ({
       name: "Ice Cavern",
       short: "ic",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       dungeonShuffleInput: "",
       entrance: "ice",
@@ -4599,7 +4602,7 @@ export const useAreasStore = create<Areas>((set) => ({
       name: "GTG",
       short: "gtg",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       dungeonShuffleInput: "",
       entrance: "gtg",
@@ -4879,7 +4882,7 @@ export const useAreasStore = create<Areas>((set) => ({
       name: "Ganon's Castle",
       short: "gan",
       visibility: true,
-      hint: { type: "", boss: "", player: "" },
+      hint: { type: "", pathData: [] },
       box: false,
       keysLeft: 2,
       maxKeys: 2,
@@ -5259,12 +5262,12 @@ export const useAreasStore = create<Areas>((set) => ({
         }
       })
     ),
-  handleAreaPlayer: (idArea, category, value) =>
+  handleAreaPlayer: (idArea, idPath, category, value) =>
     set((state) =>
       produce(state, (draft) => {
         let area = draft[category].find((el) => el.id === idArea);
         if (area) {
-          area.hint.player = value;
+          area.hint.pathData[idPath].player = value;
         }
       })
     ),
@@ -5275,13 +5278,13 @@ export const useAreasStore = create<Areas>((set) => ({
         if (area) {
           if (type === "Way of the Hero" && boss) {
             area.hint.type = type;
-            area.hint.boss = boss;
+            area.hint.pathData.push({boss:boss,player:""});
           } else if (type === "Foolish") {
             area.hint.type = type;
-            area.hint.boss = "";
+            area.hint.pathData = [];
           } else if (type === "Clear") {
             area.hint.type = "";
-            area.hint.boss = "";
+            area.hint.pathData = [];
           }
           area.box = false;
         }

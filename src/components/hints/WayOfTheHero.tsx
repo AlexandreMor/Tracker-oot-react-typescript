@@ -17,12 +17,22 @@ export const WayOfTheHero = ({ category }: Props) => {
               <h3 className={`pe-1 text-green-400`} key={area.name}>
                 {area.name}
               </h3>
-              {area.hint.boss !== "" && area.hint.boss !== "None" && (
-                <span className="pe-2 text-cyan-400">{area.hint.boss}</span>
-              )}
-              {area.hint.player !== ""  && (
-                <span className="pe-1 text-white-400">{area.hint.player}</span>
-              )}
+              <ul>
+                {area.hint.pathData.map((path, index) => {
+                  return (
+                    <li key={index}>
+                      {path.boss !== undefined && path.boss !== "-" && (
+                        <span className="pe-2 text-cyan-400">{path.boss}</span>
+                      )}
+                      {path.player !== undefined && path.player !== "" && (
+                        <span className="pe-1 text-white-400">
+                          {path.player}
+                        </span>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
             <div className="flex w-fit">
               {area.checks.map((check) => {
