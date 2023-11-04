@@ -2965,7 +2965,7 @@ export const useAreasStore = create<Areas>((set) => ({
           checked: false,
           player: "",
           setting: "skullsanity",
-          visibility: true,
+          visibility: false,
           song: false,
           box: false,
           item: "",

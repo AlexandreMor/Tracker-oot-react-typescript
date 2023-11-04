@@ -516,7 +516,7 @@ export const useTrackerStore = create<TrackerState>((set) => ({
               element.clickCount -= 1;
             }
             if (element && element.clickCount < 0) {
-              element.clickCount = 8;
+              element.clickCount = 9;
             }
           }
         }
