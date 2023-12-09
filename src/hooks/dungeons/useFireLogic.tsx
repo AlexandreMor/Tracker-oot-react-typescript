@@ -43,7 +43,7 @@ export const useFireLogic = () => {
   }, [keys, lowerMaze]);
 
   const highestFloor = useCallback(() => {
-    return keys >= 7 || (keys >= 6 && upperMaze() && hoverBoots && hammer);
+    return (keys >= 7 && upperMaze()) || (keys >= 6 && upperMaze() && hoverBoots && hammer);
   }, [keys, upperMaze, hoverBoots, hammer]);
 
   // Near boss
@@ -142,7 +142,7 @@ export const useFireLogic = () => {
       4,
       19,
       "dungeons",
-      enterFire && bossKey === 1 && hammer
+      enterFire && bossKey === 1 && hammer && goronTunic
     );
-  }, [enterFire, bossKey, hammer, handleCheckReachable]);
+  }, [enterFire, bossKey, hammer,goronTunic, handleCheckReachable]);
 };
