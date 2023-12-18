@@ -35,7 +35,7 @@ export const WayOfTheHero = ({ category }: Props) => {
               </ul>
             </div>
             <div className="flex w-fit">
-              {area.checks.map((check) => {
+              {area.checks.filter((check) => !check.item.includes("key")).map((check) => {
                 if (check.item !== "")
                   return <ImageHint key={check.name} check={check} />;
                 return "";

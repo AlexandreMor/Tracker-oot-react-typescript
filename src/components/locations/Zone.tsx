@@ -116,11 +116,16 @@ export const Zone = ({ area, category }: Props) => {
       </ul>
       {/*Select input if Dungeons shuffle is active*/}
       {dungeonsShuffleSetting === "yes" && category === "dungeons" ? (
-        <Select
-          func={handleDungeonsEntrance}
-          datas={dungeonsShuffleList}
-          id={area.id}
-        ></Select>
+        <>
+          <Select
+            func={handleDungeonsEntrance}
+            datas={dungeonsShuffleList}
+            id={area.id}
+          ></Select>
+          <h3 className="font-semibold text-center xl:text-base text-xs py-0 me-2">
+            {area.entrance && area.entrance?.charAt(0).toUpperCase() + area.entrance?.slice(1)}
+          </h3>
+        </>
       ) : (
         ""
       )}

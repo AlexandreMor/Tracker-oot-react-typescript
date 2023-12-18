@@ -18,7 +18,9 @@ export const useDCLogic = () => {
   );
 
   const enterDC = useAccessDungeons(DCEntrance);
-
+useEffect(() => {
+    console.log(DCEntrance);
+  }, [DCEntrance]);
   const destroyWalls = useCallback(() => {
     if (explosive || strength1 || hammer) {
       return true;
